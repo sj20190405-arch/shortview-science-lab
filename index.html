@@ -1,0 +1,1099 @@
+<title>한슬쌤의 '숏'터뷰 통합과학실험실</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* 단일 테마(의도): 어두운 히어로·내비 + 밝은 실험 작업 공간 */
+:root{
+  --ink:#0A141C; --ink2:#132330; --ink3:#1E3242;
+  --mint:#A6F1F3; --mint-d:#12959E;
+  --red:#C8004A; --blue:#2F6FE8; --green:#13A877;
+  --bg:#F2F5F7; --card:#FFFFFF; --line:#DCE4EA; --line2:#EDF2F5;
+  --text:#12202A; --muted:#5A6A76; --faint:#8A99A4;
+  --cu:#C9773F; --cu-d:#8E4F27; --ag:#C9D3DA; --cu2:#2B7FD8;
+  --amber:#D98A00; --ok:#0F9D63; --bad:#D2334A;
+  --s1:#12959E; --s2:#D98A00; --s3:#2F6FE8; --s4:#C8004A;
+  --r:14px;
+  --f-disp:"Black Han Sans","IBM Plex Sans KR","Malgun Gothic",sans-serif;
+  --f-body:"IBM Plex Sans KR","Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font-family:var(--f-body);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+[hidden]{display:none!important}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:6px}
+h1,h2,h3{text-wrap:balance;margin:0}
+p{margin:0}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.wrap{max-width:1160px;margin:0 auto;padding-inline:20px}
+
+/* ---------- NAV (SK 스타일) ---------- */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:rgba(10,20,28,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#fff;border-bottom:1px solid rgba(255,255,255,.08)}
+.nav .wrap{display:flex;align-items:center;gap:16px;min-height:64px;flex-wrap:wrap;padding-block:8px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;margin-right:auto}
+.logo svg{flex:none}
+.logo b{font-family:var(--f-disp);font-weight:400;font-size:19px;letter-spacing:.01em;line-height:1}
+.logo small{display:block;font-size:10.5px;letter-spacing:.14em;color:var(--mint);text-transform:uppercase;margin-top:3px;font-weight:600}
+.pill{border:0;border-radius:999px;padding:8px 16px;font-size:13px;font-weight:700;letter-spacing:.02em;color:#fff;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.pill.blue{background:var(--blue)}
+.pill.green{background:var(--green)}
+.pill.ghost{background:transparent;border:1px solid rgba(255,255,255,.3)}
+.pill.ghost:hover{background:rgba(255,255,255,.08)}
+.who{font-size:13px;color:#DCE9EF;display:flex;align-items:center;gap:8px}
+.who .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px rgba(19,168,119,.25)}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;background:var(--ink);color:#fff;overflow:hidden}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,20,28,.25) 0%,rgba(10,20,28,.55) 60%,rgba(10,20,28,.92) 100%);pointer-events:none}
+.hero-in{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.9fr);gap:40px;align-items:end;padding-block:72px 44px}
+.kicker{font-size:clamp(20px,2.6vw,30px);font-weight:700;letter-spacing:-.01em;color:#fff;margin-bottom:10px}
+.h1-small{display:block;font-family:var(--f-disp);font-weight:400;font-size:clamp(24px,3.4vw,40px);color:#fff;letter-spacing:.01em;line-height:1.15}
+.h1-big{display:block;font-family:var(--f-disp);font-weight:400;font-size:clamp(46px,7.4vw,96px);color:var(--mint);line-height:1.02;letter-spacing:.005em;margin-top:6px;text-shadow:0 0 34px rgba(166,241,243,.25)}
+.hero-sub{margin-top:18px;color:#C7D6DE;font-size:15.5px;max-width:34em}
+.hero-meta{margin-top:22px;display:flex;flex-wrap:wrap;gap:8px}
+.tag{font-size:12px;font-weight:600;border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:4px 11px;color:#E4EEF2;background:rgba(255,255,255,.04)}
+.player{position:relative;z-index:2;display:flex;align-items:center;gap:14px;padding-bottom:26px}
+.player button{width:32px;height:32px;border-radius:50%;border:0;background:#fff;color:var(--ink);display:grid;place-items:center;flex:none}
+.player .track{position:relative;height:2px;background:rgba(255,255,255,.28);width:min(300px,50vw)}
+.player .track i{position:absolute;left:0;top:0;bottom:0;background:#fff;width:0}
+.player .clock{font-family:var(--f-mono);font-size:12px;color:#C7D6DE}
+
+/* entry card */
+.entry{background:var(--card);color:var(--text);border-radius:18px;padding:22px;box-shadow:0 30px 60px -20px rgba(0,0,0,.55)}
+.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--line2);border-radius:12px;padding:4px;gap:4px;margin-bottom:18px}
+.seg button{border:0;background:transparent;border-radius:9px;padding:10px;font-weight:700;color:var(--muted)}
+.seg button[aria-selected="true"]{background:#fff;color:var(--text);box-shadow:0 1px 3px rgba(18,32,42,.14)}
+.field{display:grid;gap:6px}
+.field label{font-size:12.5px;font-weight:700;color:var(--muted);letter-spacing:.02em}
+.row3{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.inp{width:100%;border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:11px 12px;font-size:15px}
+.inp:focus{border-color:var(--blue);outline:none;box-shadow:0 0 0 3px rgba(47,111,232,.15)}
+.form{display:grid;gap:14px}
+.btn{border:0;border-radius:12px;padding:13px 18px;font-weight:700;font-size:15px;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .12s, box-shadow .12s, background .12s}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:linear-gradient(90deg,var(--blue),#1F8FD0);color:#fff;box-shadow:0 8px 18px -8px rgba(47,111,232,.7)}
+.btn.go{background:var(--green);color:#fff}
+.btn.dark{background:var(--ink);color:#fff}
+.btn.line{background:#fff;border:1.5px solid var(--line);color:var(--text)}
+.btn.red{background:var(--red);color:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.btn.full{width:100%}
+.msg{font-size:13px;color:var(--bad);min-height:1.2em}
+.note{font-size:12.5px;color:var(--muted)}
+.mode-flag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--amber);background:#FFF4DC;border-radius:6px;padding:2px 7px;margin-left:6px;vertical-align:middle}
+
+/* program overview (LG Discovery Lab 느낌의 컬러 카드) */
+.program{padding-block:48px 64px}
+.sec-head{display:flex;align-items:end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--red)}
+.sec-head h2{font-size:clamp(22px,3vw,30px);font-weight:700;letter-spacing:-.02em;margin-top:6px}
+.cards4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.pcard{background:var(--card);border-radius:18px;padding:20px 18px 18px;display:flex;flex-direction:column;gap:10px;border:1px solid var(--line);position:relative;overflow:hidden}
+.pcard .num{font-family:var(--f-disp);font-size:44px;line-height:1;color:var(--c)}
+.pcard h3{font-size:17px;font-weight:700}
+.pcard p{font-size:13.5px;color:var(--muted)}
+.pcard .pts{margin-top:auto;display:flex;align-items:baseline;gap:4px;font-weight:700;color:var(--c)}
+.pcard .pts .mono{font-size:22px}
+.pcard .blob{position:absolute;right:-26px;top:-26px;width:92px;height:92px;border-radius:50%;background:var(--c);opacity:.1}
+.goal{margin-top:18px;display:grid;grid-template-columns:auto 1fr;gap:10px 18px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px}
+.goal dt{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.06em;padding-top:2px}
+.goal dd{margin:0;font-size:14.5px}
+
+/* ---------- STUDENT WORKSPACE ---------- */
+.ws{padding-block:26px 80px}
+.tracker{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:22px}
+.tstep{border:1.5px solid var(--line);background:var(--card);border-radius:14px;padding:12px 14px;text-align:left;display:grid;gap:2px;position:relative}
+.tstep .k{font-family:var(--f-mono);font-size:11.5px;font-weight:600;color:var(--c);letter-spacing:.06em}
+.tstep .t{font-weight:700;font-size:14.5px}
+.tstep .s{font-size:12px;color:var(--muted)}
+.tstep[data-state="cur"]{border-color:var(--c);box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 18%,transparent)}
+.tstep[data-state="done"] .s{color:var(--ok);font-weight:700}
+.tstep[data-state="lock"]{opacity:.5;cursor:not-allowed}
+.tstep .bar{height:4px;border-radius:4px;background:var(--line2);margin-top:8px;overflow:hidden}
+.tstep .bar i{display:block;height:100%;background:var(--c);width:0;transition:width .4s}
+
+.stage-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:18px;align-items:stretch;margin-bottom:18px}
+.stage-title{background:var(--ink);color:#fff;border-radius:18px;padding:22px;position:relative;overflow:hidden}
+.stage-title .k{font-family:var(--f-mono);font-size:12px;color:var(--mint);letter-spacing:.12em}
+.stage-title h2{font-family:var(--f-disp);font-weight:400;font-size:clamp(28px,3.4vw,40px);margin-top:6px;line-height:1.1}
+.stage-title p{color:#C3D2DA;margin-top:8px;font-size:14px}
+.stage-title .ring{position:absolute;right:-30px;bottom:-40px;width:150px;height:150px;border-radius:50%;border:18px solid var(--c);opacity:.35}
+.shorts{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 20px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start}
+.avatar{width:46px;height:46px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px;letter-spacing:-.02em}
+.shorts .lbl{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--red);text-transform:uppercase}
+.shorts .q{font-size:16px;font-weight:700;margin-top:3px}
+.shorts .a{font-size:13.5px;color:var(--muted);margin-top:6px}
+
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px}
+.panel + .panel{margin-top:14px}
+.panel h3{font-size:17px;font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.panel h3 .sub{font-size:12.5px;font-weight:600;color:var(--muted)}
+.panel .lead{color:var(--muted);font-size:14px;margin-top:6px}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px;background:var(--line2);color:var(--muted);white-space:nowrap}
+.chip.lv1{background:#E3F6F7;color:#0B7D85}
+.chip.lv2{background:#E8EFFD;color:#2458C6}
+.chip.lv3{background:#FCE6EE;color:#AD0040}
+.chip.ok{background:#E2F5EC;color:var(--ok)}
+.chip.bad{background:#FBE7EA;color:var(--bad)}
+.chip.run{background:#FFF3D9;color:#9A6200}
+.chip.no{background:var(--line2);color:var(--faint)}
+
+/* quiz */
+.qlist{display:grid;gap:12px;margin-top:16px}
+.qcard{border:1.5px solid var(--line);border-radius:14px;padding:16px 18px}
+.qcard[data-res="ok"]{border-color:#9ED9BF;background:#F5FBF8}
+.qcard[data-res="no"]{border-color:#F0B7C0;background:#FDF6F7}
+.qtop{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.qno{font-family:var(--f-mono);font-weight:600;font-size:13px;color:var(--muted)}
+.qtext{font-weight:600;font-size:15.5px}
+.qtext .eq{display:block;margin-top:6px;font-family:var(--f-mono);font-size:14px;background:var(--line2);border-radius:8px;padding:6px 10px;width:fit-content;max-width:100%;overflow-x:auto}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+.opt{border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:10px 12px;text-align:left;font-size:14.5px;display:flex;gap:8px;align-items:flex-start}
+.opt:hover:not(:disabled){border-color:var(--blue)}
+.opt .n{font-family:var(--f-mono);font-weight:600;color:var(--faint);flex:none}
+.opt.wrong{border-color:var(--bad);background:#FDF0F2;color:#8E2332}
+.opt.right{border-color:var(--ok);background:#E9F7F0;color:#0B6B44;font-weight:700}
+.opt:disabled{cursor:default}
+.fb{margin-top:10px;font-size:13.5px;border-radius:10px;padding:9px 12px;background:var(--line2)}
+.fb b{margin-right:4px}
+.fb.ok{background:#E6F6EE}
+.fb.no{background:#FCEDEF}
+.fb.try{background:#FFF5DE}
+
+/* stage 2 */
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:14px}
+.tile{border:1.5px solid var(--line);border-radius:12px;background:#fff;padding:12px 10px 10px;display:grid;justify-items:center;gap:6px;text-align:center;font-size:13.5px;font-weight:600;position:relative}
+.tile svg{width:46px;height:46px}
+.tile[aria-pressed="true"]{border-color:var(--blue);background:#EEF3FE;box-shadow:inset 0 0 0 1px var(--blue)}
+.tile[aria-pressed="true"]::after{content:"✓";position:absolute;top:6px;right:8px;font-weight:700;color:var(--blue)}
+.tile.g-ok{border-color:var(--ok)!important;background:#EAF7F1!important;box-shadow:none!important}
+.tile.g-bad{border-color:var(--bad)!important;background:#FCEDEF!important;box-shadow:none!important}
+.tile.g-miss{border-style:dashed;border-color:var(--ok)}
+.ppe{display:grid;grid-template-columns:170px 1fr;gap:18px;align-items:center;margin-top:12px}
+.ppe svg.body{width:100%;max-width:170px;height:auto}
+.ox{display:grid;gap:8px;margin-top:14px}
+.oxrow{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px}
+.oxrow .txt{font-size:14.5px}
+.oxbtns{display:flex;gap:6px}
+.oxbtns button{width:44px;height:40px;border-radius:10px;border:1.5px solid var(--line);background:#fff;font-weight:700;font-size:17px}
+.oxbtns button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.oxrow.g-ok{border-color:var(--ok);background:#F2FAF6}
+.oxrow.g-bad{border-color:var(--bad);background:#FDF4F5}
+.order{display:grid;gap:8px;margin-top:14px;counter-reset:ord}
+.orow{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;border:1.5px solid var(--line);border-radius:12px;padding:9px 10px;background:#fff}
+.orow::before{counter-increment:ord;content:counter(ord);font-family:var(--f-mono);font-weight:600;width:30px;height:30px;border-radius:8px;background:var(--line2);display:grid;place-items:center;font-size:13px}
+.orow .mv{display:flex;gap:4px}
+.orow .mv button{width:34px;height:32px;border-radius:8px;border:1.5px solid var(--line);background:#fff;font-size:14px}
+.orow.g-ok{border-color:var(--ok);background:#F2FAF6}
+.orow.g-bad{border-color:var(--bad);background:#FDF4F5}
+
+/* stage 3 lab */
+.substeps{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.substeps span{font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px;background:var(--line2);color:var(--faint)}
+.substeps span.done{background:#E2F5EC;color:var(--ok)}
+.substeps span.cur{background:var(--s3);color:#fff}
+.lab{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:20px;align-items:start;margin-top:14px}
+.bench{background:#E9EEF1;border-radius:16px;padding:14px;position:relative}
+.bench canvas{width:100%;aspect-ratio:1/1;display:block;border-radius:12px;touch-action:none}
+.bench canvas.wide{aspect-ratio:16/7}
+.bench .cap{position:absolute;left:24px;top:22px;font-size:11.5px;font-weight:700;letter-spacing:.08em;color:var(--muted);background:rgba(255,255,255,.8);padding:3px 8px;border-radius:6px}
+.checks{display:grid;gap:8px;margin-top:12px}
+.check{display:flex;gap:12px;align-items:center;border:1.5px solid var(--line);border-radius:12px;padding:11px 12px;background:#fff;font-weight:600;font-size:14.5px;cursor:pointer}
+.check input{width:20px;height:20px;accent-color:var(--s3)}
+.meter{height:12px;border-radius:12px;background:var(--line2);overflow:hidden;margin-top:10px}
+.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cu-d),var(--cu),#F3B07A);transition:width .15s}
+.shapes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+.shape{border:1.5px solid var(--line);border-radius:12px;background:#fff;padding:10px 6px;display:grid;justify-items:center;gap:4px;font-size:13px;font-weight:600}
+.shape svg{width:62px;height:62px}
+.shape[aria-pressed="true"]{border-color:var(--cu);background:#FBF1EA;box-shadow:inset 0 0 0 1px var(--cu)}
+.pour svg{width:100%;height:auto;display:block;background:#fff;border-radius:12px}
+.slider{width:100%;accent-color:var(--s3)}
+.readout{display:flex;justify-content:space-between;align-items:baseline;margin-top:8px}
+.readout .mono{font-size:26px;font-weight:600}
+.timebar{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.timebar button{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:5px 11px;font-size:12.5px;font-weight:700;font-family:var(--f-mono)}
+.timebar button.seen{border-color:var(--s3);color:var(--s3)}
+.timebar button.now{background:var(--s3);color:#fff;border-color:var(--s3)}
+.clockbig{font-family:var(--f-mono);font-size:30px;font-weight:600;letter-spacing:-.01em}
+.obs-table-wrap{overflow-x:auto;margin-top:14px}
+table.obs{width:100%;border-collapse:collapse;font-size:13.5px;min-width:520px}
+table.obs th,table.obs td{border-bottom:1px solid var(--line);padding:9px 8px;text-align:left;vertical-align:middle}
+table.obs th{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.04em}
+table.obs td.t{font-family:var(--f-mono);font-weight:600;white-space:nowrap}
+table.obs tr.locked td{opacity:.4}
+.sw{display:flex;gap:5px;flex-wrap:wrap}
+.sw button{width:30px;height:30px;border-radius:8px;border:1.5px solid var(--line);position:relative}
+.sw button[aria-pressed="true"]{outline:3px solid var(--text);outline-offset:1px}
+.sw button.g-ok{outline:3px solid var(--ok)!important}
+.sw button.g-bad{outline:3px solid var(--bad)!important}
+.legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;font-size:12px;color:var(--muted)}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:4px;border:1px solid var(--line);vertical-align:-2px;margin-right:4px}
+select.inp{padding:8px 10px;font-size:13.5px}
+select.inp.g-ok{border-color:var(--ok);background:#F2FAF6}
+select.inp.g-bad{border-color:var(--bad);background:#FDF4F5}
+.pm{width:100%;height:auto;background:linear-gradient(90deg,#FBF4EE 0 34%,#EEF4FB 34% 100%);border-radius:14px;display:block;touch-action:manipulation}
+.pm .el{cursor:pointer}
+.pm g{transition:transform .9s cubic-bezier(.3,.7,.2,1)}
+.pm .sel circle{stroke:var(--red);stroke-width:4}
+.pm .shake{animation:shake .35s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.eqline{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-family:var(--f-mono);font-size:17px;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;margin-top:10px}
+.eqline .lb{font-family:var(--f-body);font-size:12px;font-weight:700;color:var(--muted);width:100%}
+.eqline select{font-family:var(--f-mono);font-size:15px;padding:5px 6px;border-radius:8px;border:1.5px solid var(--line);background:#F7FAFC}
+.eqline select.g-ok{border-color:var(--ok);background:#E9F7F0}
+.eqline select.g-bad{border-color:var(--bad);background:#FCEDEF}
+.actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;margin-top:18px;align-items:center}
+.actions .note{margin-right:auto}
+
+/* report */
+.report{display:grid;gap:14px}
+.rsec{border:1px solid var(--line);border-radius:14px;padding:16px 18px;background:#fff}
+.rsec h4{margin:0 0 8px;font-size:13px;letter-spacing:.06em;color:var(--s4);font-weight:700}
+.rsec ol,.rsec ul{margin:0;padding-left:20px}
+.rsec textarea{width:100%;min-height:92px;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;font-size:14.5px;line-height:1.6;resize:vertical;margin-top:8px}
+.rsec textarea:focus{border-color:var(--s4);outline:none;box-shadow:0 0 0 3px rgba(200,0,74,.12)}
+.rq{font-weight:700;font-size:15px}
+.rhint{font-size:12.5px;color:var(--muted);margin-top:3px}
+.cnt{font-size:11.5px;color:var(--faint);text-align:right;font-family:var(--f-mono)}
+.radios{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.radios label{border:1.5px solid var(--line);border-radius:10px;padding:8px 12px;font-size:14px;font-weight:600;display:flex;gap:6px;align-items:center;cursor:pointer}
+.radios input{accent-color:var(--s4)}
+.confirm{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:#FFF4F7;border:1.5px solid #F4BCD0;border-radius:12px;padding:12px 14px;margin-top:14px}
+.confirm p{font-size:14px;font-weight:600;margin-right:auto}
+.done-hero{background:var(--ink);color:#fff;border-radius:22px;padding:40px 28px;text-align:center;position:relative;overflow:hidden}
+.done-hero h2{font-family:var(--f-disp);font-weight:400;font-size:clamp(30px,4vw,46px);color:var(--mint)}
+.done-hero p{color:#C8D6DE;margin-top:10px}
+.lockcard{text-align:center;padding:40px 20px}
+.lockcard h3{justify-content:center}
+
+/* ---------- TEACHER ---------- */
+.tbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.tbar h2{font-size:24px;font-weight:700;letter-spacing:-.02em;margin-right:auto}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:14px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+.kpi .l{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.04em}
+.kpi .v{font-family:var(--f-mono);font-size:30px;font-weight:600;margin-top:4px;line-height:1.1}
+.kpi .v small{font-size:14px;color:var(--faint);font-weight:500}
+.board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.bcol{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;border-top:4px solid var(--c)}
+.bcol .t{font-weight:700;font-size:14px;display:flex;justify-content:space-between;gap:6px}
+.bcol .t .mono{color:var(--c)}
+.stack{display:flex;height:10px;border-radius:10px;overflow:hidden;background:var(--line2);margin:10px 0 8px}
+.stack i{display:block;height:100%}
+.bcol .lg{display:flex;gap:12px;font-size:12px;color:var(--muted);flex-wrap:wrap}
+.bcol .lg b{color:var(--text);font-family:var(--f-mono)}
+.bcol .avg{font-size:12px;color:var(--muted);margin-top:4px}
+.tablewrap{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow-x:auto}
+table.roster{width:100%;border-collapse:collapse;min-width:900px;font-size:13.5px}
+table.roster th{position:sticky;top:0;background:#F7FAFB;text-align:left;font-size:12px;color:var(--muted);font-weight:700;padding:11px 10px;border-bottom:1px solid var(--line);letter-spacing:.03em;white-space:nowrap}
+table.roster th button{border:0;background:none;padding:0;font-weight:700;color:inherit}
+table.roster td{padding:10px;border-bottom:1px solid var(--line2);white-space:nowrap}
+table.roster tr:hover td{background:#FAFCFD}
+table.roster td.tot{font-family:var(--f-mono);font-weight:700;font-size:15px}
+.sc{display:inline-flex;align-items:center;gap:6px}
+.sc .mono{font-weight:600}
+.empty{padding:40px;text-align:center;color:var(--muted)}
+.modal{position:fixed;inset:0;z-index:60;background:rgba(10,20,28,.55);display:flex;justify-content:flex-end}
+.drawer{width:min(760px,100%);height:100%;background:var(--bg);overflow-y:auto;padding:0 0 40px}
+.drawer .dh{position:sticky;top:0;background:var(--ink);color:#fff;padding:16px 20px;display:flex;align-items:center;gap:12px;z-index:2}
+.drawer .dh h3{font-size:18px;margin-right:auto}
+.drawer .db{padding:18px 20px;display:grid;gap:14px}
+.brk{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.brk .b{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;border-top:4px solid var(--c)}
+.brk .b .l{font-size:12px;font-weight:700;color:var(--muted)}
+.brk .b .v{font-family:var(--f-mono);font-size:22px;font-weight:600}
+.brk .b ul{list-style:none;padding:0;margin:6px 0 0;font-size:12px;color:var(--muted)}
+.brk .b li{display:flex;justify-content:space-between;gap:6px}
+.brk .b li span:last-child{font-family:var(--f-mono);color:var(--text)}
+.ans{white-space:pre-wrap;background:var(--line2);border-radius:10px;padding:10px 12px;font-size:14px;margin-top:6px}
+.ans.emp{color:var(--faint)}
+.kw{font-size:12px;color:var(--muted);margin-top:4px}
+.adjust{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:#fff;border:1.5px solid var(--s4);border-radius:14px;padding:14px 16px}
+.adjust .inp{width:90px;text-align:center;font-family:var(--f-mono);font-size:18px;font-weight:600}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:11px 18px;border-radius:12px;font-size:14px;font-weight:600;z-index:80;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+
+footer.foot{background:var(--ink);color:#8FA3AE;font-size:12.5px;padding-block:22px}
+footer.foot .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+@media (max-width:900px){
+  .hero-in{grid-template-columns:1fr;padding-block:48px 28px;gap:28px}
+  .cards4,.tracker,.board,.kpis,.brk{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stage-head,.lab{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .wrap{padding-inline:16px}
+  .opts{grid-template-columns:1fr}
+  .ppe{grid-template-columns:1fr}
+  .ppe svg.body{max-width:130px;margin:0 auto}
+  .nav .wrap{min-height:56px}
+  .logo small{display:none}
+  .tracker .s{display:none}
+  .goal{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<!-- ============ NAV ============ -->
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#" id="homeLink" aria-label="처음 화면으로">
+      <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><path d="M13 4h8M14.5 4v9L6.5 27a3 3 0 0 0 2.6 4.5h15.8a3 3 0 0 0 2.6-4.5L19.5 13V4" fill="none" stroke="#A6F1F3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.3 22.5h15.4l2.2 4.3a1.6 1.6 0 0 1-1.4 2.4H8.5a1.6 1.6 0 0 1-1.4-2.4z" fill="#2B7FD8"/><circle cx="14" cy="25.5" r="1.4" fill="#E9EEF2"/><circle cx="19.5" cy="24.4" r="1" fill="#E9EEF2"/></svg>
+      <span><b>한슬쌤의 '숏'터뷰</b><small>Integrated Science Lab</small></span>
+    </a>
+    <div class="who" id="whoBox" hidden><span class="dot"></span><span id="whoText"></span></div>
+    <button class="pill ghost" id="exitBtn" hidden>나가기</button>
+    <span id="navPills"><span class="pill blue">동패고 1학년</span></span>
+  </div>
+</header>
+
+<!-- ============ ENTRY ============ -->
+<section id="viewEntry">
+  <div class="hero">
+    <canvas id="heroCv" aria-hidden="true"></canvas>
+    <div class="wrap hero-in">
+      <div>
+        <p class="kicker">전자는 어디로 갔을까, 물을 때</p>
+        <h1><span class="h1-small">한슬쌤의 '숏'터뷰</span><span class="h1-big">통합과학실험실</span></h1>
+        <p class="hero-sub">구리줄을 질산 은 수용액에 담그면 용액은 푸르게, 구리줄에는 은백색 결정이 자랍니다. 4단계 실험으로 산화·환원을 전자의 이동으로 설명해 봅시다.</p>
+        <div class="hero-meta">
+          <span class="tag">통합과학2 Ⅰ-2-01</span><span class="tag">산화·환원 반응의 규칙성</span><span class="tag">교과서 38~43쪽</span><span class="tag">3 / 12차시</span>
+        </div>
+      </div>
+      <div class="entry" role="region" aria-label="입장">
+        <div class="seg" role="tablist">
+          <button role="tab" id="tabStu" aria-selected="true">학생 입장</button>
+          <button role="tab" id="tabTea" aria-selected="false">교사 입장</button>
+        </div>
+        <form class="form" id="stuForm" autocomplete="off">
+          <div class="row3">
+            <div class="field"><label for="inCls">반</label><select class="inp" id="inCls" required></select></div>
+            <div class="field"><label for="inNum">번호</label><select class="inp" id="inNum" required></select></div>
+          </div>
+          <div class="field"><label for="inName">성명</label><input class="inp" id="inName" maxlength="12" placeholder="이름을 입력하세요" required></div>
+          <p class="msg" id="stuMsg" role="alert"></p>
+          <button class="btn primary full" type="submit" id="stuGo">실험실 입장하기 →</button>
+          <p class="note">1학년 · 반·번호·성명을 모두 입력해야 수업에 참여할 수 있어요. 같은 정보로 다시 들어오면 이어서 진행됩니다.</p>
+        </form>
+        <form class="form" id="teaForm" hidden autocomplete="off">
+          <div class="field"><label for="inPw">교사 비밀번호</label><input class="inp mono" id="inPw" type="password" inputmode="numeric" maxlength="8" placeholder="••••"></div>
+          <p class="msg" id="teaMsg" role="alert"></p>
+          <button class="btn dark full" type="submit" id="teaGo">교사 화면 열기</button>
+          <p class="note">평가 결과와 결과보고서는 교사 화면에서만 볼 수 있습니다.</p>
+        </form>
+      </div>
+    </div>
+    <div class="wrap player">
+      <button id="heroPlay" aria-label="배경 실험 영상 일시정지"><svg width="12" height="12" viewBox="0 0 12 12" id="heroIco"><rect x="2" y="1" width="3" height="10" fill="currentColor"/><rect x="7" y="1" width="3" height="10" fill="currentColor"/></svg></button>
+      <div class="track"><i id="heroProg"></i></div>
+      <span class="clock" id="heroClock">00:00 · AgNO₃(aq) + Cu</span>
+    </div>
+  </div>
+
+  <div class="wrap program">
+    <div class="sec-head">
+      <div><p class="eyebrow">Lab Program · 100점</p><h2>오늘의 실험은 4단계로 진행됩니다</h2></div>
+      <p class="note" id="modeNote"></p>
+    </div>
+    <div class="cards4">
+      <div class="pcard" style="--c:var(--s1)"><span class="blob"></span><span class="num">01</span><h3>기초 이론</h3><p>전시 학습 확인. 산소의 이동으로 본 산화·환원을 초·중·고급 10문항으로 점검합니다.</p><span class="pts"><span class="mono">20</span>점</span></div>
+      <div class="pcard" style="--c:var(--s2)"><span class="blob"></span><span class="num">02</span><h3>기초 실험 준비</h3><p>준비물·보호구·안전 수칙·실험 순서를 확인합니다. 질산 은 수용액 취급법이 핵심이에요.</p><span class="pts"><span class="mono">20</span>점</span></div>
+      <div class="pcard" style="--c:var(--s3)"><span class="blob"></span><span class="num">03</span><h3>가상 실험</h3><p>사포질부터 관찰 기록까지 직접 조작하고, 입자 모형으로 전자를 옮겨 반응식을 완성합니다.</p><span class="pts"><span class="mono">40</span>점</span></div>
+      <div class="pcard" style="--c:var(--s4)"><span class="blob"></span><span class="num">04</span><h3>결과 보고서</h3><p>관찰 결과가 자동으로 채워진 보고서에 고찰을 쓰고 제출하면 선생님이 바로 확인합니다.</p><span class="pts"><span class="mono">20</span>점</span></div>
+    </div>
+    <dl class="goal">
+      <dt>학습 목표</dt><dd>산화·환원 반응을 전자의 이동으로 설명할 수 있다. 질산 은(AgNO₃) 수용액과 구리(Cu)의 반응에서 나타나는 변화를 관찰하고, 전자의 이동과 연결하여 설명할 수 있다.</dd>
+      <dt>성취 기준</dt><dd>[10통과2-01-03] 광합성, 화석 연료 사용, 철의 제련 등에서 공통점을 찾아 산화와 환원을 이해하고, 생활 주변의 다양한 변화를 산화와 환원의 특징과 규칙성으로 분석할 수 있다.</dd>
+    </dl>
+  </div>
+</section>
+
+<!-- ============ STUDENT ============ -->
+<main id="viewStudent" hidden>
+  <div class="wrap ws">
+    <nav class="tracker" id="tracker" aria-label="활동 단계"></nav>
+    <div id="stageBox"></div>
+  </div>
+</main>
+
+<!-- ============ TEACHER ============ -->
+<main id="viewTeacher" hidden>
+  <div class="wrap ws">
+    <div class="tbar">
+      <h2>담당교사 현황판</h2>
+      <select class="inp" id="fCls" style="width:auto" aria-label="반 선택"></select>
+      <label class="note" style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="autoRf" checked> 20초마다 새로고침</label>
+      <button class="btn line" id="rfBtn">새로고침</button>
+      <a class="btn line" id="sheetLink" href="#" target="_blank" rel="noopener" hidden>구글 시트 열기</a>
+    </div>
+    <p class="note" id="rfNote" style="margin:-6px 0 14px"></p>
+    <div class="kpis" id="kpis"></div>
+    <div class="board" id="board"></div>
+    <div class="tablewrap"><table class="roster"><thead><tr>
+      <th><button data-sort="cls">반·번호 ↕</button></th><th>성명</th>
+      <th>① 기초 이론 <span class="mono">/20</span></th><th>② 실험 준비 <span class="mono">/20</span></th><th>③ 가상 실험 <span class="mono">/40</span></th><th>④ 결과 보고서 <span class="mono">/20</span></th>
+      <th><button data-sort="tot">총점 ↕</button></th><th><button data-sort="upd">최근 활동 ↕</button></th><th></th>
+    </tr></thead><tbody id="roster"></tbody></table></div>
+  </div>
+</main>
+
+<div class="modal" id="modal" hidden><div class="drawer" role="dialog" aria-modal="true" aria-labelledby="dTitle"><div class="dh"><h3 id="dTitle"></h3><button class="pill ghost" id="dClose">닫기</button></div><div class="db" id="dBody"></div></div></div>
+
+<footer class="foot"><div class="wrap"><span>동패고등학교 1학년 통합과학 · 지도교사 김한슬</span><span>한슬쌤의 '숏'터뷰 통합과학실험실</span></div></footer>
+
+<script src="config.js"></script>
+<script>
+(function(){
+"use strict";
+/* ================= 공통 ================= */
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const STAGES=[
+  {k:"01",t:"기초 이론",max:20,c:"var(--s1)",hex:"#12959E"},
+  {k:"02",t:"기초 실험 준비",max:20,c:"var(--s2)",hex:"#D98A00"},
+  {k:"03",t:"가상 실험",max:40,c:"var(--s3)",hex:"#2F6FE8"},
+  {k:"04",t:"결과 보고서",max:20,c:"var(--s4)",hex:"#C8004A"}
+];
+function toast(t){const d=document.createElement("div");d.className="toast";d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),2200)}
+function fmtTime(iso){if(!iso)return"-";const d=new Date(iso);if(isNaN(d))return"-";return d.toLocaleString("ko-KR",{timeZone:"Asia/Seoul",month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"})}
+function norm(s){return String(s||"").toLowerCase().replace(/\s+/g,"").replace(/²/g,"2").replace(/⁺/g,"+").replace(/⁻/g,"-").replace(/₃/g,"3")}
+function hasAny(t,list){const n=norm(t);return list.some(k=>n.includes(norm(k)))}
+
+/* ================= 저장소 (Apps Script ↔ 미리보기) ================= */
+const IS_GAS=typeof google!=="undefined"&&google.script&&google.script.run;
+const CFG=window.LAB_CONFIG||{};
+const GAS_URL=IS_GAS?"":String(CFG.GAS_URL||"").trim();
+const MODE=IS_GAS?"gas":(/^https:\/\/script\.google(usercontent)?\.com\//.test(GAS_URL)?"remote":"demo");
+function gas(fn,...args){return new Promise((res,rej)=>{google.script.run.withSuccessHandler(res).withFailureHandler(e=>rej(e&&e.message||String(e)))[fn](...args)})}
+function remote(fn,...args){return fetch(GAS_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:fn,args})}).then(r=>r.json()).then(j=>{if(j.error)throw j.error;return j.result})}
+const call=MODE==="gas"?gas:remote;
+const mem={};
+const LS="hs_shortview_lab_v1";
+function lsGet(){try{return JSON.parse(localStorage.getItem(LS)||"null")||mem}catch(e){return mem}}
+function lsSet(o){try{localStorage.setItem(LS,JSON.stringify(o))}catch(e){Object.assign(mem,o)}}
+const API=MODE!=="demo"?{
+  load:(c,n,nm)=>call("loadStudent",c,n,nm).then(s=>s?JSON.parse(s):null),
+  save:r=>call("saveRecord",JSON.stringify(r)).then(s=>JSON.parse(s)),
+  teacher:pw=>call("getTeacherData",pw).then(s=>JSON.parse(s)),
+  setScore:(pw,key,v)=>call("setReportScore",pw,key,v).then(s=>JSON.parse(s))
+}:{
+  /* 미리보기(데모) 모드: 서버가 없으므로 기록은 이 브라우저에만 남고, 교사 비밀번호는 서버 연결 후에만 확인됩니다. */
+  load:async(c,n,nm)=>{const o=lsGet();return o[`${c}-${n}-${nm}`]||null},
+  save:async r=>{const o=lsGet();const old=o[r.key];r.rTeacher=old&&old.rTeacher!=null?old.rTeacher:(r.rTeacher??null);r.updatedAt=new Date().toISOString();o[r.key]=JSON.parse(JSON.stringify(r));lsSet(o);return{ok:true,updatedAt:r.updatedAt}},
+  teacher:async pw=>{let o=lsGet();if(!Object.keys(o).length){o=seedExamples();lsSet(o)}return{records:Object.values(o),sheetUrl:null}},
+  setScore:async(pw,key,v)=>{const o=lsGet();if(o[key]){o[key].rTeacher=v;lsSet(o)}return{ok:true}}
+};
+$("#modeNote").innerHTML=MODE!=="demo"?"":'미리보기 모드<span class="mode-flag">DEMO</span> 기록이 이 브라우저에만 저장됩니다. 구글 시트에 연결하면 교사 화면으로 모입니다.';
+
+let saveChain=Promise.resolve();
+function persist(){ if(!rec)return; rec.updatedAt=new Date().toISOString(); const snap=JSON.parse(JSON.stringify(rec));
+  saveChain=saveChain.then(()=>API.save(snap)).catch(e=>{toast("저장에 실패했어요. 인터넷 연결을 확인하세요.");console.warn(e)}); return saveChain;}
+
+/* ================= 데이터: 1단계 문항 ================= */
+const Q1=[
+ {lv:1,q:"물질이 산소와 결합하는 반응을 무엇이라고 할까요?",o:["산화","환원","중화","분해"],a:0,ex:"물질이 산소를 얻으면(산소와 결합하면) 산화, 산소를 잃으면 환원입니다."},
+ {lv:1,q:"물질이 산소를 잃는(산소와 분리되는) 반응은 무엇일까요?",o:["산화","환원","연소","용해"],a:1,ex:"산소와 분리되는 반응은 환원입니다."},
+ {lv:1,q:"광합성, 철의 제련, 화석 연료의 사용이 자연과 인류의 역사에 큰 변화를 가져온 반응이라는 점 외에 가지는 공통점은?",o:["모두 산소가 관여하는 산화·환원 반응이다","모두 열을 흡수하는 반응이다","모두 금속이 생성되는 반응이다","모두 기체가 생성되지 않는다"],a:0,ex:"세 반응 모두 산소가 관여하는 산화·환원 반응입니다."},
+ {lv:1,q:"메테인의 연소 반응에서 산소와 결합하여 산화되는 물질은?",eq:"CH₄ + 2O₂ → CO₂ + 2H₂O",o:["CH₄","CO₂","H₂O","없다"],a:0,ex:"메테인(CH₄)의 탄소와 수소가 산소와 결합하므로 메테인이 산화됩니다."},
+ {lv:2,q:"산화 구리(Ⅱ)를 숯가루와 함께 가열했습니다. 환원되는 물질은?",eq:"2CuO + C → 2Cu + CO₂",o:["CuO","C","Cu","CO₂"],a:0,ex:"CuO는 산소를 잃고 Cu가 되므로 환원됩니다."},
+ {lv:2,q:"같은 반응(2CuO + C → 2Cu + CO₂)에서 산소는 어떻게 이동했을까요?",o:["CuO → C","C → CuO","CO₂ → Cu","이동하지 않는다"],a:0,ex:"산소는 산화 구리(Ⅱ)에서 분리되어 탄소와 결합했습니다."},
+ {lv:2,q:"철의 제련 반응에서 산화되는 물질은?",eq:"Fe₂O₃ + 3CO → 2Fe + 3CO₂",o:["CO","Fe₂O₃","Fe","CO₂"],a:0,ex:"일산화 탄소(CO)가 산소를 얻어 CO₂가 되므로 산화됩니다. Fe₂O₃는 환원됩니다."},
+ {lv:3,q:"산화와 환원이 항상 동시에 일어나는 까닭으로 옳은 것은?",o:["한 물질이 잃은 산소를 다른 물질이 얻기 때문","반응 속도가 매우 빠르기 때문","열이 항상 방출되기 때문","반응물이 항상 두 가지이기 때문"],a:0,ex:"산소의 분리와 결합이 짝을 이루므로 산화와 환원은 동시에 일어납니다."},
+ {lv:3,q:"다음 중 산소가 포함되어 있지만 산화·환원 반응이 아닌 것은?",o:["CaCO₃ → CaO + CO₂","C + O₂ → CO₂","2CuO + C → 2Cu + CO₂","Fe₂O₃ + 3CO → 2Fe + 3CO₂"],a:0,ex:"석회석의 분해는 산소가 다른 물질로 이동하지 않으므로 산화·환원 반응이 아닙니다. 산소가 들어 있다고 모두 산화·환원 반응은 아니에요."},
+ {lv:3,q:"오늘의 반응 Cu + 2AgNO₃ → Cu(NO₃)₂ + 2Ag에서는 산소가 이동하지 않습니다. 이 반응을 산화·환원으로 설명하려면?",o:["산소 말고 다른 기준(전자의 이동)이 필요하다","산소가 없으니 산화·환원 반응이 아니다","NO₃⁻가 산소를 주고받는다고 본다","구리가 산소를 얻었다고 본다"],a:0,ex:"모든 산화·환원 반응을 산소의 이동만으로 설명할 수는 없습니다. 오늘은 '전자의 이동'으로 설명해 봅니다."}
+];
+const LV=["","초급","중급","고급"];
+function shuffleOpts(list,seed){const r=rngOf(seed);list.forEach(q=>{const idx=q.o.map((_,i)=>i);for(let i=idx.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[idx[i],idx[j]]=[idx[j],idx[i]]}q.o=idx.map(i=>q.o[i]);q.a=idx.indexOf(q.a)})}
+
+shuffleOpts(Q1,601);
+/* ================= 데이터: 2단계 ================= */
+const TOOLS=[
+ {id:"agno3",n:"질산 은 수용액",ok:1},{id:"cuw",n:"구리줄",ok:1},{id:"dish",n:"페트리 접시",ok:1},{id:"sand",n:"사포",ok:1},{id:"tweez",n:"핀셋",ok:1},
+ {id:"lamp",n:"알코올램프",ok:0},{id:"charc",n:"숯가루",ok:0},{id:"lime",n:"석회수",ok:0},{id:"tube",n:"시험관 집게",ok:0}
+];
+const PPE=[{id:"gog",n:"보안경",ok:1},{id:"glv",n:"실험용 장갑",ok:1},{id:"pglv",n:"보호 장갑",ok:1},{id:"coat",n:"실험복",ok:1},{id:"slip",n:"슬리퍼",ok:0},{id:"short",n:"반바지",ok:0}];
+const OX=[
+ {t:"질산 은 수용액이 피부나 옷에 닿으면 즉시 흐르는 물에 씻는다.",a:"O"},
+ {t:"질산 은 수용액이 피부에 닿으면 갈색 반점이 생길 수 있다.",a:"O"},
+ {t:"실험 후 남은 용액은 개수대에 바로 버린다.",a:"X",ex:"남은 용액은 폐수 통에 버립니다."},
+ {t:"보안경은 용액을 부을 때만 잠깐 쓰면 된다.",a:"X",ex:"실험이 끝날 때까지 착용합니다."},
+ {t:"질산 은 수용액은 햇빛에 분해되므로 갈색 병에 넣어 보관한다.",a:"O"},
+ {t:"구리줄이 잠긴 뒤 변화를 빨리 보려면 페트리 접시를 계속 흔든다.",a:"X",ex:"구리줄이 움직이지 않게 두고 관찰합니다."},
+ {t:"반응이 잘 일어나지 않으면 구리줄 표면을 사포로 다시 문지른 뒤 실험한다.",a:"O"}
+];
+const STEPS=[
+ {id:"A",t:"구리줄 표면을 사포로 문지른다."},
+ {id:"B",t:"구리줄로 원하는 모양을 만들어 페트리 접시에 넣는다."},
+ {id:"C",t:"구리줄이 잠기도록 질산 은 수용액을 넣는다."},
+ {id:"D",t:"움직이지 않고 수용액의 색과 구리줄 표면의 변화를 관찰한다."}
+];
+const ORDER0=["C","A","D","B"];
+const ICON={
+ agno3:'<svg viewBox="0 0 48 48"><path d="M18 6h12v8l6 6v20a3 3 0 0 1-3 3H15a3 3 0 0 1-3-3V20l6-6z" fill="#7A4A22"/><rect x="17" y="3" width="14" height="5" rx="1.5" fill="#3A2A1C"/><rect x="15" y="24" width="18" height="10" rx="1.5" fill="#F3E7D8"/><text x="24" y="31.5" font-size="6.5" text-anchor="middle" font-family="monospace" fill="#3A2A1C">AgNO3</text></svg>',
+ cuw:'<svg viewBox="0 0 48 48"><path d="M8 34c6-18 12 8 18-10s10 6 14-6" fill="none" stroke="#C9773F" stroke-width="4" stroke-linecap="round"/></svg>',
+ dish:'<svg viewBox="0 0 48 48"><ellipse cx="24" cy="28" rx="18" ry="8" fill="#E6F0F5" stroke="#9FB3BF" stroke-width="2"/><ellipse cx="24" cy="25" rx="18" ry="8" fill="none" stroke="#9FB3BF" stroke-width="2"/></svg>',
+ sand:'<svg viewBox="0 0 48 48"><rect x="9" y="12" width="30" height="24" rx="3" fill="#D9B77E"/><g fill="#A9854C">'+Array.from({length:18},(_,i)=>`<circle cx="${13+(i%6)*4.4}" cy="${16+Math.floor(i/6)*7+(i%2)*2}" r="1"/>`).join("")+'</g></svg>',
+ tweez:'<svg viewBox="0 0 48 48"><path d="M12 8l14 30M20 8l8 30" stroke="#8193A0" stroke-width="3.2" stroke-linecap="round" fill="none"/><path d="M11 8h10" stroke="#5E6E7A" stroke-width="3.2" stroke-linecap="round"/></svg>',
+ lamp:'<svg viewBox="0 0 48 48"><path d="M14 40h20l-3-16H17z" fill="#CFE3EE" stroke="#8AA3B2" stroke-width="2"/><rect x="21" y="18" width="6" height="6" fill="#8AA3B2"/><path d="M24 6c4 5 4 9 0 12-4-3-4-7 0-12z" fill="#F2A33A"/></svg>',
+ charc:'<svg viewBox="0 0 48 48"><path d="M10 36c2-8 8-12 14-12s12 4 14 12z" fill="#2B2B2B"/><circle cx="18" cy="30" r="1.4" fill="#555"/><circle cx="28" cy="29" r="1.4" fill="#555"/></svg>',
+ lime:'<svg viewBox="0 0 48 48"><path d="M18 6h12v8l6 6v20a3 3 0 0 1-3 3H15a3 3 0 0 1-3-3V20l6-6z" fill="#EAF1F4" stroke="#9FB3BF" stroke-width="2"/><rect x="13" y="28" width="22" height="14" fill="#F7F7F2"/></svg>',
+ tube:'<svg viewBox="0 0 48 48"><path d="M10 10l26 26M14 8l26 26" stroke="#A67B4D" stroke-width="4" stroke-linecap="round"/><circle cx="12" cy="9" r="3" fill="#7A5634"/></svg>',
+ gog:'<svg viewBox="0 0 48 48"><path d="M6 20h36v10a4 4 0 0 1-4 4h-9l-5-5-5 5h-9a4 4 0 0 1-4-4z" fill="#7FD3E0" stroke="#2A6F7C" stroke-width="2"/></svg>',
+ glv:'<svg viewBox="0 0 48 48"><path d="M16 42V22l-4-8a2 2 0 0 1 3.5-2l3.5 6V8a2 2 0 0 1 4 0v10V6a2 2 0 0 1 4 0v12V8a2 2 0 0 1 4 0v12-6a2 2 0 0 1 4 0v18l-3 10z" fill="#9CC8F5" stroke="#3E77B6" stroke-width="1.6"/></svg>',
+ pglv:'<svg viewBox="0 0 48 48"><path d="M14 44V22l-4-8a2 2 0 0 1 3.5-2l3.5 6V8a2 2 0 0 1 4 0v10V6a2 2 0 0 1 4 0v12V8a2 2 0 0 1 4 0v12-6a2 2 0 0 1 4 0v18l-3 12z" fill="#F4C54B" stroke="#A67C00" stroke-width="1.6"/><rect x="13" y="36" width="21" height="8" fill="#E0A800"/></svg>',
+ coat:'<svg viewBox="0 0 48 48"><path d="M17 6l7 6 7-6 9 6-4 10h-3v20H15V22h-3L8 12z" fill="#F7FAFC" stroke="#8AA3B2" stroke-width="2"/><path d="M24 12v30" stroke="#8AA3B2" stroke-width="1.5"/></svg>',
+ slip:'<svg viewBox="0 0 48 48"><ellipse cx="24" cy="30" rx="16" ry="8" fill="#F29B9B"/><path d="M14 28c4-8 16-8 20 0" fill="none" stroke="#C45656" stroke-width="4"/></svg>',
+ short:'<svg viewBox="0 0 48 48"><path d="M10 10h28l3 26H27l-3-12-3 12H7z" fill="#6E8BD6"/></svg>'
+};
+
+/* ================= 데이터: 3단계 관찰 ================= */
+const TPTS=[0,3,10,20,30];
+const COLORS=[{id:"c0",n:"무색",t:0},{id:"c1",n:"연한 하늘색",t:3},{id:"c2",n:"푸른색",t:10},{id:"c3",n:"진한 푸른색",t:25},{id:"cx",n:"연한 갈색",hex:"#E6D2B5"}];
+const SURF=[{id:"s0",n:"변화 없음(구리색)"},{id:"s1",n:"은백색 금속이 조금 석출"},{id:"s2",n:"은백색 결정이 나뭇가지처럼 자람"},{id:"sx1",n:"검게 녹슴"},{id:"sx2",n:"기포가 발생함"}];
+function colorLevel(t){return t<1?"c0":t<6?"c1":t<16?"c2":"c3"}
+function surfLevel(t){return t<1?"s0":t<6?"s1":"s2"}
+function solA(t){return 1-Math.exp(-t/9)}
+function solRGB(t){const a=solA(t)*0.62;const c=[43,127,216];return c.map(v=>Math.round(255*(1-a)+v*a))}
+function solHex(t){return"#"+solRGB(t).map(v=>v.toString(16).padStart(2,"0")).join("")}
+COLORS.forEach(c=>{if(c.hex==null)c.hex=solHex(c.t)});
+
+/* ================= 가상 실험 시뮬레이터 ================= */
+function rngOf(seed){let a=seed>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function shapePath(shape){
+  const P=[];
+  if(shape==="spiral"){for(let th=0;th<=5*Math.PI;th+=.06){const r=.1+.105*th/Math.PI;P.push([r*Math.cos(th),r*Math.sin(th)])}}
+  else if(shape==="heart"){for(let t=0;t<=Math.PI*2+.01;t+=.04){const x=16*Math.pow(Math.sin(t),3),y=13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t);P.push([x/17*.62,-y/17*.62+.04])}}
+  else if(shape==="zigzag"){const k=[[-.62,-.35],[-.31,.35],[0,-.35],[.31,.35],[.62,-.35]];for(let i=0;i<k.length-1;i++)for(let s=0;s<1;s+=.04)P.push([k[i][0]+(k[i+1][0]-k[i][0])*s,k[i][1]+(k[i+1][1]-k[i][1])*s]);P.push(k[k.length-1])}
+  return P;
+}
+class Sim{
+  constructor(cv,o){this.cv=cv;this.o=Object.assign({shape:"spiral",hero:false,reverse:false,solution:true,seed:11},o);this.t=0;this.resize();}
+  set(o){Object.assign(this.o,o);this.build();this.draw(this.t)}
+  resize(){const r=this.cv.getBoundingClientRect();const d=Math.min(2,window.devicePixelRatio||1);this.W=Math.max(10,r.width);this.H=Math.max(10,r.height);this.cv.width=Math.round(this.W*d);this.cv.height=Math.round(this.H*d);this.ctx=this.cv.getContext("2d");this.ctx.setTransform(d,0,0,d,0,0);this.build();this.draw(this.t)}
+  build(){
+    const o=this.o,rnd=rngOf(o.seed);
+    if(o.hero){this.u=this.H/2.2;this.cx=this.W*.62;this.cy=this.H*.55;const span=(this.W*.75)/this.u;const P=[];for(let x=-span;x<=span;x+=.03)P.push([x,Math.sin(x*1.6)*.28+Math.sin(x*.7)*.18]);this.P=P}
+    else{this.u=Math.min(this.W,this.H)/2*.86;this.cx=this.W/2;this.cy=this.H/2;this.P=shapePath(o.shape)}
+    const P=this.P,segs=[];
+    const grow=(x,y,a,len,dep,st)=>{const x2=x+Math.cos(a)*len,y2=y+Math.sin(a)*len;segs.push({x1:x,y1:y,x2,y2,s:st,d:.2,w:Math.max(.5,2.6-dep*.55)});
+      if(dep<4){const nb=dep===0?2:(rnd()<.55?2:1);for(let i=0;i<nb;i++)grow(x2,y2,a+(rnd()-.5)*1.25,len*(.62+rnd()*.2),dep+1,st+.14+rnd()*.07)}};
+    const step=o.hero?5:4;
+    for(let i=2;i<P.length-2;i+=step){const tx=P[i+1][0]-P[i-1][0],ty=P[i+1][1]-P[i-1][1];const L=Math.hypot(tx,ty)||1;const nx=-ty/L,ny=tx/L;const side=rnd()<.5?1:-1;
+      const a=Math.atan2(ny*side,nx*side)+(rnd()-.5)*.9;grow(P[i][0],P[i][1],a,(o.hero?.09:.07)*(.7+rnd()*.6),0,.02+rnd()*.1)}
+    this.segs=segs;
+  }
+  X(x){return this.cx+x*this.u} Y(y){return this.cy+y*this.u}
+  draw(t){
+    this.t=t;const c=this.ctx,o=this.o,W=this.W,H=this.H;if(!c)return;
+    const g=o.reverse?0:1-Math.exp(-t/8);
+    c.clearRect(0,0,W,H);
+    if(o.hero){
+      const bg=c.createRadialGradient(this.cx,this.cy,10,this.cx,this.cy,W*.8);const a=.18+.5*solA(t);
+      bg.addColorStop(0,`rgba(43,127,216,${a})`);bg.addColorStop(1,"rgba(10,20,28,1)");c.fillStyle="#0A141C";c.fillRect(0,0,W,H);c.fillStyle=bg;c.fillRect(0,0,W,H);
+    }else{
+      c.fillStyle="#FBFBF8";c.fillRect(0,0,W,H);
+      c.strokeStyle="#EFEFE8";c.lineWidth=1;for(let y=12;y<H;y+=24){c.beginPath();c.moveTo(0,y);c.lineTo(W,y);c.stroke()}
+      const R=this.u*1.08;
+      c.save();c.shadowColor="rgba(18,32,42,.18)";c.shadowBlur=18;c.shadowOffsetY=6;c.beginPath();c.arc(this.cx,this.cy,R,0,Math.PI*2);c.fillStyle="rgba(255,255,255,.9)";c.fill();c.restore();
+      if(o.solution){const rgb=o.reverse?solRGB(22):solRGB(t);c.beginPath();c.arc(this.cx,this.cy,R*.97,0,Math.PI*2);c.fillStyle=`rgb(${rgb})`;c.fill()}
+      c.beginPath();c.arc(this.cx,this.cy,R,0,Math.PI*2);c.lineWidth=3;c.strokeStyle="#B9C7D0";c.stroke();
+      c.beginPath();c.arc(this.cx,this.cy,R*.93,Math.PI*1.1,Math.PI*1.45);c.lineWidth=4;c.strokeStyle="rgba(255,255,255,.9)";c.stroke();
+    }
+    // wire
+    const P=this.P;const lw=(o.hero?.05:.042)*this.u;
+    const mix=(a,b,k)=>a.map((v,i)=>Math.round(v+(b[i]-v)*k));
+    const base=o.reverse?[200,208,214]:mix([201,119,63],[150,86,52],g*.55);
+    c.lineCap="round";c.lineJoin="round";
+    c.beginPath();P.forEach((p,i)=>i?c.lineTo(this.X(p[0]),this.Y(p[1])):c.moveTo(this.X(p[0]),this.Y(p[1])));
+    c.strokeStyle=`rgb(${mix(base,[40,20,10],.35)})`;c.lineWidth=lw+2;c.stroke();c.strokeStyle=`rgb(${base})`;c.lineWidth=lw;c.stroke();
+    c.strokeStyle=o.reverse?"rgba(255,255,255,.8)":`rgba(255,214,170,${.75-g*.4})`;c.lineWidth=lw*.28;c.stroke();
+    // silver dendrites
+    if(g>0){
+      c.strokeStyle=o.hero?"#E8F2F6":"#AEB9C1";
+      if(o.hero){c.shadowColor="rgba(166,241,243,.6)";c.shadowBlur=6}
+      for(const s of this.segs){const p=clamp((g-s.s)/s.d,0,1);if(p<=0)continue;c.lineWidth=s.w*(o.hero?1.1:1)*(this.u/220);c.beginPath();c.moveTo(this.X(s.x1),this.Y(s.y1));c.lineTo(this.X(s.x1+(s.x2-s.x1)*p),this.Y(s.y1+(s.y2-s.y1)*p));c.stroke()}
+      c.shadowBlur=0;
+      if(!o.hero){c.strokeStyle="rgba(255,255,255,.85)";for(let i=0;i<this.segs.length;i+=7){const s=this.segs[i];const p=clamp((g-s.s)/s.d,0,1);if(p<1)continue;c.lineWidth=.7;c.beginPath();c.moveTo(this.X(s.x1),this.Y(s.y1));c.lineTo(this.X((s.x1+s.x2)/2),this.Y((s.y1+s.y2)/2));c.stroke()}}
+    }
+  }
+}
+
+/* ================= HERO ================= */
+const heroSim=new Sim($("#heroCv"),{hero:true,seed:5});
+let heroOn=!matchMedia("(prefers-reduced-motion: reduce)").matches, heroT=heroOn?0:18, heroLast=0;
+function heroTick(ts){
+  if(!$("#viewEntry").hidden){
+    if(heroOn){const dt=heroLast?Math.min(.1,(ts-heroLast)/1000):0;heroT+=dt*2.2;if(heroT>36)heroT=0}
+    heroSim.draw(Math.min(heroT,30));const m=Math.min(heroT,30);
+    $("#heroProg").style.width=(m/30*100)+"%";$("#heroClock").textContent=`${String(Math.floor(m)).padStart(2,"0")}:${String(Math.floor((m%1)*60)).padStart(2,"0")} · AgNO₃(aq) + Cu`;
+  }
+  heroLast=ts;requestAnimationFrame(heroTick);
+}
+requestAnimationFrame(heroTick);
+const icoPause='<rect x="2" y="1" width="3" height="10" fill="currentColor"/><rect x="7" y="1" width="3" height="10" fill="currentColor"/>',icoPlay='<path d="M3 1l8 5-8 5z" fill="currentColor"/>';
+function setHeroIco(){$("#heroIco").innerHTML=heroOn?icoPause:icoPlay;$("#heroPlay").setAttribute("aria-label",heroOn?"배경 실험 영상 일시정지":"배경 실험 영상 재생")}
+setHeroIco();
+$("#heroPlay").onclick=()=>{heroOn=!heroOn;setHeroIco()};
+let rzT;window.addEventListener("resize",()=>{clearTimeout(rzT);rzT=setTimeout(()=>{heroSim.resize();if(labSim)labSim.resize()},120)});
+
+/* ================= 입장 ================= */
+for(let i=1;i<=13;i++)$("#inCls").insertAdjacentHTML("beforeend",`<option value="${i}">${i}반</option>`);
+$("#inCls").value="13";
+$("#inNum").insertAdjacentHTML("beforeend",'<option value="">번호</option>');
+for(let i=1;i<=35;i++)$("#inNum").insertAdjacentHTML("beforeend",`<option value="${i}">${i}번</option>`);
+function tab(stu){$("#tabStu").setAttribute("aria-selected",stu);$("#tabTea").setAttribute("aria-selected",!stu);$("#stuForm").hidden=!stu;$("#teaForm").hidden=stu}
+$("#tabStu").onclick=()=>tab(true);$("#tabTea").onclick=()=>tab(false);
+
+let rec=null,teaPw=null;
+function newRec(c,n,nm){const now=new Date().toISOString();return{key:`${c}-${n}-${nm}`,grade:1,cls:+c,num:+n,name:nm,cur:1,st:[1,0,0,0],sc:[0,0,0,0],d:{s1:{},s2:null,s3:{sub:1},s4:null},rAuto:null,rTeacher:null,startedAt:now,updatedAt:now,submittedAt:null}}
+$("#stuForm").onsubmit=async e=>{
+  e.preventDefault();const c=$("#inCls").value,n=$("#inNum").value,nm=$("#inName").value.trim().replace(/\s+/g,"");
+  const m=$("#stuMsg");
+  if(!c||!n){m.textContent="반과 번호를 선택하세요.";return}
+  if(nm.length<2||!/^[가-힣a-zA-Z]+$/.test(nm)){m.textContent="성명을 정확히 입력하세요. (한글 또는 영문 2자 이상)";return}
+  m.textContent="";$("#stuGo").disabled=true;$("#stuGo").textContent="입장 중…";
+  try{const old=await API.load(+c,+n,nm);rec=old||newRec(c,n,nm);if(!old)await persist();else toast(`${nm} 학생, 이어서 진행합니다.`);openStudent()}
+  catch(err){m.textContent="서버에 연결하지 못했어요. 잠시 후 다시 시도하세요."}
+  finally{$("#stuGo").disabled=false;$("#stuGo").textContent="실험실 입장하기 →"}
+};
+$("#teaForm").onsubmit=async e=>{
+  e.preventDefault();const pw=$("#inPw").value.trim();const m=$("#teaMsg");
+  if(!pw){m.textContent="비밀번호를 입력하세요.";return}
+  $("#teaGo").disabled=true;
+  try{const r=await API.teacher(pw);teaPw=pw;tData=r;m.textContent="";$("#inPw").value="";openTeacher()}
+  catch(err){m.textContent=typeof err==="string"?err:"서버에 연결하지 못했어요. config.js의 주소와 배포 설정을 확인하세요."}
+  finally{$("#teaGo").disabled=false}
+};
+function show(v){$("#viewEntry").hidden=v!=="entry";$("#viewStudent").hidden=v!=="student";$("#viewTeacher").hidden=v!=="teacher";$("#exitBtn").hidden=v==="entry";$("#whoBox").hidden=v==="entry";$("#navPills").hidden=v!=="entry";window.scrollTo(0,0)}
+function goHome(){rec=null;teaPw=null;stopRf();labStop();show("entry");heroSim.resize()}
+$("#exitBtn").onclick=goHome;$("#homeLink").onclick=e=>{e.preventDefault();if($("#viewEntry").hidden)goHome()};
+
+/* ================= 학생 화면 ================= */
+let viewStage=1;
+function openStudent(){show("student");$("#whoText").textContent=`1학년 ${rec.cls}반 ${rec.num}번 ${rec.name}`;viewStage=Math.min(rec.cur,4);renderTracker();renderStage()}
+function stagePct(i){const s=rec.st[i];if(s===2)return 100;if(s===0)return 0;
+  if(i===0)return Object.keys(rec.d.s1||{}).filter(k=>rec.d.s1[k].done).length/Q1.length*100;
+  if(i===2)return((rec.d.s3.sub||1)-1)/7*100;return 15}
+function renderTracker(){
+  $("#tracker").innerHTML=STAGES.map((s,i)=>{const st=rec.st[i];const state=st===2?"done":(i+1===viewStage?"cur":(st===0?"lock":"open"));
+    const lbl=st===2?"완료 ✓":st===1?"진행 중":"잠김";
+    return`<button class="tstep" style="--c:${s.c}" data-i="${i+1}" data-state="${state}" ${st===0?'aria-disabled="true"':""}><span class="k">STEP ${s.k}</span><span class="t">${s.t}</span><span class="s">${lbl}</span><span class="bar"><i style="width:${stagePct(i)}%"></i></span></button>`}).join("");
+  $$(".tstep",$("#tracker")).forEach(b=>b.onclick=()=>{const i=+b.dataset.i;if(rec.st[i-1]===0){toast("앞 단계를 마치면 열립니다.");return}viewStage=i;labStop();renderTracker();renderStage()});
+}
+function head(i,q,a){const s=STAGES[i-1];const desc=["전시 학습에서 배운 '산소의 이동'으로 산화·환원을 다시 확인해요.","질산 은 수용액을 안전하게 다루기 위한 준비를 점검해요.","구리줄과 질산 은 수용액을 직접 반응시키고 관찰해요.","관찰 결과를 바탕으로 결과보고서를 완성해 제출해요."][i-1];
+  return`<div class="stage-head"><div class="stage-title" style="--c:${s.c}"><span class="ring"></span><p class="k">STEP ${s.k}</p><h2>${s.t}</h2><p>${desc}</p></div>
+  <div class="shorts"><div class="avatar">한슬</div><div><p class="lbl">한슬쌤의 '숏'터뷰</p><p class="q">Q. ${q}</p><p class="a">${a}</p></div></div></div>`}
+function renderStage(){
+  const box=$("#stageBox");
+  if(rec.cur>4&&viewStage===5)viewStage=4;
+  const i=viewStage;
+  if(rec.st[i-1]===2&&!(i===4)){box.innerHTML=head(i,"이 단계는 이미 마쳤어요!","제출한 답은 수정할 수 없어요. 다음 단계로 이어가세요.")+`<div class="panel lockcard"><h3>✓ ${STAGES[i-1].t} 완료</h3><p class="lead">담당 선생님께 기록이 전송되었습니다.</p><div class="actions" style="justify-content:center"><button class="btn primary" id="toCur">진행 중인 단계로 →</button></div></div>`;$("#toCur").onclick=()=>{viewStage=Math.min(rec.cur,4);renderTracker();renderStage()};return}
+  if(i===1)renderS1(box);else if(i===2)renderS2(box);else if(i===3)renderS3(box);else renderS4(box);
+}
+function advance(i){rec.st[i-1]=2;if(i<4){rec.st[i]=Math.max(rec.st[i],1);rec.cur=i+1}else rec.cur=5;persist();viewStage=Math.min(rec.cur,4);renderTracker();renderStage();window.scrollTo({top:0,behavior:"smooth"})}
+
+/* ----- STAGE 1 ----- */
+function renderS1(box){
+  const d=rec.d.s1;
+  box.innerHTML=head(1,"숨 쉬기, 손난로, 철 제련. 공통으로 관여하는 원소는 무엇일까요?","초급 4 · 중급 3 · 고급 3문항. 문항마다 두 번까지 답할 수 있어요.")+
+  `<div class="panel"><h3>전시 학습 확인 <span class="sub">산소의 이동과 산화·환원</span></h3><div class="qlist" id="qlist"></div>
+   <div class="actions"><span class="note" id="s1left"></span><button class="btn go" id="s1done" disabled>1단계 마치고 실험 준비로 →</button></div></div>`;
+  const L=$("#qlist");
+  Q1.forEach((q,qi)=>{const a=d[qi]||{tries:0,picks:[],done:false,score:0};
+    const card=document.createElement("div");card.className="qcard";
+    card.innerHTML=`<div class="qtop"><span class="qno">Q${qi+1}</span><span class="chip lv${q.lv}">${LV[q.lv]}</span></div><p class="qtext">${esc(q.q)}${q.eq?`<span class="eq">${q.eq}</span>`:""}</p><div class="opts"></div><div class="fbw"></div>`;
+    const O=$(".opts",card);
+    q.o.forEach((t,oi)=>{const b=document.createElement("button");b.className="opt";b.innerHTML=`<span class="n">${"①②③④"[oi]}</span><span>${esc(t)}</span>`;b.onclick=()=>pick(qi,oi);O.appendChild(b)});
+    L.appendChild(card);paintQ(card,q,a);
+  });
+  function pick(qi,oi){const q=Q1[qi];const a=d[qi]||(d[qi]={tries:0,picks:[],done:false,score:0});if(a.done||a.picks.includes(oi))return;
+    a.tries++;a.picks.push(oi);
+    if(oi===q.a){a.done=true;a.score=a.tries===1?2:1}else if(a.tries>=2){a.done=true;a.score=0}
+    rec.sc[0]=Object.values(d).reduce((s,x)=>s+(x.score||0),0);
+    paintQ($$(".qcard",L)[qi],q,a);upd();renderTracker();if(a.done)persist();}
+  function paintQ(card,q,a){const bs=$$(".opt",card);
+    bs.forEach((b,oi)=>{b.classList.toggle("wrong",a.picks.includes(oi)&&oi!==q.a);b.classList.toggle("right",a.done&&oi===q.a);b.disabled=a.done||a.picks.includes(oi)});
+    card.dataset.res=a.done?(a.score>0?"ok":"no"):"";
+    const f=$(".fbw",card);
+    if(a.done)f.innerHTML=`<div class="fb ${a.score>0?"ok":"no"}"><b>${a.score>0?(a.tries===1?"정답!":"두 번째에 정답!"):"정답은 "+"①②③④"[q.a]}</b>${esc(q.ex)}</div>`;
+    else if(a.tries===1)f.innerHTML='<div class="fb try"><b>한 번 더!</b>산소를 얻는지, 잃는지 다시 따져 볼까요?</div>';else f.innerHTML="";}
+  function upd(){const n=Q1.filter((q,qi)=>d[qi]&&d[qi].done).length;$("#s1left").textContent=`${n} / ${Q1.length}문항 완료`;$("#s1done").disabled=n<Q1.length}
+  upd();$("#s1done").onclick=()=>advance(1);
+}
+
+/* ----- STAGE 2 ----- */
+function renderS2(box){
+  const st={tools:new Set(),ppe:new Set(),ox:{},order:ORDER0.slice()};
+  box.innerHTML=head(2,"질산 은 수용액이 손에 묻으면 어떻게 될까요?","피부에 갈색 반점이 생기고 몸에 해로워요. 준비물과 보호구, 안전 수칙부터 챙겨 봅시다.")+
+  `<div class="panel"><h3>A. 실험 도구 고르기 <span class="sub">탐구에 필요한 것만 모두 고르세요</span></h3><div class="tiles" id="tTools"></div></div>
+   <div class="panel"><h3>B. 보호구 착용하기 <span class="sub">실험실에 들어가기 전 착용할 것을 모두 고르세요</span></h3>
+     <div class="ppe"><svg class="body" id="ppeBody" viewBox="0 0 170 230"></svg><div class="tiles" id="tPpe" style="margin-top:0"></div></div></div>
+   <div class="panel"><h3>C. 안전 수칙 OX <span class="sub">7문항</span></h3><div class="ox" id="tOx"></div></div>
+   <div class="panel"><h3>D. 실험 과정 순서 정하기 <span class="sub">화살표로 순서를 바꾸세요</span></h3><div class="order" id="tOrd"></div>
+     <div class="actions"><span class="note" id="s2msg"></span><button class="btn primary" id="s2sub">실험 준비 점검 제출</button></div>
+     <div id="s2after"></div></div>`;
+  const mk=(list,set,host,cb)=>{host.innerHTML=list.map(x=>`<button class="tile" data-id="${x.id}" aria-pressed="false">${ICON[x.id]}<span>${x.n}</span></button>`).join("");
+    $$(".tile",host).forEach(b=>b.onclick=()=>{if(st.locked)return;const id=b.dataset.id;set.has(id)?set.delete(id):set.add(id);b.setAttribute("aria-pressed",set.has(id));cb&&cb()})};
+  mk(TOOLS,st.tools,$("#tTools"));mk(PPE,st.ppe,$("#tPpe"),drawBody);drawBody();
+  function drawBody(){const h=id=>st.ppe.has(id);
+    $("#ppeBody").innerHTML=`<circle cx="85" cy="40" r="24" fill="#F2D2B6"/><path d="M61 36a24 24 0 0 1 48 0c-6-9-40-9-48 0z" fill="#3A2A1C"/>
+    ${h("gog")?'<rect x="60" y="33" width="50" height="14" rx="6" fill="#7FD3E0" stroke="#2A6F7C" stroke-width="2"/>':'<circle cx="76" cy="40" r="2.5" fill="#3A2A1C"/><circle cx="94" cy="40" r="2.5" fill="#3A2A1C"/>'}
+    <path d="M50 76q35-14 70 0l8 70H42z" fill="${h("coat")?"#F7FAFC":"#6E8BD6"}" stroke="${h("coat")?"#8AA3B2":"#4D69B3"}" stroke-width="2"/>
+    ${h("coat")?'<path d="M85 70v76" stroke="#8AA3B2" stroke-width="1.5"/><circle cx="90" cy="95" r="2" fill="#8AA3B2"/><circle cx="90" cy="115" r="2" fill="#8AA3B2"/>':""}
+    <path d="M44 80l-14 58M126 80l14 58" stroke="${h("coat")?"#E7EEF2":"#6E8BD6"}" stroke-width="14" stroke-linecap="round"/>
+    <circle cx="29" cy="144" r="9" fill="${h("pglv")?"#F4C54B":h("glv")?"#9CC8F5":"#F2D2B6"}"/><circle cx="141" cy="144" r="9" fill="${h("pglv")?"#F4C54B":h("glv")?"#9CC8F5":"#F2D2B6"}"/>
+    <path d="M58 146h54l-4 ${h("short")?30:66}H62z" fill="#34465A"/>${h("short")?'<path d="M66 176l-2 34M104 176l2 34" stroke="#F2D2B6" stroke-width="12" stroke-linecap="round"/>':""}
+    <ellipse cx="68" cy="216" rx="14" ry="6" fill="${h("slip")?"#F29B9B":"#2A2F36"}"/><ellipse cx="102" cy="216" rx="14" ry="6" fill="${h("slip")?"#F29B9B":"#2A2F36"}"/>`}
+  $("#tOx").innerHTML=OX.map((x,i)=>`<div class="oxrow" data-i="${i}"><span class="txt"><b class="mono">${i+1}.</b> ${esc(x.t)}</span><span class="oxbtns"><button aria-pressed="false" data-v="O" aria-label="${i+1}번 O">O</button><button aria-pressed="false" data-v="X" aria-label="${i+1}번 X">X</button></span></div>`).join("");
+  $$(".oxrow").forEach(r=>$$("button",r).forEach(b=>b.onclick=()=>{if(st.locked)return;st.ox[r.dataset.i]=b.dataset.v;$$("button",r).forEach(x=>x.setAttribute("aria-pressed",x===b))}));
+  function drawOrd(){$("#tOrd").innerHTML=st.order.map((id,i)=>{const s=STEPS.find(x=>x.id===id);return`<div class="orow" data-id="${id}"><span>${esc(s.t)}</span><span class="mv"><button data-d="-1" aria-label="위로" ${i===0||st.locked?"disabled":""}>▲</button><button data-d="1" aria-label="아래로" ${i===st.order.length-1||st.locked?"disabled":""}>▼</button></span></div>`}).join("");
+    $$(".orow button").forEach(b=>b.onclick=()=>{const id=b.closest(".orow").dataset.id;const i=st.order.indexOf(id),j=i+ +b.dataset.d;[st.order[i],st.order[j]]=[st.order[j],st.order[i]];drawOrd()})}
+  drawOrd();
+  $("#s2sub").onclick=()=>{
+    if(!st.tools.size||!st.ppe.size){$("#s2msg").textContent="A, B에서 하나 이상 고르세요.";return}
+    if(Object.keys(st.ox).length<OX.length){$("#s2msg").textContent=`C의 OX를 모두 답하세요. (${Object.keys(st.ox).length}/${OX.length})`;return}
+    st.locked=true;
+    const tc=TOOLS.filter(t=>t.ok&&st.tools.has(t.id)).length,tw=TOOLS.filter(t=>!t.ok&&st.tools.has(t.id)).length;
+    const pc=PPE.filter(t=>t.ok&&st.ppe.has(t.id)).length,pw=PPE.filter(t=>!t.ok&&st.ppe.has(t.id)).length;
+    const sT=Math.max(0,tc-tw),sP=Math.max(0,pc-pw),sO=OX.filter((x,i)=>st.ox[i]===x.a).length,sR=st.order.filter((id,i)=>STEPS[i].id===id).length;
+    rec.sc[1]=sT+sP+sO+sR;
+    rec.d.s2={tools:[...st.tools],ppe:[...st.ppe],ox:st.ox,order:st.order,part:{tools:sT,ppe:sP,ox:sO,order:sR}};
+    rec.st[1]=1;persist();
+    // 채점 표시 (점수는 숨김)
+    const grade=(list,set,host)=>$$(".tile",host).forEach(b=>{const x=list.find(t=>t.id===b.dataset.id);const on=set.has(x.id);b.classList.add(on?(x.ok?"g-ok":"g-bad"):(x.ok?"g-miss":"_"))});
+    grade(TOOLS,st.tools,$("#tTools"));grade(PPE,st.ppe,$("#tPpe"));
+    $$(".oxrow").forEach(r=>{const x=OX[r.dataset.i];const ok=st.ox[r.dataset.i]===x.a;r.classList.add(ok?"g-ok":"g-bad");if(!ok)$(".txt",r).insertAdjacentHTML("beforeend",` <span class="chip bad">정답 ${x.a}${x.ex?" · "+esc(x.ex):""}</span>`)});
+    drawOrd();$$(".orow").forEach((r,i)=>r.classList.add(STEPS[i].id===r.dataset.id?"g-ok":"g-bad"));
+    $("#s2sub").hidden=true;$("#s2msg").textContent="";
+    $("#s2after").innerHTML=`<div class="fb ok" style="margin-top:14px"><b>점검 완료.</b>초록 테두리는 맞은 것, 빨간 테두리는 틀린 것, 점선은 빠뜨린 준비물입니다. 올바른 순서: 사포질 → 모양 만들어 넣기 → 질산 은 수용액 붓기 → 움직이지 않고 관찰.</div><div class="actions"><button class="btn go" id="s2next">가상 실험 시작 →</button></div>`;
+    $("#s2next").onclick=()=>advance(2);
+  };
+}
+
+/* ----- STAGE 3 ----- */
+let labSim=null,labRAF=0;
+function labStop(){cancelAnimationFrame(labRAF);labRAF=0}
+const SUBS=["안전 점검","사포질","구리줄 넣기","용액 붓기","관찰·기록","입자 모형","반응식"];
+function renderS3(box){
+  const d=rec.d.s3;if(!d.sub)d.sub=1;
+  const sub=d.sub;
+  const QS={1:["실험 시작 전, 마지막으로 무엇을 확인해야 할까요?","보호구와 폐수 통. 안전이 첫 번째 관찰입니다."],2:["구리줄을 왜 사포로 문지를까요?","표면의 산화 피막과 기름을 벗겨야 반응이 잘 일어나요."],3:["구리줄 모양은 자유! 어떤 모양으로 만들까요?","모양이 달라도 일어나는 반응은 같아요."],4:["질산 은 수용액은 얼마나 부어야 할까요?","구리줄이 완전히 잠길 만큼. 넘치면 위험해요."],5:["수용액의 색과 구리줄 표면은 어떻게 변할까요?","결과를 미리 판단하지 말고, 보이는 대로 기록해요."],6:["전자는 누구에게서 누구에게로 이동했을까요?","입자 모형에서 전자를 직접 옮겨 보세요."],7:["지금까지 본 것을 반응식으로 쓰면?","전자 잃으면 산화, 얻으면 환원!"]};
+  const q=QS[Math.min(sub,7)];
+  box.innerHTML=head(3,q[0],q[1])+`<div class="panel"><div class="substeps">${SUBS.map((s,i)=>`<span class="${i+1<sub?"done":i+1===sub?"cur":""}">${i+1}. ${s}</span>`).join("")}</div><div id="subBox"></div></div>`;
+  const B=$("#subBox");labStop();labSim=null;
+  const next=()=>{d.sub++;rec.sc[2]=s3score();persist();renderTracker();renderS3(box);box.scrollIntoView({behavior:"smooth",block:"start"})};
+  if(sub===1)sub1(B,d,next);else if(sub===2)sub2(B,d,next);else if(sub===3)sub3(B,d,next);else if(sub===4)sub4(B,d,next);else if(sub===5)sub5(B,d,next);else if(sub===6)sub6(B,d,next);else sub7(B,d,()=>{rec.sc[2]=s3score();advance(3)});
+}
+function s3score(){const d=rec.d.s3;return(d.safety||0)+(d.sand||0)+(d.place||0)+(d.pour||0)+(d.obsScore||0)+(d.partScore||0)+(d.eqScore||0)}
+function sub1(B,d,next){
+  const items=["보안경을 착용했다","실험용 장갑(보호 장갑)을 꼈다","실험복을 입었다","남은 용액을 버릴 폐수 통을 준비했다","질산 은 수용액을 햇빛이 들지 않는 곳(갈색 병)에서 가져왔다"];
+  B.innerHTML=`<h3>① 안전 점검</h3><p class="lead">실제로 확인한 항목에 모두 체크하세요.</p><div class="checks">${items.map((t,i)=>`<label class="check"><input type="checkbox" id="sf${i}"> ${t}</label>`).join("")}</div><div class="actions"><button class="btn primary" id="go" disabled>점검 완료, 실험 시작</button></div>`;
+  const cb=$$("input",B);cb.forEach(c=>c.onchange=()=>$("#go").disabled=!cb.every(x=>x.checked));
+  $("#go").onclick=()=>{d.safety=2;next()};
+}
+function sub2(B,d,next){
+  B.innerHTML=`<div class="lab"><div class="bench"><span class="cap">사포질 작업대</span><canvas id="sandCv" class="wide" aria-label="구리줄 사포질 영역"></canvas></div>
+   <div><h3>② 구리줄 표면 문지르기</h3><p class="lead">구리줄 위를 마우스(손가락)로 좌우로 문질러 광택이 날 때까지 사포질하세요. 문지르기 어려우면 버튼을 눌러도 됩니다.</p>
+   <div class="meter"><i id="sandM"></i></div><div class="readout"><span class="note">광택도</span><span class="mono" id="sandP">0%</span></div>
+   <div class="actions"><button class="btn line" id="sandBtn">사포로 한 번 문지르기</button><button class="btn primary" id="go" disabled>다음 →</button></div></div></div>`;
+  const cv=$("#sandCv");let p=0,down=false,lx=0;
+  const draw=()=>{const r=cv.getBoundingClientRect(),dp=Math.min(2,devicePixelRatio||1);cv.width=r.width*dp;cv.height=r.height*dp;const c=cv.getContext("2d");c.setTransform(dp,0,0,dp,0,0);const W=r.width,H=r.height;
+    c.fillStyle="#D9B77E";c.fillRect(0,0,W,H);const rr=rngOf(3);c.fillStyle="#B8955C";for(let i=0;i<500;i++)c.fillRect(rr()*W,rr()*H,1.5,1.5);
+    const y=H/2;const k=p/100;const col=[Math.round(120+(214-120)*k),Math.round(80+(128-80)*k),Math.round(55+(70-55)*k)];
+    c.lineCap="round";c.strokeStyle="#4A2E1C";c.lineWidth=18;c.beginPath();c.moveTo(24,y);c.lineTo(W-24,y);c.stroke();
+    c.strokeStyle=`rgb(${col})`;c.lineWidth=15;c.stroke();
+    const rr2=rngOf(9);c.fillStyle=`rgba(60,70,50,${.7*(1-k)})`;for(let i=0;i<40;i++){c.beginPath();c.arc(30+rr2()*(W-60),y+(rr2()-.5)*10,2+rr2()*3,0,7);c.fill()}
+    c.strokeStyle=`rgba(255,230,200,${k*.9})`;c.lineWidth=4;c.beginPath();c.moveTo(30,y-3);c.lineTo(W-30,y-3);c.stroke();
+    $("#sandM").style.width=p+"%";$("#sandP").textContent=Math.round(p)+"%";if(p>=100){$("#go").disabled=false;$("#sandBtn").disabled=true}};
+  const add=v=>{p=clamp(p+v,0,100);draw()};
+  cv.onpointerdown=e=>{down=true;lx=e.clientX;cv.setPointerCapture(e.pointerId)};cv.onpointerup=()=>down=false;cv.onpointercancel=()=>down=false;
+  cv.onpointermove=e=>{if(!down)return;const dx=Math.abs(e.clientX-lx);lx=e.clientX;add(dx/cv.getBoundingClientRect().width*18)};
+  $("#sandBtn").onclick=()=>add(12.5);draw();
+  $("#go").onclick=()=>{d.sand=2;next()};
+}
+function shapeIcon(s){const P=shapePath(s);return`<svg viewBox="-1 -1 2 2"><circle r=".92" fill="#F3F7F9" stroke="#B9C7D0" stroke-width=".04"/><polyline points="${P.map(p=>p.map(v=>v.toFixed(3)).join(",")).join(" ")}" fill="none" stroke="#C9773F" stroke-width=".08" stroke-linecap="round" stroke-linejoin="round"/></svg>`}
+function sub3(B,d,next){
+  let shape=d.shape||null,tool=null,handTried=false;
+  B.innerHTML=`<div class="lab"><div class="bench"><span class="cap">페트리 접시 (위에서 본 모습)</span><canvas id="labCv"></canvas></div>
+  <div><h3>③ 모양 만들어 페트리 접시에 넣기</h3><p class="lead">사포질한 구리줄로 원하는 모양을 고르세요.</p>
+   <div class="shapes">${[["spiral","나선"],["heart","하트"],["zigzag","지그재그"]].map(([k,n])=>`<button class="shape" data-s="${k}" aria-pressed="${shape===k}">${shapeIcon(k)}${n}</button>`).join("")}</div>
+   <p class="lead" style="margin-top:16px">어떻게 옮길까요?</p>
+   <div class="actions" style="justify-content:flex-start"><button class="btn line" id="useT">핀셋으로 옮기기</button><button class="btn line" id="useH">손으로 옮기기</button></div>
+   <div id="fb3"></div><div class="actions"><button class="btn primary" id="go" disabled>다음 →</button></div></div></div>`;
+  labSim=new Sim($("#labCv"),{shape:shape||"spiral",solution:false,seed:21});labSim.draw(0);if(!shape)labSim.ctx&&drawEmpty();
+  function drawEmpty(){const s=labSim;s.P=[];s.segs=[];s.draw(0)}
+  $$(".shape",B).forEach(b=>b.onclick=()=>{shape=b.dataset.s;$$(".shape",B).forEach(x=>x.setAttribute("aria-pressed",x===b));if(tool==="t"){labSim.set({shape})}});
+  $("#useH").onclick=()=>{handTried=true;$("#fb3").innerHTML='<div class="fb no"><b>잠깐!</b>손의 땀과 기름이 사포질한 표면에 묻으면 반응이 잘 일어나지 않아요. 핀셋을 사용하세요.</div>'};
+  $("#useT").onclick=()=>{if(!shape){$("#fb3").innerHTML='<div class="fb try"><b>먼저</b>구리줄 모양을 고르세요.</div>';return}tool="t";labSim.set({shape});$("#fb3").innerHTML='<div class="fb ok"><b>좋아요.</b>핀셋으로 구리줄을 페트리 접시 가운데에 놓았습니다.</div>';$("#go").disabled=false};
+  $("#go").onclick=()=>{d.shape=shape;d.place=handTried?1:2;next()};
+}
+function sub4(B,d,next){
+  d.pourTries=d.pourTries||0;let v=0;
+  B.innerHTML=`<div class="lab"><div class="bench pour"><span class="cap">옆에서 본 모습</span><svg id="pourSv" viewBox="0 0 400 220" role="img" aria-label="페트리 접시 단면"></svg></div>
+  <div><h3>④ 질산 은 수용액 붓기</h3><p class="lead">슬라이더로 부을 양을 정한 뒤 붓기를 누르세요. 구리줄이 완전히 잠겨야 하고, 접시 높이를 넘으면 안 됩니다.</p>
+   <input type="range" class="slider" id="vol" min="0" max="40" step="1" value="0" aria-label="질산 은 수용액 부피(mL)">
+   <div class="readout"><span class="note">부을 양</span><span class="mono"><span id="volV">0</span> mL</span></div>
+   <div id="fb4"></div><div class="actions"><button class="btn primary" id="pourBtn">붓기</button><button class="btn go" id="go" hidden>관찰 시작 →</button></div></div></div>`;
+  const draw=()=>{const lvl=v/40*120;const y=180-lvl;
+    $("#pourSv").innerHTML=`<rect x="0" y="0" width="400" height="220" fill="#FBFBF8"/><rect x="40" y="188" width="320" height="10" rx="2" fill="#E3E3DA"/>
+    <path d="M60 80v100q0 8 8 8h264q8 0 8-8V80" fill="rgba(230,240,245,.6)" stroke="#9FB3BF" stroke-width="3"/>
+    <rect x="63" y="${Math.max(y,82)}" width="274" height="${Math.min(lvl,98)}" fill="rgba(210,228,240,.75)"/>
+    ${v>30?`<path d="M337 82q18 20 22 100" stroke="rgba(160,200,230,.9)" stroke-width="6" fill="none"/><text x="345" y="70" font-size="13" fill="#D2334A" font-weight="700">넘침!</text>`:""}
+    ${[90,130,170,210,250,290].map((x,i)=>`<circle cx="${x+(i%2)*6}" cy="${172-(i%3)*4}" r="7" fill="#C9773F" stroke="#8E4F27" stroke-width="2"/>`).join("")}
+    <line x1="52" y1="${180-15/40*120}" x2="348" y2="${180-15/40*120}" stroke="#2F6FE8" stroke-dasharray="4 4"/><text x="352" y="${184-15/40*120}" font-size="11" fill="#2F6FE8">잠김선</text>
+    <line x1="52" y1="${180-30/40*120}" x2="348" y2="${180-30/40*120}" stroke="#D2334A" stroke-dasharray="4 4"/><text x="352" y="${184-30/40*120}" font-size="11" fill="#D2334A">접시 높이</text>`;
+    $("#volV").textContent=v};
+  $("#vol").oninput=e=>{v=+e.target.value;draw()};draw();
+  $("#pourBtn").onclick=()=>{d.pourTries++;
+    if(v<15){$("#fb4").innerHTML=`<div class="fb no"><b>부족해요.</b>구리줄 일부가 공기 중에 드러나 있어요. 잠김선 위까지 부어야 해요.</div>`}
+    else if(v>28){$("#fb4").innerHTML=`<div class="fb no"><b>너무 많아요.</b>접시를 옮기거나 관찰할 때 넘칠 수 있어요. 질산 은 수용액은 피부에 닿으면 안 됩니다.</div>`}
+    else{d.pour=Math.max(1,5-d.pourTries);d.vol=v;$("#fb4").innerHTML=`<div class="fb ok"><b>적당해요.</b>${v} mL로 구리줄이 완전히 잠겼습니다. 이제 접시를 움직이지 말고 관찰해요.</div>`;$("#pourBtn").hidden=true;$("#vol").disabled=true;$("#go").hidden=false}};
+  $("#go").onclick=next;
+}
+function sub5(B,d,next){
+  d.obs=d.obs||{};d.maxT=d.maxT||0;let t=0,play=false,last=0,rev=false;
+  B.innerHTML=`<div class="lab"><div class="bench"><span class="cap" id="cap5">구리줄 + 질산 은 수용액</span><canvas id="labCv"></canvas></div>
+  <div><h3>⑤ 관찰하고 기록하기</h3><p class="lead">재생하면 1초에 약 1분씩 지나갑니다. 각 시간에 도달하면 기록 칸이 열려요. 흰 종이 위에 두었으니 색 변화를 잘 보세요.</p>
+   <div style="display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap"><button class="btn dark" id="playB">▶ 재생</button><span class="clockbig" id="clk">0분 00초</span></div>
+   <input type="range" class="slider" id="tS" min="0" max="30" step=".1" value="0" style="margin-top:10px" aria-label="경과 시간">
+   <div class="timebar" id="tBar">${TPTS.map(p=>`<button data-t="${p}">${p}분</button>`).join("")}</div>
+   <div class="fb" style="margin-top:14px"><b>추가 실험</b>반대로 질산 구리(Ⅱ) 수용액에 은줄을 넣으면? <button class="btn line" id="revB" style="padding:6px 12px;font-size:13px;margin-top:6px">은줄 + 질산 구리(Ⅱ) 수용액 보기</button></div>
+  </div></div>
+  <h3 style="margin-top:22px">관찰 기록표</h3><div class="legend">${COLORS.map(c=>`<span><i style="background:${c.hex}"></i>${c.n}</span>`).join("")}</div>
+  <div class="obs-table-wrap"><table class="obs"><thead><tr><th>시간</th><th>수용액의 색</th><th>구리줄 표면의 변화</th></tr></thead><tbody id="obsT"></tbody></table></div>
+  <div class="actions"><span class="note" id="obsMsg"></span><button class="btn primary" id="go">관찰 기록 제출</button></div>`;
+  labSim=new Sim($("#labCv"),{shape:d.shape||"spiral",seed:21});
+  const rowsHTML=()=>TPTS.map(p=>{const o=d.obs[p]||{};const lock=d.maxT+1e-6<p;
+    return`<tr data-t="${p}" class="${lock?"locked":""}"><td class="t">${p}분</td><td><div class="sw">${COLORS.map(c=>`<button style="background:${c.hex}" data-c="${c.id}" aria-label="${c.n}" title="${c.n}" aria-pressed="${o.c===c.id}" ${lock?"disabled":""}></button>`).join("")}</div></td>
+    <td><select class="inp" ${lock?"disabled":""} aria-label="${p}분 구리줄 표면"><option value="">선택</option>${SURF.map(s=>`<option value="${s.id}" ${o.s===s.id?"selected":""}>${s.n}</option>`).join("")}</select></td></tr>`}).join("");
+  const bindRows=()=>{$("#obsT").innerHTML=rowsHTML();$$("#obsT tr").forEach(tr=>{const p=+tr.dataset.t;
+    $$(".sw button",tr).forEach(b=>b.onclick=()=>{(d.obs[p]=d.obs[p]||{}).c=b.dataset.c;$$(".sw button",tr).forEach(x=>x.setAttribute("aria-pressed",x===b))});
+    $("select",tr).onchange=e=>{(d.obs[p]=d.obs[p]||{}).s=e.target.value}})};
+  bindRows();
+  const setT=v=>{t=clamp(v,0,30);if(!rev&&t>d.maxT){const before=d.maxT;d.maxT=t;if(TPTS.some(p=>p>before&&p<=t))bindRows()}
+    labSim.draw(rev?t:t);$("#tS").value=t;const m=Math.floor(t),s=Math.floor((t-m)*60);$("#clk").textContent=`${m}분 ${String(s).padStart(2,"0")}초`;
+    $$("#tBar button").forEach(b=>{const p=+b.dataset.t;b.classList.toggle("seen",d.maxT>=p);b.classList.toggle("now",Math.abs(t-p)<.05)})};
+  const loop=ts=>{if(play){const dt=last?Math.min(.1,(ts-last)/1000):0;setT(t+dt);if(t>=30){play=false;$("#playB").textContent="▶ 재생"}}last=ts;labRAF=requestAnimationFrame(loop)};
+  labRAF=requestAnimationFrame(loop);
+  $("#playB").onclick=()=>{if(t>=30)setT(0);play=!play;$("#playB").textContent=play?"❚❚ 일시정지":"▶ 재생"};
+  $("#tS").oninput=e=>{play=false;$("#playB").textContent="▶ 재생";setT(+e.target.value)};
+  $$("#tBar button").forEach(b=>b.onclick=()=>{play=false;$("#playB").textContent="▶ 재생";setT(+b.dataset.t)});
+  $("#revB").onclick=()=>{rev=!rev;d.sawRev=true;labSim.set({reverse:rev});$("#cap5").textContent=rev?"은줄 + 질산 구리(Ⅱ) 수용액":"구리줄 + 질산 은 수용액";$("#revB").textContent=rev?"원래 실험으로 돌아가기":"은줄 + 질산 구리(Ⅱ) 수용액 보기";setT(t)};
+  setT(0);
+  $("#go").onclick=()=>{
+    const miss=TPTS.filter(p=>!d.obs[p]||!d.obs[p].c||!d.obs[p].s);
+    if(miss.length){$("#obsMsg").textContent=`${miss.map(p=>p+"분").join(", ")} 기록을 채우세요.`+(d.maxT<30?" (30분까지 관찰해야 모든 칸이 열려요)":"");return}
+    let sc=0;TPTS.forEach(p=>{if(d.obs[p].c===colorLevel(p))sc++;if(d.obs[p].s===surfLevel(p))sc++});d.obsScore=sc;
+    $$("#obsT tr").forEach(tr=>{const p=+tr.dataset.t;$$(".sw button",tr).forEach(b=>{b.disabled=true;if(b.dataset.c===d.obs[p].c)b.classList.add(b.dataset.c===colorLevel(p)?"g-ok":"g-bad")});const s=$("select",tr);s.disabled=true;s.classList.add(d.obs[p].s===surfLevel(p)?"g-ok":"g-bad")});
+    $("#obsMsg").textContent="기록이 제출되었습니다. 초록은 관찰과 일치, 빨강은 다시 보세요.";
+    const g=$("#go");g.textContent="입자 모형으로 →";g.onclick=next;play=false;
+  };
+}
+function sub6(B,d,next){
+  d.part=d.part||{};let sel=null,moved=0,mist=0;const filled=[false,false];
+  const PQ=[
+    {k:"b",q:"구리(Cu)에 일어난 변화는?",o:["전자를 잃고 산화되었다","전자를 얻고 환원되었다","전자를 잃고 환원되었다","변화가 없다"],a:0},
+    {k:"c",q:"은 이온(Ag⁺)에 일어난 변화는?",o:["전자를 얻고 환원되었다","전자를 잃고 산화되었다","전자를 얻고 산화되었다","변화가 없다"],a:0},
+    {k:"d",q:"질산 이온(NO₃⁻)은 어떻게 되었나요?",o:["반응 전후 그대로 수용액에 존재한다","전자를 얻어 환원되었다","구리줄 표면에 석출되었다","기체가 되어 날아갔다"],a:0},
+    {k:"e",q:"구리 원자 1개가 반응할 때 석출되는 은 원자는 몇 개인가요?",o:["2개","1개","3개","4개"],a:0},
+    {k:"f",q:"수용액이 푸른색으로 변한 까닭은?",o:["구리 이온(Cu²⁺)이 생겨 수용액으로 들어갔기 때문","은(Ag)이 석출되었기 때문","질산 이온이 늘어났기 때문","구리줄이 녹슬었기 때문"],a:0}
+  ];
+  shuffleOpts(PQ,1021);
+  B.innerHTML=`<h3>⑥ 입자 모형으로 전자 옮기기</h3><p class="lead">노란 전자(e⁻)를 눌러 고른 뒤, 전자를 받을 입자를 누르세요. 전자 2개를 모두 옮기면 변화가 나타납니다.</p>
+  <div style="overflow-x:auto;margin-top:12px"><svg class="pm" id="pm" viewBox="0 0 640 300" style="min-width:520px">
+   <text x="18" y="26" font-size="13" font-weight="700" fill="#8E4F27">구리줄 표면</text><text x="236" y="26" font-size="13" font-weight="700" fill="#2458C6">질산 은 수용액</text>
+   <g id="pCu"><circle cx="130" cy="150" r="48" fill="#C9773F" stroke="#8E4F27" stroke-width="3"/><text id="pCuT" x="130" y="158" font-size="24" font-weight="700" text-anchor="middle" fill="#fff" font-family="IBM Plex Mono,monospace">Cu</text></g>
+   <g id="pAg0" class="el"><circle cx="420" cy="95" r="40" fill="#C9D3DA" stroke="#8193A0" stroke-width="3"/><text x="420" y="103" font-size="20" font-weight="700" text-anchor="middle" fill="#34465A" font-family="IBM Plex Mono,monospace">Ag⁺</text></g>
+   <g id="pAg1" class="el"><circle cx="420" cy="210" r="40" fill="#C9D3DA" stroke="#8193A0" stroke-width="3"/><text x="420" y="218" font-size="20" font-weight="700" text-anchor="middle" fill="#34465A" font-family="IBM Plex Mono,monospace">Ag⁺</text></g>
+   <g id="pN0" class="el"><circle cx="560" cy="150" r="30" fill="#EDE6F7" stroke="#9A86BF" stroke-width="2"/><text x="560" y="156" font-size="15" font-weight="700" text-anchor="middle" fill="#5C4A85" font-family="IBM Plex Mono,monospace">NO₃⁻</text></g>
+   <g id="pN1" class="el"><circle cx="300" cy="258" r="26" fill="#EDE6F7" stroke="#9A86BF" stroke-width="2"/><text x="300" y="263" font-size="13" font-weight="700" text-anchor="middle" fill="#5C4A85" font-family="IBM Plex Mono,monospace">NO₃⁻</text></g>
+   <g id="pE0" class="el"><circle cx="196" cy="118" r="14" fill="#FFD34D" stroke="#B88A00" stroke-width="2"/><text x="196" y="123" font-size="12" font-weight="700" text-anchor="middle" fill="#6B4E00">e⁻</text></g>
+   <g id="pE1" class="el"><circle cx="196" cy="182" r="14" fill="#FFD34D" stroke="#B88A00" stroke-width="2"/><text x="196" y="187" font-size="12" font-weight="700" text-anchor="middle" fill="#6B4E00">e⁻</text></g>
+  </svg></div><div id="pmFb" style="margin-top:8px"></div><div id="pmQ" hidden></div>`;
+  const E=[$("#pE0"),$("#pE1")],A=[$("#pAg0"),$("#pAg1")];
+  const fb=h=>$("#pmFb").innerHTML=h;
+  E.forEach((e,i)=>e.onclick=()=>{if(e.dataset.gone)return;sel=i;E.forEach((x,j)=>x.classList.toggle("sel",j===i));fb('<div class="fb try"><b>전자 선택!</b>이 전자를 받을 입자를 누르세요.</div>')});
+  const wrong=(g,msg)=>{if(sel==null){fb('<div class="fb try"><b>먼저</b>노란 전자를 고르세요.</div>');return}mist++;g.classList.remove("shake");void g.getBBox();g.classList.add("shake");fb(`<div class="fb no"><b>다시!</b>${msg}</div>`)};
+  $("#pN0").onclick=()=>wrong($("#pN0"),"질산 이온은 반응에 참여하지 않아요.");$("#pN1").onclick=()=>wrong($("#pN1"),"질산 이온은 반응에 참여하지 않아요.");
+  $("#pCu").onclick=()=>{if(sel!=null)wrong($("#pCu"),"전자는 구리에서 떠나야 해요.")};
+  A.forEach((a,i)=>a.onclick=()=>{if(sel==null){fb('<div class="fb try"><b>먼저</b>노란 전자를 고르세요.</div>');return}if(filled[i]){fb('<div class="fb try"><b>이미</b>이 은 이온은 전자를 받았어요.</div>');return}
+    const e=E[sel];const ex=i===0?[420,95]:[420,210];const ox=sel===0?[196,118]:[196,182];e.style.transform=`translate(${ex[0]-ox[0]+30}px,${ex[1]-ox[1]-28}px)`;e.dataset.gone=1;e.classList.remove("sel");filled[i]=true;sel=null;moved++;
+    if(moved===2)setTimeout(finish,700);else fb('<div class="fb ok"><b>좋아요.</b>남은 전자 하나도 옮기세요.</div>')});
+  function finish(){
+    const cu=$("#pCu");$("circle",cu).setAttribute("fill","#2B7FD8");$("circle",cu).setAttribute("stroke","#1B5AA0");$("#pCuT").textContent="Cu²⁺";cu.style.transform="translate(190px,-10px)";
+    A.forEach((a,i)=>{$("circle",a).setAttribute("fill","#EEF2F5");$("circle",a).setAttribute("stroke","#5E6E7A");$("text",a).textContent="Ag";a.style.transform=`translate(${-230}px,${i===0?-10:-40}px)`});
+    E.forEach(e=>e.style.opacity=0);
+    d.part.a=mist===0?2:mist===1?1:0;
+    fb('<div class="fb ok"><b>관찰해 보세요.</b>구리 원자는 전자 2개를 잃고 Cu²⁺가 되어 수용액으로 들어가고, 은 이온 2개는 전자를 1개씩 얻어 은(Ag)이 되어 구리줄 표면에 석출됩니다.</div>');
+    showQ();
+  }
+  function showQ(){const W=$("#pmQ");W.hidden=false;
+    W.innerHTML=`<div class="qlist">${PQ.map((q,qi)=>`<div class="qcard" data-k="${q.k}"><div class="qtop"><span class="qno">${qi+1}</span></div><p class="qtext">${esc(q.q)}</p><div class="opts">${q.o.map((t,oi)=>`<button class="opt" data-o="${oi}"><span class="n">${"①②③④"[oi]}</span><span>${esc(t)}</span></button>`).join("")}</div><div class="fbw"></div></div>`).join("")}</div>
+    <div class="actions"><span class="note" id="pmLeft"></span><button class="btn go" id="go" disabled>반응식 완성하기 →</button></div>`;
+    const tries={};
+    $$(".qcard",W).forEach(card=>{const k=card.dataset.k,q=PQ.find(x=>x.k===k);tries[k]=[];
+      $$(".opt",card).forEach(b=>b.onclick=()=>{if(d.part[k]!=null)return;const oi=+b.dataset.o;if(tries[k].includes(oi))return;tries[k].push(oi);
+        if(oi===q.a){d.part[k]=tries[k].length===1?2:1;b.classList.add("right");$(".fbw",card).innerHTML='<div class="fb ok"><b>맞아요.</b></div>'}
+        else if(tries[k].length>=2){d.part[k]=0;b.classList.add("wrong");$$(".opt",card)[q.a].classList.add("right");$(".fbw",card).innerHTML=`<div class="fb no"><b>정답은 ${"①②③④"[q.a]}</b>${esc(q.o[q.a])}</div>`}
+        else{b.classList.add("wrong");b.disabled=true;$(".fbw",card).innerHTML='<div class="fb try"><b>한 번 더!</b>입자 모형 그림을 다시 보세요.</div>'}
+        if(d.part[k]!=null){$$(".opt",card).forEach(x=>x.disabled=true);card.dataset.res=d.part[k]>0?"ok":"no"}
+        const n=PQ.filter(x=>d.part[x.k]!=null).length;$("#pmLeft").textContent=`${n} / ${PQ.length}문항`;$("#go").disabled=n<PQ.length})});
+    $("#pmLeft").textContent=`0 / ${PQ.length}문항`;
+    $("#go").onclick=()=>{d.partScore=["a","b","c","d","e","f"].reduce((s,k)=>s+(d.part[k]||0),0);next()};
+  }
+}
+const EQ=[
+ {id:"a",o:["+","2+","3+"],ans:"2+"},{id:"b",o:["1","2","3"],ans:"2"},
+ {id:"c",o:["1","2","3"],ans:"2"},{id:"d",o:["1","2","3"],ans:"2"},{id:"e",o:["1","2","3"],ans:"2"},
+ {id:"f",o:["1","2","3"],ans:"2"},{id:"g",o:["1","2","3"],ans:"2"},
+ {id:"h",o:["Cu → Ag⁺","Ag⁺ → Cu","NO₃⁻ → Cu"],ans:"Cu → Ag⁺"}
+];
+function sub7(B,d,done){
+  d.eq=d.eq||{};
+  const S=id=>{const e=EQ.find(x=>x.id===id);return`<select data-id="${id}" aria-label="빈칸 ${id}"><option value="">?</option>${e.o.map(o=>`<option ${d.eq[id]===o?"selected":""}>${o}</option>`).join("")}</select>`};
+  B.innerHTML=`<h3>⑦ 반응식 완성하기</h3><p class="lead">빈칸을 골라 산화·환원 반응식을 완성하세요. 한 번에 제출합니다.</p>
+  <div class="eqline"><span class="lb">산화 (전자를 잃음)</span>Cu → Cu<sup>${S("a")}</sup> + ${S("b")} e⁻</div>
+  <div class="eqline"><span class="lb">환원 (전자를 얻음)</span>${S("c")} Ag⁺ + ${S("d")} e⁻ → ${S("e")} Ag</div>
+  <div class="eqline"><span class="lb">전체 반응 (NO₃⁻는 반응 전후 그대로)</span>Cu + ${S("f")} Ag⁺ → Cu²⁺ + ${S("g")} Ag</div>
+  <div class="eqline"><span class="lb">전자의 이동 방향</span>전자는 ${S("h")} 방향으로 이동한다.</div>
+  <div id="fb7"></div><div class="actions"><span class="note" id="eqMsg"></span><button class="btn primary" id="go">반응식 제출</button></div>`;
+  $$("select",B).forEach(s=>s.onchange=()=>d.eq[s.dataset.id]=s.value);
+  $("#go").onclick=()=>{
+    if(EQ.some(e=>!d.eq[e.id])){$("#eqMsg").textContent="빈칸을 모두 채우세요.";return}
+    d.eqScore=EQ.filter(e=>d.eq[e.id]===e.ans).length;
+    $$("select",B).forEach(s=>{const e=EQ.find(x=>x.id===s.dataset.id);s.disabled=true;s.classList.add(s.value===e.ans?"g-ok":"g-bad")});
+    $("#eqMsg").textContent="";
+    $("#fb7").innerHTML='<div class="fb ok" style="margin-top:12px"><b>정리</b>Cu → Cu²⁺ + 2e⁻ / 2Ag⁺ + 2e⁻ → 2Ag / Cu + 2Ag⁺ → Cu²⁺ + 2Ag. 전자를 잃으면 산화, 얻으면 환원이며 산화와 환원은 항상 동시에 일어납니다.</div>';
+    const g=$("#go");g.textContent="가상 실험 완료, 보고서 쓰기 →";g.className="btn go";g.onclick=()=>{d.sub=8;done()};
+  };
+}
+
+/* ----- STAGE 4 ----- */
+const RQ=[
+ {k:"q1",q:"1. 수용액의 색이 푸른색으로 변한 까닭을 전자의 이동으로 설명하시오.",h:"누가 전자를 잃었고, 무엇이 되었나요?"},
+ {k:"q2",q:"2. 구리줄 표면에 석출된 물질은 무엇이며, 어떻게 생겼는지 전자의 이동으로 설명하시오.",h:"은 이온에 무슨 일이 일어났나요?"},
+ {k:"q3",q:"3. 이 실험에서 산화와 환원이 동시에 일어난다고 할 수 있는 까닭을 쓰시오.",h:"전자를 주고받는다는 점을 생각해 보세요."},
+ {k:"q4",q:"4. 질산 구리(Ⅱ) 수용액에 은줄을 넣으면 구리가 석출될까요? 고르고 까닭을 쓰시오.",h:"가상 실험의 추가 실험 결과를 떠올려 보세요.",choice:["구리가 석출된다","반응이 일어나지 않는다"]},
+ {k:"q5",q:"5. 생활 속에서 볼 수 있는 산화·환원 반응의 예를 하나 들고, 무엇이 산화되는지 쓰시오.",h:"예: 철의 부식, 손난로, 연소 등"}
+];
+function scoreReport(a){
+  const s={};
+  s.q1=(hasAny(a.q1,["구리이온","구리(ii)이온","cu2+","구리 2가"])?2:0)+(hasAny(a.q1,["전자를잃","전자를내놓","전자를내어","전자를주","산화"])?2:0);
+  s.q2=(hasAny(a.q2,["ag","은원자","은이석출","은이생","은석출","금속은","은백색","은이되","은으로","은(ag)","은이온이"])?2:0)+(hasAny(a.q2,["전자를얻","전자를받","환원"])?2:0);
+  s.q3=(hasAny(a.q3,["전자를주고받","전자가이동","전자의이동","전자이동","전자를잃","전자를얻","전자를받","전자를주"])?2:0)+(hasAny(a.q3,["동시"])?2:0);
+  s.q4=(a.q4c===1?2:0)+(hasAny(a.q4,["반응성","이온화경향","전자를잃기어","전자를잃지","전자를내놓지","구리가은보다","은이구리보다","은은전자"])?2:0);
+  s.q5=((a.q5||"").replace(/\s/g,"").length>=15?2:0)+(hasAny(a.q5,["녹","부식","연소","손난로","배터리","전지","광합성","호흡","철","갈변","표백","제련","불","사과"])?2:0);
+  return s;
+}
+function renderS4(box){
+  const d3=rec.d.s3||{};
+  if(rec.st[3]===2){box.innerHTML=`<div class="done-hero"><h2>보고서 제출 완료!</h2><p>${esc(rec.name)} 학생의 결과보고서가 담당 선생님께 전송되었습니다.<br>제출 시각 ${fmtTime(rec.submittedAt)}</p></div>`;return}
+  const a=(rec.d.s4&&rec.d.s4.ans)||{};
+  const obsRows=TPTS.map(p=>{const o=(d3.obs||{})[p]||{};const c=COLORS.find(x=>x.id===o.c),s=SURF.find(x=>x.id===o.s);return`<tr><td class="t">${p}분</td><td>${c?`<i style="display:inline-block;width:14px;height:14px;border-radius:4px;background:${c.hex};border:1px solid var(--line);vertical-align:-2px;margin-right:6px"></i>${c.n}`:"-"}</td><td>${s?s.n:"-"}</td></tr>`}).join("");
+  const shapeN={spiral:"나선",heart:"하트",zigzag:"지그재그"}[d3.shape]||"-";
+  box.innerHTML=head(4,"오늘 실험, 한 문장으로 말하면?","'전자를 잃으면 산화, 얻으면 환원, 그리고 둘은 동시에!' 관찰 결과를 근거로 고찰을 써 보세요.")+
+  `<div class="panel"><div class="report">
+   <div class="rsec"><h4>실험 제목</h4><p><b>구리와 질산 은 수용액의 산화·환원 반응 관찰하기</b></p><p class="note" style="margin-top:4px">1학년 ${rec.cls}반 ${rec.num}번 ${esc(rec.name)} · 통합과학2 Ⅰ-2-01</p></div>
+   <div class="rsec"><h4>실험 목표</h4><p>질산 은(AgNO₃) 수용액과 구리(Cu)의 산화·환원 반응을 관찰하고, 전자의 이동으로 설명할 수 있다.</p></div>
+   <div class="rsec"><h4>준비물 · 안전</h4><p>질산 은 수용액, 구리줄, 페트리 접시, 사포, 핀셋 / 보안경, 실험용 장갑, 보호 장갑, 실험복</p><p class="note" style="margin-top:4px">질산 은 수용액이 피부나 옷에 닿으면 즉시 흐르는 물에 씻고, 남은 용액은 폐수 통에 버린다.</p></div>
+   <div class="rsec"><h4>실험 과정</h4><ol><li>구리줄 표면을 사포로 문지른다.</li><li>구리줄로 <b>${shapeN}</b> 모양을 만들어 핀셋으로 페트리 접시에 넣는다.</li><li>구리줄이 잠기도록 질산 은 수용액을 ${d3.vol?`<b>${d3.vol} mL</b> `:""}넣는다.</li><li>움직이지 않고 30분 동안 수용액의 색과 구리줄 표면의 변화를 관찰한다.</li></ol></div>
+   <div class="rsec"><h4>실험 결과 (내 관찰 기록)</h4><div class="obs-table-wrap" style="margin-top:0"><table class="obs"><thead><tr><th>시간</th><th>수용액의 색</th><th>구리줄 표면</th></tr></thead><tbody>${obsRows}</tbody></table></div></div>
+   <div class="rsec"><h4>반응식</h4><p class="mono" style="font-size:15px;line-height:1.9">산화: Cu → Cu²⁺ + 2e⁻<br>환원: 2Ag⁺ + 2e⁻ → 2Ag<br>전체: Cu + 2Ag⁺ → Cu²⁺ + 2Ag</p></div>
+   <div class="rsec"><h4>결론 및 고찰</h4><div style="display:grid;gap:18px">
+    ${RQ.map(q=>`<div><p class="rq">${q.q}</p><p class="rhint">${q.h}</p>${q.choice?`<div class="radios">${q.choice.map((c,i)=>`<label><input type="radio" name="q4c" value="${i}" ${a.q4c===i?"checked":""}> ${c}</label>`).join("")}</div>`:""}<textarea id="r_${q.k}" data-k="${q.k}" maxlength="600" placeholder="${q.choice?"까닭을 쓰세요.":"여기에 쓰세요."}">${esc(a[q.k]||"")}</textarea><p class="cnt"><span>${(a[q.k]||"").length}</span>/600</p></div>`).join("")}
+   </div></div>
+  </div>
+  <div class="actions"><span class="note" id="r4msg">작성 중인 내용은 자동으로 임시 저장됩니다.</span><button class="btn red" id="r4sub">결과보고서 제출</button></div><div id="r4conf"></div></div>`;
+  const collect=()=>{const o={};RQ.forEach(q=>o[q.k]=$("#r_"+q.k).value.trim());const c=$('input[name="q4c"]:checked');o.q4c=c?+c.value:null;return o};
+  let tmr;$$("textarea",box).forEach(t=>t.oninput=()=>{t.nextElementSibling.firstElementChild.textContent=t.value.length;clearTimeout(tmr);tmr=setTimeout(()=>{if(!rec||rec.st[3]===2)return;rec.d.s4={ans:collect()};persist()},1500)});
+  $$('input[name="q4c"]').forEach(r=>r.onchange=()=>{if(!rec||rec.st[3]===2)return;rec.d.s4={ans:collect()};persist()});
+  $("#r4sub").onclick=()=>{const o=collect();const empty=RQ.filter(q=>o[q.k].length<5);
+    if(empty.length||o.q4c==null){$("#r4msg").textContent=`${empty.map(q=>q.k.slice(1)+"번").join(", ")}${o.q4c==null?" 4번 선택지":""} 답을 5자 이상 채우세요.`.replace(/^, /,"");$("#r4msg").style.color="var(--bad)";return}
+    $("#r4conf").innerHTML='<div class="confirm"><p>제출하면 수정할 수 없어요. 제출할까요?</p><button class="btn line" id="cNo">다시 보기</button><button class="btn red" id="cYes">제출합니다</button></div>';
+    $("#cNo").onclick=()=>$("#r4conf").innerHTML="";
+    $("#cYes").onclick=async()=>{clearTimeout(tmr);const s=scoreReport(o);const tot=Object.values(s).reduce((x,y)=>x+y,0);rec.d.s4={ans:o,auto:s};rec.rAuto=tot;rec.sc[3]=tot;rec.submittedAt=new Date().toISOString();
+      $("#cYes").disabled=true;advance(4);toast("결과보고서를 제출했습니다.")};
+  };
+}
+
+/* ================= 교사 화면 ================= */
+let tData={records:[]},rfTimer=0,sortBy="cls",sortDir=1;
+for(const v of["all",...Array.from({length:13},(_,i)=>i+1)])$("#fCls").insertAdjacentHTML("beforeend",`<option value="${v}">${v==="all"?"전체 반":v+"반"}</option>`);
+function openTeacher(){show("teacher");$("#whoText").textContent="담당교사 김한슬";$("#fCls").value="all";renderTeacher();startRf()}
+function startRf(){stopRf();if($("#autoRf").checked)rfTimer=setInterval(refresh,20000)}
+function stopRf(){clearInterval(rfTimer);rfTimer=0}
+$("#autoRf").onchange=startRf;$("#rfBtn").onclick=refresh;$("#fCls").onchange=renderTeacher;
+$$("th button[data-sort]").forEach(b=>b.onclick=()=>{const k=b.dataset.sort;sortDir=sortBy===k?-sortDir:(k==="cls"?1:-1);sortBy=k;renderTeacher()});
+async function refresh(){if(!teaPw)return;try{tData=await API.teacher(teaPw);renderTeacher()}catch(e){$("#rfNote").textContent="새로고침 실패: "+e}}
+function r4(r){return r.st[3]===2?(r.rTeacher!=null?r.rTeacher:r.rAuto||0):0}
+function total(r){return r.sc[0]+r.sc[1]+r.sc[2]+r4(r)}
+function renderTeacher(){
+  const f=$("#fCls").value;let R=(tData.records||[]).filter(r=>f==="all"||String(r.cls)===f);
+  $("#rfNote").textContent=`마지막 갱신 ${new Date().toLocaleTimeString("ko-KR",{timeZone:"Asia/Seoul"})}`+(MODE!=="demo"?"":" · 미리보기 모드: 이 브라우저의 기록만 보입니다 (config.js에 Apps Script 주소를 넣으면 전체 학생 기록이 모입니다)");
+  if(tData.sheetUrl){$("#sheetLink").hidden=false;$("#sheetLink").href=tData.sheetUrl}
+  const sub=R.filter(r=>r.st[3]===2);const avg=sub.length?(sub.reduce((s,r)=>s+total(r),0)/sub.length):null;
+  const active=R.filter(r=>Date.now()-new Date(r.updatedAt).getTime()<5*60000).length;
+  $("#kpis").innerHTML=[["참여 학생",R.length,"명"],["지금 활동 중",active,"명 · 5분 이내"],["보고서 제출",sub.length,`/ ${R.length}명`],["제출자 평균",avg==null?"-":avg.toFixed(1),"/ 100점"]].map(k=>`<div class="kpi"><p class="l">${k[0]}</p><p class="v">${k[1]} <small>${k[2]}</small></p></div>`).join("");
+  $("#board").innerHTML=STAGES.map((s,i)=>{const dn=R.filter(r=>r.st[i]===2).length,ip=R.filter(r=>r.st[i]===1).length,n=R.length||1;const ds=R.filter(r=>r.st[i]===2);const av=ds.length?(ds.reduce((a,r)=>a+(i===3?r4(r):r.sc[i]),0)/ds.length).toFixed(1):"-";
+    return`<div class="bcol" style="--c:${s.c}"><p class="t"><span>${s.k} ${s.t}</span><span class="mono">${s.max}점</span></p><div class="stack"><i style="width:${dn/n*100}%;background:${s.hex}"></i><i style="width:${ip/n*100}%;background:${s.hex}55"></i></div><div class="lg"><span>완료 <b>${dn}</b></span><span>진행 중 <b>${ip}</b></span><span>미시작 <b>${R.length-dn-ip}</b></span></div><p class="avg">완료자 평균 <b class="mono">${av}</b></p></div>`}).join("");
+  const key={cls:r=>r.cls*100+r.num,tot:r=>total(r),upd:r=>new Date(r.updatedAt).getTime()};
+  R.sort((a,b)=>(key[sortBy](a)-key[sortBy](b))*sortDir);
+  const cell=(r,i)=>{const st=r.st[i];const v=i===3?r4(r):r.sc[i];
+    if(st===2)return`<span class="sc"><span class="chip ok">완료</span><span class="mono">${v}</span>${i===3&&r.rTeacher==null?'<span class="chip run">확인 필요</span>':""}</span>`;
+    if(st===1){const extra=i===2?` ${Math.max(1,(r.d.s3&&r.d.s3.sub)||1)}/7`:i===0?` ${Object.values(r.d.s1||{}).filter(x=>x.done).length}/10`:"";return`<span class="sc"><span class="chip run">진행 중${extra}</span>${i<3&&r.sc[i]?`<span class="mono" style="color:var(--faint)">${r.sc[i]}</span>`:""}</span>`}
+    return'<span class="chip no">미시작</span>'};
+  $("#roster").innerHTML=R.length?R.map(r=>`<tr><td class="mono">${r.cls}-${String(r.num).padStart(2,"0")}</td><td><b>${esc(r.name)}</b></td>${[0,1,2,3].map(i=>`<td>${cell(r,i)}</td>`).join("")}<td class="tot">${total(r)}</td><td class="note">${fmtTime(r.updatedAt)}</td><td><button class="btn line" style="padding:6px 12px;font-size:13px" data-k="${esc(r.key)}">${r.st[3]===2?"보고서 보기":"상세"}</button></td></tr>`).join(""):`<tr><td colspan="9" class="empty">아직 입장한 학생이 없습니다. 학생들이 반·번호·성명으로 입장하면 여기에 실시간으로 나타납니다.</td></tr>`;
+  $$("#roster button[data-k]").forEach(b=>b.onclick=()=>openDetail(b.dataset.k));
+}
+function openDetail(key){
+  const r=(tData.records||[]).find(x=>x.key===key);if(!r)return;
+  const d1=r.d.s1||{},d2=r.d.s2||{},d3=r.d.s3||{},d4=r.d.s4||{};const p2=d2.part||{};const au=d4.auto||{};
+  const li=(a,b,m)=>`<li><span>${a}</span><span>${b==null?"-":b}/${m}</span></li>`;
+  $("#dTitle").textContent=`1학년 ${r.cls}반 ${r.num}번 ${r.name}`;
+  const obs=TPTS.map(p=>{const o=(d3.obs||{})[p]||{};const c=COLORS.find(x=>x.id===o.c),s=SURF.find(x=>x.id===o.s);const okc=o.c===colorLevel(p),oks=o.s===surfLevel(p);
+    return`<tr><td class="t">${p}분</td><td>${c?`<i style="display:inline-block;width:13px;height:13px;border-radius:3px;background:${c.hex};border:1px solid var(--line);vertical-align:-2px;margin-right:5px"></i>${c.n} ${o.c?(okc?"✓":"✗"):""}`:"-"}</td><td>${s?s.n+" "+(oks?"✓":"✗"):"-"}</td></tr>`}).join("");
+  const a=d4.ans||{};
+  $("#dBody").innerHTML=`
+   <div class="brk">
+    <div class="b" style="--c:var(--s1)"><p class="l">① 기초 이론</p><p class="v">${r.sc[0]}<small class="note">/20</small></p><ul>${Q1.map((q,i)=>li(`Q${i+1} ${LV[q.lv]}`,d1[i]&&d1[i].done?d1[i].score:null,2)).join("")}</ul></div>
+    <div class="b" style="--c:var(--s2)"><p class="l">② 실험 준비</p><p class="v">${r.sc[1]}<small class="note">/20</small></p><ul>${li("실험 도구",p2.tools,5)}${li("보호구",p2.ppe,4)}${li("안전 수칙 OX",p2.ox,7)}${li("과정 순서",p2.order,4)}</ul></div>
+    <div class="b" style="--c:var(--s3)"><p class="l">③ 가상 실험</p><p class="v">${r.sc[2]}<small class="note">/40</small></p><ul>${li("실험 조작",(d3.safety||0)+(d3.sand||0)+(d3.place||0)+(d3.pour||0),10)}${li("관찰 기록",d3.obsScore,10)}${li("입자 모형",d3.partScore,12)}${li("반응식",d3.eqScore,8)}</ul></div>
+    <div class="b" style="--c:var(--s4)"><p class="l">④ 결과 보고서</p><p class="v">${r.st[3]===2?r4(r):"-"}<small class="note">/20</small></p><ul>${RQ.map(q=>li(q.k.toUpperCase()+" 자동",au[q.k],4)).join("")}</ul></div>
+   </div>
+   <div class="panel"><h3>총점 <span class="mono" style="font-size:22px">${total(r)}</span><span class="sub">/ 100 · 시작 ${fmtTime(r.startedAt)} · 제출 ${fmtTime(r.submittedAt)}</span></h3>
+     <p class="lead">가상 실험 세부: 안전 점검 ${d3.safety||0}/2 · 사포질 ${d3.sand||0}/2 · 구리줄 넣기 ${d3.place||0}/2 · 용액 붓기 ${d3.pour||0}/4 (시도 ${d3.pourTries||0}회${d3.vol?`, ${d3.vol} mL`:""}) · 추가 실험 확인 ${d3.sawRev?"함":"안 함"}</p></div>
+   ${r.st[3]===2?`<div class="adjust"><b>④ 결과 보고서 점수 확정</b><span class="note">자동 채점 ${r.rAuto}점 (핵심어 기준)</span><input class="inp" id="adjV" type="number" min="0" max="20" step="1" value="${r.rTeacher!=null?r.rTeacher:r.rAuto}" aria-label="보고서 점수"><span class="note">/ 20</span><button class="btn red" id="adjB">점수 확정</button>${r.rTeacher!=null?'<span class="chip ok">교사 확정됨</span>':""}</div>`:""}
+   <div class="panel"><h3>결과보고서 <span class="sub">${r.st[3]===2?"제출됨":r.st[3]===1?"작성 중 (미제출)":"미작성"}</span></h3>
+    <div class="report" style="margin-top:12px">
+     <div class="rsec"><h4>실험 과정 기록</h4><p>구리줄 모양: ${({spiral:"나선",heart:"하트",zigzag:"지그재그"})[d3.shape]||"-"} · 질산 은 수용액 ${d3.vol||"-"} mL</p></div>
+     <div class="rsec"><h4>실험 결과 (학생 관찰 기록)</h4><div class="obs-table-wrap" style="margin-top:0"><table class="obs"><thead><tr><th>시간</th><th>수용액의 색</th><th>구리줄 표면</th></tr></thead><tbody>${obs}</tbody></table></div></div>
+     ${RQ.map(q=>`<div class="rsec"><p class="rq">${q.q}</p>${q.choice?`<p style="margin-top:6px">선택: <b>${a.q4c==null?"-":q.choice[a.q4c]}</b> ${a.q4c===1?"✓":a.q4c===0?"✗":""}</p>`:""}<div class="ans ${a[q.k]?"":"emp"}">${a[q.k]?esc(a[q.k]):"(응답 없음)"}</div>${au[q.k]!=null?`<p class="kw">자동 채점 ${au[q.k]}/4</p>`:""}</div>`).join("")}
+    </div></div>`;
+  $("#modal").hidden=false;$("#dClose").focus();
+  const ab=$("#adjB");if(ab)ab.onclick=async()=>{const v=Math.round(+$("#adjV").value);if(!(v>=0&&v<=20)){toast("0~20점 사이 정수로 입력하세요.");return}ab.disabled=true;
+    try{await API.setScore(teaPw,r.key,v);r.rTeacher=v;toast(`${r.name} 보고서 ${v}점으로 확정`);renderTeacher();openDetail(r.key)}catch(e){toast("저장 실패: "+e);ab.disabled=false}};
+}
+$("#dClose").onclick=()=>$("#modal").hidden=true;$("#modal").onclick=e=>{if(e.target.id==="modal")$("#modal").hidden=true};
+document.addEventListener("keydown",e=>{if(e.key==="Escape")$("#modal").hidden=true});
+
+/* 미리보기용 예시 기록 (구글 시트 연결 시 사용되지 않음) */
+function seedExamples(){
+  const mk=(num,name,stage,sc,extra)=>{const r=newRec(13,num,"(예시)"+name);r.st=[0,1,2,3].map(i=>i<stage-1?2:i===stage-1?1:0);r.cur=stage;r.sc=sc;
+    const t=new Date(Date.now()-extra.ago*60000).toISOString();r.updatedAt=t;r.startedAt=new Date(Date.now()-(extra.ago+35)*60000).toISOString();
+    r.d.s1=Object.fromEntries(Q1.map((q,i)=>[i,{done:true,tries:1,picks:[0],score:i%4===3?1:2}]));
+    if(stage>2)r.d.s2={part:{tools:5,ppe:4,ox:6,order:4}};
+    r.d.s3=stage>3?{sub:8,safety:2,sand:2,place:2,pour:4,pourTries:1,vol:20,shape:"heart",obs:{0:{c:"c0",s:"s0"},3:{c:"c1",s:"s1"},10:{c:"c2",s:"s2"},20:{c:"c3",s:"s2"},30:{c:"c3",s:"s1"}},obsScore:9,part:{},partScore:11,eqScore:8,sawRev:true}:{sub:extra.sub||1,safety:2,sand:2};
+    if(extra.rep){r.st[3]=2;r.cur=5;r.d.s4={ans:{q1:"구리 원자가 전자를 2개 잃고 구리 이온(Cu2+)이 되어 수용액으로 녹아 들어갔기 때문이다.",q2:"은. 은 이온(Ag+)이 구리가 내놓은 전자를 얻어 은 원자로 환원되어 구리줄 표면에 붙었다.",q3:"구리가 잃은 전자를 은 이온이 얻기 때문에 전자를 주고받으며 산화와 환원이 동시에 일어난다.",q4c:1,q4:"은이 구리보다 전자를 잃기 어려워서 반응이 일어나지 않는다.",q5:"손난로 속 철가루가 공기 중 산소와 반응해 산화되면서 열을 낸다."}};r.d.s4.auto=scoreReport(r.d.s4.ans);r.rAuto=Object.values(r.d.s4.auto).reduce((a,b)=>a+b,0);r.sc[3]=r.rAuto;r.submittedAt=t}
+    return r};
+  const L=[mk(3,"김도윤",4,[19,19,38,0],{ago:2,rep:true}),mk(7,"박서연",3,[20,17,6,0],{ago:1,sub:4}),mk(12,"이준호",2,[16,0,0,0],{ago:3}),mk(21,"최하은",1,[8,0,0,0],{ago:0})];
+  L[3].d.s1=Object.fromEntries(Q1.slice(0,5).map((q,i)=>[i,{done:true,tries:1,picks:[0],score:i===2?0:2}]));
+  return Object.fromEntries(L.map(r=>[r.key,r]));
+}
+})();
+</script>
