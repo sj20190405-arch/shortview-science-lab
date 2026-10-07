@@ -186,7 +186,13 @@ p{margin:0}
 .oxrow.g-ok{border-color:var(--ok);background:#F2FAF6}
 .oxrow.g-bad{border-color:var(--bad);background:#FDF4F5}
 .order{display:grid;gap:8px;margin-top:14px;counter-reset:ord}
-.orow{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;border:1.5px solid var(--line);border-radius:12px;padding:9px 10px;background:#fff}
+.order{position:relative}
+.orow{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;border:1.5px solid var(--line);border-radius:12px;padding:11px 12px;background:#fff;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;position:relative}
+.orow:hover{border-color:var(--s2)}
+.orow.dragging{cursor:grabbing;z-index:3;border-color:var(--s2);background:#FFF9EC;box-shadow:0 14px 28px -10px rgba(18,32,42,.4)}
+.orow .grip{font-size:20px;line-height:1;color:var(--faint);letter-spacing:-3px;padding:0 4px}
+.order.locked .orow{cursor:default}
+.order.locked .grip{visibility:hidden}
 .orow::before{counter-increment:ord;content:counter(ord);font-family:var(--f-mono);font-weight:600;width:30px;height:30px;border-radius:8px;background:var(--line2);display:grid;place-items:center;font-size:13px}
 .orow .mv{display:flex;gap:4px}
 .orow .mv button{width:34px;height:32px;border-radius:8px;border:1.5px solid var(--line);background:#fff;font-size:14px}
@@ -239,6 +245,40 @@ select.inp.g-ok{border-color:var(--ok);background:#F2FAF6}
 select.inp.g-bad{border-color:var(--bad);background:#FDF4F5}
 .pm{width:100%;height:auto;background:linear-gradient(90deg,#FBF4EE 0 34%,#EEF4FB 34% 100%);border-radius:14px;display:block;touch-action:manipulation}
 .pm .el{cursor:pointer}
+.pm{touch-action:none}
+.pm g.drag{transition:none;cursor:grabbing}
+.pm .halo{fill:none;stroke:#F2A900;stroke-width:3;transform-box:fill-box;transform-origin:center;animation:halo 1.4s ease-out infinite}
+.pm .tgt circle.ring{fill:none;stroke:var(--red);stroke-width:3;stroke-dasharray:6 5;transform-box:fill-box;transform-origin:center;animation:spin 6s linear infinite}
+@keyframes halo{0%{transform:scale(.8);opacity:1}100%{transform:scale(1.7);opacity:0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pm-guide{display:flex;flex-wrap:wrap;align-items:center;gap:8px;background:#FFF4D6;border:2px solid #F2C14E;border-radius:14px;padding:12px 14px;margin-top:12px}
+.pg-step{display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid #F2D58A;border-radius:999px;padding:7px 14px 7px 7px;font-size:14.5px;color:var(--muted);transition:background .2s,color .2s}
+.pg-step b{color:var(--text)}
+.pg-n{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:#F2D58A;color:#6B4E00;font-weight:700;font-family:var(--f-mono);font-size:13px;flex:none}
+.pg-step.on{background:var(--ink);border-color:var(--ink);color:#fff;box-shadow:0 0 0 4px rgba(242,169,0,.35)}
+.pg-step.on b{color:var(--mint)}
+.pg-step.on .pg-n{background:#FFD34D;color:var(--ink)}
+.pg-step.ok{color:var(--ok)}
+.pg-step.ok .pg-n{background:var(--ok);color:#fff}
+.pg-arrow{color:#C9961E;font-weight:700}
+.pg-count{margin-left:auto;font-weight:700;font-size:14px;color:#6B4E00}
+.pg-count b{font-family:var(--f-mono);font-size:20px;color:var(--ink)}
+/* 관찰 시간 축 */
+.tl{position:relative;height:84px;margin:14px 18px 0;touch-action:none;user-select:none;-webkit-user-select:none;cursor:pointer}
+.tl:focus-visible{outline:3px solid var(--blue);outline-offset:6px}
+.tl-track{position:absolute;left:0;right:0;top:40px;height:8px;border-radius:8px;background:var(--line2);overflow:hidden}
+.tl-track i{position:absolute;left:0;top:0;bottom:0}
+.tl-seen{background:#C9DAFB}
+.tl-fill{background:var(--s3)}
+.tl-thumb{position:absolute;top:44px;width:22px;height:22px;border-radius:50%;background:#fff;border:4px solid var(--s3);transform:translate(-50%,-50%);box-shadow:0 2px 6px rgba(18,32,42,.25);pointer-events:none}
+.tk{position:absolute;top:52px;width:1px;height:6px;background:#AEBBC4;transform:translateX(-50%)}
+.tk.maj{width:2px;height:11px;background:var(--muted)}
+.tl-lab{position:absolute;top:64px;transform:translateX(-50%);font-family:var(--f-mono);font-size:11.5px;color:var(--muted);white-space:nowrap}
+.cp{position:absolute;top:0;transform:translateX(-50%);border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:2px 7px;font-family:var(--f-mono);font-size:11.5px;font-weight:700;color:var(--faint);white-space:nowrap}
+.cp::after{content:"";position:absolute;left:50%;top:100%;width:2px;height:13px;margin-left:-1px;background:currentColor;opacity:.6}
+.cp.seen{border-color:var(--s3);color:var(--s3)}
+.cp.now{background:var(--s3);border-color:var(--s3);color:#fff}
+.cp.now::after{background:var(--s3);opacity:1}
 .pm g{transition:transform .9s cubic-bezier(.3,.7,.2,1)}
 .pm .sel circle{stroke:var(--red);stroke-width:4}
 .pm .shake{animation:shake .35s}
@@ -336,6 +376,7 @@ footer.foot .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:
   .tracker .s{display:none}
   .goal{grid-template-columns:1fr}
 }
+@media (max-width:560px){.cp{font-size:10.5px;padding:1px 4px}.tl{margin-inline:12px}.pg-arrow{display:none}.pg-count{margin-left:0}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 
@@ -553,12 +594,13 @@ const ICON={
 };
 
 /* ================= 데이터: 3단계 관찰 ================= */
-const TPTS=[0,3,10,20,30];
-const COLORS=[{id:"c0",n:"무색",t:0},{id:"c1",n:"연한 하늘색",t:3},{id:"c2",n:"푸른색",t:10},{id:"c3",n:"진한 푸른색",t:25},{id:"cx",n:"연한 갈색",hex:"#E6D2B5"}];
+const TMAX=20;
+const TPTS=[0,2,5,10,20];
+const COLORS=[{id:"c0",n:"무색",t:0},{id:"c1",n:"연한 하늘색",t:2},{id:"c2",n:"푸른색",t:5},{id:"c3",n:"진한 푸른색",t:14},{id:"cx",n:"연한 갈색",hex:"#E6D2B5"}];
 const SURF=[{id:"s0",n:"변화 없음(구리색)"},{id:"s1",n:"은백색 금속이 조금 석출"},{id:"s2",n:"은백색 결정이 나뭇가지처럼 자람"},{id:"sx1",n:"검게 녹슴"},{id:"sx2",n:"기포가 발생함"}];
-function colorLevel(t){return t<1?"c0":t<6?"c1":t<16?"c2":"c3"}
-function surfLevel(t){return t<1?"s0":t<6?"s1":"s2"}
-function solA(t){return 1-Math.exp(-t/9)}
+function colorLevel(t){return t<.7?"c0":t<3.5?"c1":t<8?"c2":"c3"}
+function surfLevel(t){return t<.7?"s0":t<3.5?"s1":"s2"}
+function solA(t){return 1-Math.exp(-t/6)}
 function solRGB(t){const a=solA(t)*0.62;const c=[43,127,216];return c.map(v=>Math.round(255*(1-a)+v*a))}
 function solHex(t){return"#"+solRGB(t).map(v=>v.toString(16).padStart(2,"0")).join("")}
 COLORS.forEach(c=>{if(c.hex==null)c.hex=solHex(c.t)});
@@ -591,7 +633,7 @@ class Sim{
   X(x){return this.cx+x*this.u} Y(y){return this.cy+y*this.u}
   draw(t){
     this.t=t;const c=this.ctx,o=this.o,W=this.W,H=this.H;if(!c)return;
-    const g=o.reverse?0:1-Math.exp(-t/8);
+    const g=o.reverse?0:1-Math.exp(-t/5);
     c.clearRect(0,0,W,H);
     if(o.hero){
       const bg=c.createRadialGradient(this.cx,this.cy,10,this.cx,this.cy,W*.8);const a=.18+.5*solA(t);
@@ -601,7 +643,7 @@ class Sim{
       c.strokeStyle="#EFEFE8";c.lineWidth=1;for(let y=12;y<H;y+=24){c.beginPath();c.moveTo(0,y);c.lineTo(W,y);c.stroke()}
       const R=this.u*1.08;
       c.save();c.shadowColor="rgba(18,32,42,.18)";c.shadowBlur=18;c.shadowOffsetY=6;c.beginPath();c.arc(this.cx,this.cy,R,0,Math.PI*2);c.fillStyle="rgba(255,255,255,.9)";c.fill();c.restore();
-      if(o.solution){const rgb=o.reverse?solRGB(22):solRGB(t);c.beginPath();c.arc(this.cx,this.cy,R*.97,0,Math.PI*2);c.fillStyle=`rgb(${rgb})`;c.fill()}
+      if(o.solution){const rgb=o.reverse?solRGB(14):solRGB(t);c.beginPath();c.arc(this.cx,this.cy,R*.97,0,Math.PI*2);c.fillStyle=`rgb(${rgb})`;c.fill()}
       c.beginPath();c.arc(this.cx,this.cy,R,0,Math.PI*2);c.lineWidth=3;c.strokeStyle="#B9C7D0";c.stroke();
       c.beginPath();c.arc(this.cx,this.cy,R*.93,Math.PI*1.1,Math.PI*1.45);c.lineWidth=4;c.strokeStyle="rgba(255,255,255,.9)";c.stroke();
     }
@@ -629,9 +671,9 @@ const heroSim=new Sim($("#heroCv"),{hero:true,seed:5});
 let heroOn=!matchMedia("(prefers-reduced-motion: reduce)").matches, heroT=heroOn?0:18, heroLast=0;
 function heroTick(ts){
   if(!$("#viewEntry").hidden){
-    if(heroOn){const dt=heroLast?Math.min(.1,(ts-heroLast)/1000):0;heroT+=dt*2.2;if(heroT>36)heroT=0}
-    heroSim.draw(Math.min(heroT,30));const m=Math.min(heroT,30);
-    $("#heroProg").style.width=(m/30*100)+"%";$("#heroClock").textContent=`${String(Math.floor(m)).padStart(2,"0")}:${String(Math.floor((m%1)*60)).padStart(2,"0")} · AgNO₃(aq) + Cu`;
+    if(heroOn){const dt=heroLast?Math.min(.1,(ts-heroLast)/1000):0;heroT+=dt*2.2;if(heroT>25)heroT=0}
+    heroSim.draw(Math.min(heroT,TMAX));const m=Math.min(heroT,TMAX);
+    $("#heroProg").style.width=(m/TMAX*100)+"%";$("#heroClock").textContent=`${String(Math.floor(m)).padStart(2,"0")}:${String(Math.floor((m%1)*60)).padStart(2,"0")} · AgNO₃(aq) + Cu`;
   }
   heroLast=ts;requestAnimationFrame(heroTick);
 }
@@ -735,7 +777,7 @@ function renderS2(box){
    <div class="panel"><h3>B. 보호구 착용하기 <span class="sub">실험실에 들어가기 전 착용할 것을 모두 고르세요</span></h3>
      <div class="ppe"><svg class="body" id="ppeBody" viewBox="0 0 170 230"></svg><div class="tiles" id="tPpe" style="margin-top:0"></div></div></div>
    <div class="panel"><h3>C. 안전 수칙 OX <span class="sub">7문항</span></h3><div class="ox" id="tOx"></div></div>
-   <div class="panel"><h3>D. 실험 과정 순서 정하기 <span class="sub">화살표로 순서를 바꾸세요</span></h3><div class="order" id="tOrd"></div>
+   <div class="panel"><h3>D. 실험 과정 순서 정하기 <span class="sub">카드를 마우스로 끌어 위아래로 옮기세요</span></h3><div class="order" id="tOrd"></div>
      <div class="actions"><span class="note" id="s2msg"></span><button class="btn primary" id="s2sub">실험 준비 점검 제출</button></div>
      <div id="s2after"></div></div>`;
   const mk=(list,set,host,cb)=>{host.innerHTML=list.map(x=>`<button class="tile" data-id="${x.id}" aria-pressed="false">${ICON[x.id]}<span>${x.n}</span></button>`).join("");
@@ -752,8 +794,21 @@ function renderS2(box){
     <ellipse cx="68" cy="216" rx="14" ry="6" fill="${h("slip")?"#F29B9B":"#2A2F36"}"/><ellipse cx="102" cy="216" rx="14" ry="6" fill="${h("slip")?"#F29B9B":"#2A2F36"}"/>`}
   $("#tOx").innerHTML=OX.map((x,i)=>`<div class="oxrow" data-i="${i}"><span class="txt"><b class="mono">${i+1}.</b> ${esc(x.t)}</span><span class="oxbtns"><button aria-pressed="false" data-v="O" aria-label="${i+1}번 O">O</button><button aria-pressed="false" data-v="X" aria-label="${i+1}번 X">X</button></span></div>`).join("");
   $$(".oxrow").forEach(r=>$$("button",r).forEach(b=>b.onclick=()=>{if(st.locked)return;st.ox[r.dataset.i]=b.dataset.v;$$("button",r).forEach(x=>x.setAttribute("aria-pressed",x===b))}));
-  function drawOrd(){$("#tOrd").innerHTML=st.order.map((id,i)=>{const s=STEPS.find(x=>x.id===id);return`<div class="orow" data-id="${id}"><span>${esc(s.t)}</span><span class="mv"><button data-d="-1" aria-label="위로" ${i===0||st.locked?"disabled":""}>▲</button><button data-d="1" aria-label="아래로" ${i===st.order.length-1||st.locked?"disabled":""}>▼</button></span></div>`}).join("");
-    $$(".orow button").forEach(b=>b.onclick=()=>{const id=b.closest(".orow").dataset.id;const i=st.order.indexOf(id),j=i+ +b.dataset.d;[st.order[i],st.order[j]]=[st.order[j],st.order[i]];drawOrd()})}
+  function drawOrd(){const H=$("#tOrd");H.classList.toggle("locked",!!st.locked);
+    H.innerHTML=st.order.map(id=>{const s=STEPS.find(x=>x.id===id);return`<div class="orow" data-id="${id}" tabindex="${st.locked?-1:0}" aria-label="${esc(s.t)} (위아래 화살표 키로도 옮길 수 있음)"><span>${esc(s.t)}</span><span class="grip" aria-hidden="true">⠿</span></div>`}).join("");
+    if(st.locked)return;
+    $$(".orow",H).forEach(row=>{
+      row.onkeydown=e=>{const d={ArrowUp:-1,ArrowDown:1}[e.key];if(!d)return;e.preventDefault();const i=st.order.indexOf(row.dataset.id),j=i+d;if(j<0||j>=st.order.length)return;[st.order[i],st.order[j]]=[st.order[j],st.order[i]];drawOrd();$(`.orow[data-id="${row.dataset.id}"]`,H).focus()};
+      row.onpointerdown=e=>{if(e.button>0)return;e.preventDefault();row.setPointerCapture(e.pointerId);row.classList.add("dragging");
+        const hostTop=()=>H.getBoundingClientRect().top;const grab=e.clientY-(hostTop()+row.offsetTop);
+        const move=ev=>{const y=ev.clientY;const others=$$(".orow",H).filter(r=>r!==row);
+          const next=others.find(r=>{const b=r.getBoundingClientRect();return y<b.top+b.height/2});
+          if(next){if(row.nextElementSibling!==next)H.insertBefore(row,next)}else if(H.lastElementChild!==row)H.appendChild(row);
+          row.style.transform=`translateY(${y-grab-(hostTop()+row.offsetTop)}px)`};
+        const up=()=>{row.removeEventListener("pointermove",move);row.removeEventListener("pointerup",up);row.removeEventListener("pointercancel",up);
+          row.style.transform="";row.classList.remove("dragging");st.order=$$(".orow",H).map(r=>r.dataset.id)};
+        row.addEventListener("pointermove",move);row.addEventListener("pointerup",up);row.addEventListener("pointercancel",up)};
+    })}
   drawOrd();
   $("#s2sub").onclick=()=>{
     if(!st.tools.size||!st.ppe.size){$("#s2msg").textContent="A, B에서 하나 이상 고르세요.";return}
@@ -859,10 +914,15 @@ function sub4(B,d,next){
 function sub5(B,d,next){
   d.obs=d.obs||{};d.maxT=d.maxT||0;let t=0,play=false,last=0,rev=false;
   B.innerHTML=`<div class="lab"><div class="bench"><span class="cap" id="cap5">구리줄 + 질산 은 수용액</span><canvas id="labCv"></canvas></div>
-  <div><h3>⑤ 관찰하고 기록하기</h3><p class="lead">재생하면 1초에 약 1분씩 지나갑니다. 각 시간에 도달하면 기록 칸이 열려요. 흰 종이 위에 두었으니 색 변화를 잘 보세요.</p>
-   <div style="display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap"><button class="btn dark" id="playB">▶ 재생</button><span class="clockbig" id="clk">0분 00초</span></div>
-   <input type="range" class="slider" id="tS" min="0" max="30" step=".1" value="0" style="margin-top:10px" aria-label="경과 시간">
-   <div class="timebar" id="tBar">${TPTS.map(p=>`<button data-t="${p}">${p}분</button>`).join("")}</div>
+  <div><h3>⑤ 관찰하고 기록하기</h3><p class="lead">총 20분 관찰합니다. 재생하면 1초에 1분씩 지나가고, 시간 축을 끌거나 위의 시간 깃발을 눌러 이동할 수도 있어요. 깃발 시간에 도달하면 기록 칸이 열립니다.</p>
+   <div style="display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap"><button class="btn dark" id="playB">▶ 재생</button><span class="clockbig" id="clk">0분 00초</span><span class="note">/ 20분</span></div>
+   <div class="tl" id="tl" role="slider" tabindex="0" aria-label="경과 시간(분)" aria-valuemin="0" aria-valuemax="${TMAX}" aria-valuenow="0">
+     ${TPTS.map(p=>`<button class="cp" data-t="${p}" style="left:${p/TMAX*100}%">${p}분</button>`).join("")}
+     <div class="tl-track"><i class="tl-seen" id="tlSeen"></i><i class="tl-fill" id="tlFill"></i></div>
+     ${Array.from({length:TMAX+1},(_,m)=>`<span class="tk ${m%5===0?"maj":""}" style="left:${m/TMAX*100}%"></span>`).join("")}
+     ${[0,5,10,15,20].map(m=>`<span class="tl-lab" style="left:${m/TMAX*100}%">${m}</span>`).join("")}
+     <span class="tl-thumb" id="tlThumb"></span>
+   </div>
    <div class="fb" style="margin-top:14px"><b>추가 실험</b>반대로 질산 구리(Ⅱ) 수용액에 은줄을 넣으면? <button class="btn line" id="revB" style="padding:6px 12px;font-size:13px;margin-top:6px">은줄 + 질산 구리(Ⅱ) 수용액 보기</button></div>
   </div></div>
   <h3 style="margin-top:22px">관찰 기록표</h3><div class="legend">${COLORS.map(c=>`<span><i style="background:${c.hex}"></i>${c.n}</span>`).join("")}</div>
@@ -876,19 +936,26 @@ function sub5(B,d,next){
     $$(".sw button",tr).forEach(b=>b.onclick=()=>{(d.obs[p]=d.obs[p]||{}).c=b.dataset.c;$$(".sw button",tr).forEach(x=>x.setAttribute("aria-pressed",x===b))});
     $("select",tr).onchange=e=>{(d.obs[p]=d.obs[p]||{}).s=e.target.value}})};
   bindRows();
-  const setT=v=>{t=clamp(v,0,30);if(!rev&&t>d.maxT){const before=d.maxT;d.maxT=t;if(TPTS.some(p=>p>before&&p<=t))bindRows()}
-    labSim.draw(rev?t:t);$("#tS").value=t;const m=Math.floor(t),s=Math.floor((t-m)*60);$("#clk").textContent=`${m}분 ${String(s).padStart(2,"0")}초`;
-    $$("#tBar button").forEach(b=>{const p=+b.dataset.t;b.classList.toggle("seen",d.maxT>=p);b.classList.toggle("now",Math.abs(t-p)<.05)})};
-  const loop=ts=>{if(play){const dt=last?Math.min(.1,(ts-last)/1000):0;setT(t+dt);if(t>=30){play=false;$("#playB").textContent="▶ 재생"}}last=ts;labRAF=requestAnimationFrame(loop)};
+  const setT=v=>{t=clamp(v,0,TMAX);if(Math.abs(t-Math.round(t))<.02)t=Math.round(t);if(!rev&&t>d.maxT){const before=d.maxT;d.maxT=t;if(TPTS.some(p=>p>before&&p<=t))bindRows()}
+    labSim.draw(t);const pc=t/TMAX*100;$("#tlFill").style.width=pc+"%";$("#tlThumb").style.left=pc+"%";$("#tlSeen").style.width=(d.maxT/TMAX*100)+"%";$("#tl").setAttribute("aria-valuenow",t.toFixed(1));
+    const m=Math.floor(t+1e-6),s=Math.floor((t-m)*60+1e-6);$("#clk").textContent=`${m}분 ${String(s).padStart(2,"0")}초`;
+    $$("#tl .cp").forEach(b=>{const p=+b.dataset.t;b.classList.toggle("seen",d.maxT>=p);b.classList.toggle("now",Math.abs(t-p)<.05)})};
+  const loop=ts=>{if(play){const dt=last?Math.min(.1,(ts-last)/1000):0;setT(t+dt);if(t>=TMAX){play=false;$("#playB").textContent="▶ 재생"}}last=ts;labRAF=requestAnimationFrame(loop)};
   labRAF=requestAnimationFrame(loop);
-  $("#playB").onclick=()=>{if(t>=30)setT(0);play=!play;$("#playB").textContent=play?"❚❚ 일시정지":"▶ 재생"};
-  $("#tS").oninput=e=>{play=false;$("#playB").textContent="▶ 재생";setT(+e.target.value)};
-  $$("#tBar button").forEach(b=>b.onclick=()=>{play=false;$("#playB").textContent="▶ 재생";setT(+b.dataset.t)});
+  $("#playB").onclick=()=>{if(t>=TMAX)setT(0);play=!play;$("#playB").textContent=play?"❚❚ 일시정지":"▶ 재생"};
+  const stop=()=>{play=false;$("#playB").textContent="▶ 재생"};
+  const TL=$("#tl");let tlDrag=false;
+  const tAt=e=>{const r=$(".tl-track",TL).getBoundingClientRect();return clamp((e.clientX-r.left)/r.width,0,1)*TMAX};
+  TL.onpointerdown=e=>{if(e.target.closest(".cp"))return;stop();tlDrag=true;TL.setPointerCapture(e.pointerId);setT(tAt(e))};
+  TL.onpointermove=e=>{if(tlDrag)setT(tAt(e))};
+  TL.onpointerup=TL.onpointercancel=()=>{tlDrag=false};
+  TL.onkeydown=e=>{const k={ArrowRight:.5,ArrowUp:.5,ArrowLeft:-.5,ArrowDown:-.5}[e.key];if(k==null)return;e.preventDefault();stop();setT(t+k)};
+  $$("#tl .cp").forEach(b=>b.onclick=()=>{stop();setT(+b.dataset.t)});
   $("#revB").onclick=()=>{rev=!rev;d.sawRev=true;labSim.set({reverse:rev});$("#cap5").textContent=rev?"은줄 + 질산 구리(Ⅱ) 수용액":"구리줄 + 질산 은 수용액";$("#revB").textContent=rev?"원래 실험으로 돌아가기":"은줄 + 질산 구리(Ⅱ) 수용액 보기";setT(t)};
   setT(0);
   $("#go").onclick=()=>{
     const miss=TPTS.filter(p=>!d.obs[p]||!d.obs[p].c||!d.obs[p].s);
-    if(miss.length){$("#obsMsg").textContent=`${miss.map(p=>p+"분").join(", ")} 기록을 채우세요.`+(d.maxT<30?" (30분까지 관찰해야 모든 칸이 열려요)":"");return}
+    if(miss.length){$("#obsMsg").textContent=`${miss.map(p=>p+"분").join(", ")} 기록을 채우세요.`+(d.maxT<TMAX?" (20분까지 관찰해야 모든 칸이 열려요)":"");return}
     let sc=0;TPTS.forEach(p=>{if(d.obs[p].c===colorLevel(p))sc++;if(d.obs[p].s===surfLevel(p))sc++});d.obsScore=sc;
     $$("#obsT tr").forEach(tr=>{const p=+tr.dataset.t;$$(".sw button",tr).forEach(b=>{b.disabled=true;if(b.dataset.c===d.obs[p].c)b.classList.add(b.dataset.c===colorLevel(p)?"g-ok":"g-bad")});const s=$("select",tr);s.disabled=true;s.classList.add(d.obs[p].s===surfLevel(p)?"g-ok":"g-bad")});
     $("#obsMsg").textContent="기록이 제출되었습니다. 초록은 관찰과 일치, 빨강은 다시 보세요.";
@@ -905,26 +972,53 @@ function sub6(B,d,next){
     {k:"f",q:"수용액이 푸른색으로 변한 까닭은?",o:["구리 이온(Cu²⁺)이 생겨 수용액으로 들어갔기 때문","은(Ag)이 석출되었기 때문","질산 이온이 늘어났기 때문","구리줄이 녹슬었기 때문"],a:0}
   ];
   shuffleOpts(PQ,1021);
-  B.innerHTML=`<h3>⑥ 입자 모형으로 전자 옮기기</h3><p class="lead">노란 전자(e⁻)를 눌러 고른 뒤, 전자를 받을 입자를 누르세요. 전자 2개를 모두 옮기면 변화가 나타납니다.</p>
+  B.innerHTML=`<h3>⑥ 입자 모형으로 전자 옮기기</h3>
+  <div class="pm-guide" id="pmGuide">
+    <div class="pg-step" data-s="1"><span class="pg-n">1</span><span>깜빡이는 <b>노란 전자(e⁻)</b>를 잡으세요</span></div><span class="pg-arrow">→</span>
+    <div class="pg-step" data-s="2"><span class="pg-n">2</span><span>전자를 받을 입자 위에 <b>끌어다 놓으세요</b></span></div><span class="pg-arrow">→</span>
+    <div class="pg-step" data-s="3"><span class="pg-n">3</span><span><b>2개</b> 모두 옮기고 변화 관찰</span></div>
+    <span class="pg-count">옮긴 전자 <b id="pgCnt">0</b> / 2</span>
+  </div>
+  <p class="note" style="margin-top:6px">끌기가 어려우면 전자를 한 번 누른 뒤, 받을 입자를 눌러도 됩니다.</p>
   <div style="overflow-x:auto;margin-top:12px"><svg class="pm" id="pm" viewBox="0 0 640 300" style="min-width:520px">
    <text x="18" y="26" font-size="13" font-weight="700" fill="#8E4F27">구리줄 표면</text><text x="236" y="26" font-size="13" font-weight="700" fill="#2458C6">질산 은 수용액</text>
    <g id="pCu"><circle cx="130" cy="150" r="48" fill="#C9773F" stroke="#8E4F27" stroke-width="3"/><text id="pCuT" x="130" y="158" font-size="24" font-weight="700" text-anchor="middle" fill="#fff" font-family="IBM Plex Mono,monospace">Cu</text></g>
-   <g id="pAg0" class="el"><circle cx="420" cy="95" r="40" fill="#C9D3DA" stroke="#8193A0" stroke-width="3"/><text x="420" y="103" font-size="20" font-weight="700" text-anchor="middle" fill="#34465A" font-family="IBM Plex Mono,monospace">Ag⁺</text></g>
-   <g id="pAg1" class="el"><circle cx="420" cy="210" r="40" fill="#C9D3DA" stroke="#8193A0" stroke-width="3"/><text x="420" y="218" font-size="20" font-weight="700" text-anchor="middle" fill="#34465A" font-family="IBM Plex Mono,monospace">Ag⁺</text></g>
+   <g id="pAg0" class="el"><circle class="ring" cx="420" cy="95" r="50" opacity="0"/><circle cx="420" cy="95" r="40" fill="#C9D3DA" stroke="#8193A0" stroke-width="3"/><text x="420" y="103" font-size="20" font-weight="700" text-anchor="middle" fill="#34465A" font-family="IBM Plex Mono,monospace">Ag⁺</text></g>
+   <g id="pAg1" class="el"><circle class="ring" cx="420" cy="210" r="50" opacity="0"/><circle cx="420" cy="210" r="40" fill="#C9D3DA" stroke="#8193A0" stroke-width="3"/><text x="420" y="218" font-size="20" font-weight="700" text-anchor="middle" fill="#34465A" font-family="IBM Plex Mono,monospace">Ag⁺</text></g>
    <g id="pN0" class="el"><circle cx="560" cy="150" r="30" fill="#EDE6F7" stroke="#9A86BF" stroke-width="2"/><text x="560" y="156" font-size="15" font-weight="700" text-anchor="middle" fill="#5C4A85" font-family="IBM Plex Mono,monospace">NO₃⁻</text></g>
    <g id="pN1" class="el"><circle cx="300" cy="258" r="26" fill="#EDE6F7" stroke="#9A86BF" stroke-width="2"/><text x="300" y="263" font-size="13" font-weight="700" text-anchor="middle" fill="#5C4A85" font-family="IBM Plex Mono,monospace">NO₃⁻</text></g>
-   <g id="pE0" class="el"><circle cx="196" cy="118" r="14" fill="#FFD34D" stroke="#B88A00" stroke-width="2"/><text x="196" y="123" font-size="12" font-weight="700" text-anchor="middle" fill="#6B4E00">e⁻</text></g>
-   <g id="pE1" class="el"><circle cx="196" cy="182" r="14" fill="#FFD34D" stroke="#B88A00" stroke-width="2"/><text x="196" y="187" font-size="12" font-weight="700" text-anchor="middle" fill="#6B4E00">e⁻</text></g>
+   <g id="pE0" class="el"><circle class="halo" cx="196" cy="118" r="16"/><circle cx="196" cy="118" r="14" fill="#FFD34D" stroke="#B88A00" stroke-width="2"/><text x="196" y="123" font-size="12" font-weight="700" text-anchor="middle" fill="#6B4E00">e⁻</text></g>
+   <g id="pE1" class="el"><circle class="halo" cx="196" cy="182" r="16"/><circle cx="196" cy="182" r="14" fill="#FFD34D" stroke="#B88A00" stroke-width="2"/><text x="196" y="187" font-size="12" font-weight="700" text-anchor="middle" fill="#6B4E00">e⁻</text></g>
   </svg></div><div id="pmFb" style="margin-top:8px"></div><div id="pmQ" hidden></div>`;
-  const E=[$("#pE0"),$("#pE1")],A=[$("#pAg0"),$("#pAg1")];
+  const E=[$("#pE0"),$("#pE1")],A=[$("#pAg0"),$("#pAg1")],SV=$("#pm");
+  const HOME=[[196,118],[196,182]],AGC=[[420,95],[420,210]];
   const fb=h=>$("#pmFb").innerHTML=h;
-  E.forEach((e,i)=>e.onclick=()=>{if(e.dataset.gone)return;sel=i;E.forEach((x,j)=>x.classList.toggle("sel",j===i));fb('<div class="fb try"><b>전자 선택!</b>이 전자를 받을 입자를 누르세요.</div>')});
-  const wrong=(g,msg)=>{if(sel==null){fb('<div class="fb try"><b>먼저</b>노란 전자를 고르세요.</div>');return}mist++;g.classList.remove("shake");void g.getBBox();g.classList.add("shake");fb(`<div class="fb no"><b>다시!</b>${msg}</div>`)};
-  $("#pN0").onclick=()=>wrong($("#pN0"),"질산 이온은 반응에 참여하지 않아요.");$("#pN1").onclick=()=>wrong($("#pN1"),"질산 이온은 반응에 참여하지 않아요.");
+  const guide=n=>{$$(".pg-step").forEach(x=>{const k=+x.dataset.s;x.classList.toggle("on",k===n);x.classList.toggle("ok",k<n)});$("#pgCnt").textContent=moved};
+  const targets=on=>A.forEach((a,i)=>{a.classList.toggle("tgt",on&&!filled[i]);$(".ring",a).setAttribute("opacity",on&&!filled[i]?1:0)});
+  const select=i=>{sel=i;E.forEach((x,j)=>x.classList.toggle("sel",j===i));targets(true);guide(2)};
+  const unselect=()=>{sel=null;E.forEach(x=>x.classList.remove("sel"));targets(false);if(moved<2)guide(1)};
+  const toSvg=ev=>{const pt=SV.createSVGPoint();pt.x=ev.clientX;pt.y=ev.clientY;return pt.matrixTransform(SV.getScreenCTM().inverse())};
+  const hit=(p,c,r)=>Math.hypot(p.x-c[0],p.y-c[1])<=r;
+  const wrong=(g,msg)=>{mist++;g.classList.remove("shake");void g.getBBox();g.classList.add("shake");fb(`<div class="fb no"><b>다시!</b>${msg}</div>`)};
+  function place(i,ai){if(filled[ai]){fb('<div class="fb try"><b>이미</b>이 은 이온은 전자를 받았어요. 다른 은 이온에 놓으세요.</div>');return false}
+    const e=E[i];e.classList.remove("drag");e.style.transform=`translate(${AGC[ai][0]-HOME[i][0]+30}px,${AGC[ai][1]-HOME[i][1]-28}px)`;$(".halo",e).remove();e.dataset.gone=1;filled[ai]=true;moved++;unselect();
+    if(moved===2){guide(3);setTimeout(finish,800)}else{guide(1);fb('<div class="fb ok"><b>좋아요!</b>은 이온이 전자를 받았어요. 남은 전자 하나도 옮기세요.</div>')}return true}
+  E.forEach((e,i)=>{let drag=null;
+    e.onpointerdown=ev=>{if(e.dataset.gone)return;ev.preventDefault();e.setPointerCapture(ev.pointerId);select(i);drag={p:toSvg(ev),moved:false};e.classList.add("drag");fb('<div class="fb try"><b>전자를 잡았어요.</b>이제 전자를 받을 입자 위로 끌어다 놓으세요.</div>')};
+    e.onpointermove=ev=>{if(!drag)return;const p=toSvg(ev);if(Math.hypot(p.x-drag.p.x,p.y-drag.p.y)>4)drag.moved=true;if(drag.moved)e.style.transform=`translate(${p.x-HOME[i][0]}px,${p.y-HOME[i][1]}px)`};
+    e.onpointerup=ev=>{if(!drag)return;const p=toSvg(ev),was=drag.moved;drag=null;e.classList.remove("drag");if(!was){fb('<div class="fb try"><b>전자 선택!</b>끌어다 놓거나, 전자를 받을 입자를 누르세요.</div>');return}
+      const ai=AGC.findIndex(c=>hit(p,c,52));
+      if(ai>=0&&place(i,ai))return;
+      e.style.transform="";
+      if(hit(p,[560,150],38)||hit(p,[300,258],34))wrong($(hit(p,[560,150],38)?"#pN0":"#pN1"),"질산 이온(NO₃⁻)은 반응에 참여하지 않아요. 은 이온(Ag⁺)에 놓아 보세요.");
+      else if(ai<0)fb('<div class="fb try"><b>조금 더!</b>전자를 은 이온(Ag⁺) 원 안까지 끌어다 놓으세요.</div>')};
+    e.onpointercancel=()=>{drag=null;e.classList.remove("drag");e.style.transform=""}});
+  const need=()=>fb('<div class="fb try"><b>먼저</b>깜빡이는 노란 전자(e⁻)를 잡으세요.</div>');
+  $("#pN0").onclick=()=>sel==null?need():wrong($("#pN0"),"질산 이온(NO₃⁻)은 반응에 참여하지 않아요.");
+  $("#pN1").onclick=()=>sel==null?need():wrong($("#pN1"),"질산 이온(NO₃⁻)은 반응에 참여하지 않아요.");
   $("#pCu").onclick=()=>{if(sel!=null)wrong($("#pCu"),"전자는 구리에서 떠나야 해요.")};
-  A.forEach((a,i)=>a.onclick=()=>{if(sel==null){fb('<div class="fb try"><b>먼저</b>노란 전자를 고르세요.</div>');return}if(filled[i]){fb('<div class="fb try"><b>이미</b>이 은 이온은 전자를 받았어요.</div>');return}
-    const e=E[sel];const ex=i===0?[420,95]:[420,210];const ox=sel===0?[196,118]:[196,182];e.style.transform=`translate(${ex[0]-ox[0]+30}px,${ex[1]-ox[1]-28}px)`;e.dataset.gone=1;e.classList.remove("sel");filled[i]=true;sel=null;moved++;
-    if(moved===2)setTimeout(finish,700);else fb('<div class="fb ok"><b>좋아요.</b>남은 전자 하나도 옮기세요.</div>')});
+  A.forEach((a,ai)=>a.onclick=()=>{if(sel==null){need();return}place(sel,ai)});
+  guide(1);
   function finish(){
     const cu=$("#pCu");$("circle",cu).setAttribute("fill","#2B7FD8");$("circle",cu).setAttribute("stroke","#1B5AA0");$("#pCuT").textContent="Cu²⁺";cu.style.transform="translate(190px,-10px)";
     A.forEach((a,i)=>{$("circle",a).setAttribute("fill","#EEF2F5");$("circle",a).setAttribute("stroke","#5E6E7A");$("text",a).textContent="Ag";a.style.transform=`translate(${-230}px,${i===0?-10:-40}px)`});
@@ -1002,7 +1096,7 @@ function renderS4(box){
    <div class="rsec"><h4>실험 제목</h4><p><b>구리와 질산 은 수용액의 산화·환원 반응 관찰하기</b></p><p class="note" style="margin-top:4px">1학년 ${rec.cls}반 ${rec.num}번 ${esc(rec.name)} · 통합과학2 Ⅰ-2-01</p></div>
    <div class="rsec"><h4>실험 목표</h4><p>질산 은(AgNO₃) 수용액과 구리(Cu)의 산화·환원 반응을 관찰하고, 전자의 이동으로 설명할 수 있다.</p></div>
    <div class="rsec"><h4>준비물 · 안전</h4><p>질산 은 수용액, 구리줄, 페트리 접시, 사포, 핀셋 / 보안경, 실험용 장갑, 보호 장갑, 실험복</p><p class="note" style="margin-top:4px">질산 은 수용액이 피부나 옷에 닿으면 즉시 흐르는 물에 씻고, 남은 용액은 폐수 통에 버린다.</p></div>
-   <div class="rsec"><h4>실험 과정</h4><ol><li>구리줄 표면을 사포로 문지른다.</li><li>구리줄로 <b>${shapeN}</b> 모양을 만들어 핀셋으로 페트리 접시에 넣는다.</li><li>구리줄이 잠기도록 질산 은 수용액을 ${d3.vol?`<b>${d3.vol} mL</b> `:""}넣는다.</li><li>움직이지 않고 30분 동안 수용액의 색과 구리줄 표면의 변화를 관찰한다.</li></ol></div>
+   <div class="rsec"><h4>실험 과정</h4><ol><li>구리줄 표면을 사포로 문지른다.</li><li>구리줄로 <b>${shapeN}</b> 모양을 만들어 핀셋으로 페트리 접시에 넣는다.</li><li>구리줄이 잠기도록 질산 은 수용액을 ${d3.vol?`<b>${d3.vol} mL</b> `:""}넣는다.</li><li>움직이지 않고 20분 동안 수용액의 색과 구리줄 표면의 변화를 관찰한다.</li></ol></div>
    <div class="rsec"><h4>실험 결과 (내 관찰 기록)</h4><div class="obs-table-wrap" style="margin-top:0"><table class="obs"><thead><tr><th>시간</th><th>수용액의 색</th><th>구리줄 표면</th></tr></thead><tbody>${obsRows}</tbody></table></div></div>
    <div class="rsec"><h4>반응식</h4><p class="mono" style="font-size:15px;line-height:1.9">산화: Cu → Cu²⁺ + 2e⁻<br>환원: 2Ag⁺ + 2e⁻ → 2Ag<br>전체: Cu + 2Ag⁺ → Cu²⁺ + 2Ag</p></div>
    <div class="rsec"><h4>결론 및 고찰</h4><div style="display:grid;gap:18px">
@@ -1088,7 +1182,7 @@ function seedExamples(){
     const t=new Date(Date.now()-extra.ago*60000).toISOString();r.updatedAt=t;r.startedAt=new Date(Date.now()-(extra.ago+35)*60000).toISOString();
     r.d.s1=Object.fromEntries(Q1.map((q,i)=>[i,{done:true,tries:1,picks:[0],score:i%4===3?1:2}]));
     if(stage>2)r.d.s2={part:{tools:5,ppe:4,ox:6,order:4}};
-    r.d.s3=stage>3?{sub:8,safety:2,sand:2,place:2,pour:4,pourTries:1,vol:20,shape:"heart",obs:{0:{c:"c0",s:"s0"},3:{c:"c1",s:"s1"},10:{c:"c2",s:"s2"},20:{c:"c3",s:"s2"},30:{c:"c3",s:"s1"}},obsScore:9,part:{},partScore:11,eqScore:8,sawRev:true}:{sub:extra.sub||1,safety:2,sand:2};
+    r.d.s3=stage>3?{sub:8,safety:2,sand:2,place:2,pour:4,pourTries:1,vol:20,shape:"heart",obs:{0:{c:"c0",s:"s0"},2:{c:"c1",s:"s1"},5:{c:"c2",s:"s2"},10:{c:"c3",s:"s2"},20:{c:"c3",s:"s1"}},obsScore:9,part:{},partScore:11,eqScore:8,sawRev:true}:{sub:extra.sub||1,safety:2,sand:2};
     if(extra.rep){r.st[3]=2;r.cur=5;r.d.s4={ans:{q1:"구리 원자가 전자를 2개 잃고 구리 이온(Cu2+)이 되어 수용액으로 녹아 들어갔기 때문이다.",q2:"은. 은 이온(Ag+)이 구리가 내놓은 전자를 얻어 은 원자로 환원되어 구리줄 표면에 붙었다.",q3:"구리가 잃은 전자를 은 이온이 얻기 때문에 전자를 주고받으며 산화와 환원이 동시에 일어난다.",q4c:1,q4:"은이 구리보다 전자를 잃기 어려워서 반응이 일어나지 않는다.",q5:"손난로 속 철가루가 공기 중 산소와 반응해 산화되면서 열을 낸다."}};r.d.s4.auto=scoreReport(r.d.s4.ans);r.rAuto=Object.values(r.d.s4.auto).reduce((a,b)=>a+b,0);r.sc[3]=r.rAuto;r.submittedAt=t}
     return r};
   const L=[mk(3,"김도윤",4,[19,19,38,0],{ago:2,rep:true}),mk(7,"박서연",3,[20,17,6,0],{ago:1,sub:4}),mk(12,"이준호",2,[16,0,0,0],{ago:3}),mk(21,"최하은",1,[8,0,0,0],{ago:0})];
