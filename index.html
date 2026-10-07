@@ -116,7 +116,20 @@ p{margin:0}
 .tstep[data-state="done"] .s{color:var(--ok);font-weight:700}
 .tstep[data-state="done"]{background:#F7FBF9}
 .tstep:hover{border-color:var(--c)}
-.tnote{font-size:12.5px;color:var(--muted);margin:-12px 0 18px}
+.tnote{font-size:12.5px;color:var(--muted);margin:-10px 0 18px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.hub{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.hcard{position:relative;text-align:left;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:20px 18px 18px;display:flex;flex-direction:column;gap:8px;min-height:230px;transition:transform .15s,border-color .15s,box-shadow .15s}
+.hcard:hover{transform:translateY(-3px);border-color:var(--c);box-shadow:0 14px 28px -14px rgba(18,32,42,.35)}
+.hcard .num{font-family:var(--f-disp);font-size:46px;line-height:1;color:var(--c)}
+.hcard .ht{font-size:19px;font-weight:700}
+.hcard .hd{font-size:13.5px;color:var(--muted)}
+.hcard .hs{margin-top:auto;align-self:flex-start;font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px;background:var(--line2);color:var(--faint)}
+.hcard .hs.run{background:#FFF3D9;color:#9A6200}
+.hcard .hs.ok{background:#E2F5EC;color:var(--ok)}
+.hcard .hgo{font-weight:700;color:#fff;background:var(--c);border-radius:10px;padding:9px 12px;text-align:center}
+.hrec{position:absolute;top:14px;right:14px;background:var(--red);color:#fff;font-size:11.5px;font-weight:700;border-radius:999px;padding:3px 10px}
+@media (max-width:900px){.hub{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:420px){.hub{grid-template-columns:1fr}.hcard{min-height:0}}
 .tstep .bar{height:4px;border-radius:4px;background:var(--line2);margin-top:8px;overflow:hidden}
 .tstep .bar i{display:block;height:100%;background:var(--c);width:0;transition:width .4s}
 
@@ -461,7 +474,7 @@ footer.foot .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:
 <main id="viewStudent" hidden>
   <div class="wrap ws">
     <nav class="tracker" id="tracker" aria-label="활동 단계"></nav>
-    <p class="tnote">①→②→③→④ 순서로 진행하는 것을 권장해요. 필요하면 위 단계 카드를 눌러 원하는 단계로 바로 이동할 수 있어요.</p>
+    <div class="tnote"><button class="btn line" id="hubBtn" style="padding:6px 12px;font-size:13px">☰ 단계 선택 화면</button><span>①→②→③→④ 순서를 권장해요. 위 단계 카드를 눌러도 원하는 단계로 바로 이동할 수 있어요.</span></div>
     <div id="stageBox"></div>
   </div>
 </main>
@@ -697,7 +710,7 @@ function tab(stu){$("#tabStu").setAttribute("aria-selected",stu);$("#tabTea").se
 $("#tabStu").onclick=()=>tab(true);$("#tabTea").onclick=()=>tab(false);
 
 let rec=null,teaPw=null;
-function newRec(c,n,nm){const now=new Date().toISOString();return{key:`${c}-${n}-${nm}`,grade:1,cls:+c,num:+n,name:nm,cur:1,st:[1,0,0,0],sc:[0,0,0,0],d:{s1:{},s2:null,s3:{sub:1},s4:null},rAuto:null,rTeacher:null,startedAt:now,updatedAt:now,submittedAt:null}}
+function newRec(c,n,nm){const now=new Date().toISOString();return{key:`${c}-${n}-${nm}`,grade:1,cls:+c,num:+n,name:nm,cur:1,st:[0,0,0,0],sc:[0,0,0,0],d:{s1:{},s2:null,s3:{sub:1},s4:null},rAuto:null,rTeacher:null,startedAt:now,updatedAt:now,submittedAt:null}}
 $("#stuForm").onsubmit=async e=>{
   e.preventDefault();const c=$("#inCls").value,n=$("#inNum").value,nm=$("#inName").value.trim().replace(/\s+/g,"");
   const m=$("#stuMsg");
@@ -722,13 +735,23 @@ $("#exitBtn").onclick=goHome;$("#homeLink").onclick=e=>{e.preventDefault();if($(
 
 /* ================= 학생 화면 ================= */
 let viewStage=1;
-function openStudent(){show("student");$("#whoText").textContent=`1학년 ${rec.cls}반 ${rec.num}번 ${rec.name}`;viewStage=Math.min(rec.cur,4);renderTracker();renderStage()}
+function openStudent(){show("student");$("#whoText").textContent=`1학년 ${rec.cls}반 ${rec.num}번 ${rec.name}`;viewStage=0;renderTracker();renderStage()}
 function stagePct(i){const s=rec.st[i];if(s===2)return 100;if(s===0)return 0;
   if(i===0)return Object.keys(rec.d.s1||{}).filter(k=>rec.d.s1[k].done).length/Q1.length*100;
   if(i===2)return SUBS.filter((_,k)=>subDone(rec.d.s3,k+1)).length/7*100;return 15}
 function firstUndone(from){for(let k=1;k<=4;k++){const i=((from-1+k)%4)+1;if(rec.st[i-1]!==2)return i}return 0}
 function syncS3(){if(rec.st[2]!==2&&!nextSub(rec.d.s3,0)){rec.st[2]=2;rec.d.s3.sub=8;rec.sc[2]=s3score();if(rec.st.every(x=>x===2))rec.cur=5}}
-function goStage(i){syncS3();viewStage=i;labStop();if(rec.st[i-1]===0)rec.st[i-1]=1;if(rec.st[i-1]!==2)rec.cur=i;persist();renderTracker();renderStage();window.scrollTo({top:0,behavior:"smooth"})}
+function goStage(i){syncS3();viewStage=i;labStop();if(i>0){if(rec.st[i-1]===0)rec.st[i-1]=1;if(rec.st[i-1]!==2)rec.cur=i;persist()}renderTracker();renderStage();window.scrollTo({top:0,behavior:"smooth"})}
+$("#hubBtn").onclick=()=>goStage(0);
+function renderHub(box){
+  const rec1=firstUndone(0);const all=rec.st.every(x=>x===2);
+  box.innerHTML=`<div class="stage-head"><div class="stage-title" style="--c:var(--mint-d)"><span class="ring"></span><p class="k">LAB MENU</p><h2>활동 단계 선택</h2><p>${esc(rec.name)} 학생, 원하는 단계를 골라 시작하세요. 처음이라면 ①부터 순서대로 하는 것을 권해요.</p></div>
+  <div class="shorts"><div class="avatar">한슬</div><div><p class="lbl">한슬쌤의 '숏'터뷰</p><p class="q">Q. ${all?"모든 단계를 마쳤어요! 오늘 실험 한 줄 소감은?":"오늘은 어디부터 시작해 볼까요?"}</p><p class="a">${all?"결과보고서가 담당 선생님께 전송되었습니다.":`추천 단계: <b>${STAGES[rec1-1].k} ${STAGES[rec1-1].t}</b>`}</p></div></div></div>
+  <div class="hub">${STAGES.map((g,i)=>{const st=rec.st[i];const isRec=!all&&i+1===rec1;
+    return`<button class="hcard" style="--c:${g.c}" data-go="${i+1}">${isRec?'<span class="hrec">추천</span>':""}<span class="num">${g.k}</span><span class="ht">${g.t}</span><span class="hd">${["전시 학습 확인 · 10문항","준비물·보호구·안전 수칙·순서","조작 → 관찰 → 입자 모형 → 반응식","관찰 결과로 보고서 작성·제출"][i]}</span>
+    <span class="hs ${st===2?"ok":st===1?"run":""}">${st===2?"완료 ✓":st===1?"진행 중":"시작 전"}</span><span class="hgo">${st===2?"확인하기":st===1?"이어하기 →":"시작하기 →"}</span></button>`}).join("")}</div>`;
+  $$(".hcard",box).forEach(b=>b.onclick=()=>goStage(+b.dataset.go));
+}
 function renderTracker(){
   syncS3();
   $("#tracker").innerHTML=STAGES.map((s,i)=>{const st=rec.st[i];const state=i+1===viewStage?"cur":(st===2?"done":"open");
@@ -741,12 +764,13 @@ function head(i,q,a){const s=STAGES[i-1];const desc=["전시 학습에서 배운
   <div class="shorts"><div class="avatar">한슬</div><div><p class="lbl">한슬쌤의 '숏'터뷰</p><p class="q">Q. ${q}</p><p class="a">${a}</p></div></div></div>`}
 function renderStage(){
   const box=$("#stageBox");
+  if(viewStage===0){renderHub(box);return}
   if(rec.cur>4&&viewStage===5)viewStage=4;
   const i=viewStage;
   if(rec.st[i-1]===2&&!(i===4)){box.innerHTML=head(i,"이 단계는 이미 마쳤어요!","제출한 답은 수정할 수 없어요. 다음 단계로 이어가세요.")+`<div class="panel lockcard"><h3>✓ ${STAGES[i-1].t} 완료</h3><p class="lead">담당 선생님께 기록이 전송되었습니다.</p><div class="actions" style="justify-content:center">${firstUndone(i)?`<button class="btn primary" id="toCur">${STAGES[firstUndone(i)-1].t} 단계로 →</button>`:""}</div></div>`;const tc=$("#toCur");if(tc)tc.onclick=()=>goStage(firstUndone(i));return}
   if(i===1)renderS1(box);else if(i===2)renderS2(box);else if(i===3)renderS3(box);else renderS4(box);
 }
-function advance(i){rec.st[i-1]=2;const n=firstUndone(i);if(n){rec.st[n-1]=Math.max(rec.st[n-1],1);rec.cur=n;viewStage=n}else{rec.cur=5;viewStage=i}persist();renderTracker();renderStage();window.scrollTo({top:0,behavior:"smooth"})}
+function advance(i){rec.st[i-1]=2;const n=firstUndone(i);rec.cur=n||5;persist();if(i===4){viewStage=4}else{viewStage=0;toast(n?`${STAGES[i-1].t} 완료! 다음 단계를 고르세요.`:"모든 단계를 마쳤어요!")}renderTracker();renderStage();window.scrollTo({top:0,behavior:"smooth"})}
 
 /* ----- STAGE 1 ----- */
 function renderS1(box){
