@@ -114,7 +114,9 @@ p{margin:0}
 .tstep .s{font-size:12px;color:var(--muted)}
 .tstep[data-state="cur"]{border-color:var(--c);box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 18%,transparent)}
 .tstep[data-state="done"] .s{color:var(--ok);font-weight:700}
-.tstep[data-state="lock"]{opacity:.5;cursor:not-allowed}
+.tstep[data-state="done"]{background:#F7FBF9}
+.tstep:hover{border-color:var(--c)}
+.tnote{font-size:12.5px;color:var(--muted);margin:-12px 0 18px}
 .tstep .bar{height:4px;border-radius:4px;background:var(--line2);margin-top:8px;overflow:hidden}
 .tstep .bar i{display:block;height:100%;background:var(--c);width:0;transition:width .4s}
 
@@ -201,9 +203,10 @@ p{margin:0}
 
 /* stage 3 lab */
 .substeps{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
-.substeps span{font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px;background:var(--line2);color:var(--faint)}
-.substeps span.done{background:#E2F5EC;color:var(--ok)}
-.substeps span.cur{background:var(--s3);color:#fff}
+.substeps button{font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px;background:var(--line2);color:var(--muted);border:1.5px solid transparent}
+.substeps button:hover{border-color:var(--s3)}
+.substeps button.done{background:#E2F5EC;color:var(--ok)}
+.substeps button.cur{background:var(--s3);color:#fff}
 .lab{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:20px;align-items:start;margin-top:14px}
 .bench{background:#E9EEF1;border-radius:16px;padding:14px;position:relative}
 .bench canvas{width:100%;aspect-ratio:1/1;display:block;border-radius:12px;touch-action:none}
@@ -458,6 +461,7 @@ footer.foot .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:
 <main id="viewStudent" hidden>
   <div class="wrap ws">
     <nav class="tracker" id="tracker" aria-label="활동 단계"></nav>
+    <p class="tnote">①→②→③→④ 순서로 진행하는 것을 권장해요. 필요하면 위 단계 카드를 눌러 원하는 단계로 바로 이동할 수 있어요.</p>
     <div id="stageBox"></div>
   </div>
 </main>
@@ -721,12 +725,16 @@ let viewStage=1;
 function openStudent(){show("student");$("#whoText").textContent=`1학년 ${rec.cls}반 ${rec.num}번 ${rec.name}`;viewStage=Math.min(rec.cur,4);renderTracker();renderStage()}
 function stagePct(i){const s=rec.st[i];if(s===2)return 100;if(s===0)return 0;
   if(i===0)return Object.keys(rec.d.s1||{}).filter(k=>rec.d.s1[k].done).length/Q1.length*100;
-  if(i===2)return((rec.d.s3.sub||1)-1)/7*100;return 15}
+  if(i===2)return SUBS.filter((_,k)=>subDone(rec.d.s3,k+1)).length/7*100;return 15}
+function firstUndone(from){for(let k=1;k<=4;k++){const i=((from-1+k)%4)+1;if(rec.st[i-1]!==2)return i}return 0}
+function syncS3(){if(rec.st[2]!==2&&!nextSub(rec.d.s3,0)){rec.st[2]=2;rec.d.s3.sub=8;rec.sc[2]=s3score();if(rec.st.every(x=>x===2))rec.cur=5}}
+function goStage(i){syncS3();viewStage=i;labStop();if(rec.st[i-1]===0)rec.st[i-1]=1;if(rec.st[i-1]!==2)rec.cur=i;persist();renderTracker();renderStage();window.scrollTo({top:0,behavior:"smooth"})}
 function renderTracker(){
-  $("#tracker").innerHTML=STAGES.map((s,i)=>{const st=rec.st[i];const state=st===2?"done":(i+1===viewStage?"cur":(st===0?"lock":"open"));
-    const lbl=st===2?"완료 ✓":st===1?"진행 중":"잠김";
-    return`<button class="tstep" style="--c:${s.c}" data-i="${i+1}" data-state="${state}" ${st===0?'aria-disabled="true"':""}><span class="k">STEP ${s.k}</span><span class="t">${s.t}</span><span class="s">${lbl}</span><span class="bar"><i style="width:${stagePct(i)}%"></i></span></button>`}).join("");
-  $$(".tstep",$("#tracker")).forEach(b=>b.onclick=()=>{const i=+b.dataset.i;if(rec.st[i-1]===0){toast("앞 단계를 마치면 열립니다.");return}viewStage=i;labStop();renderTracker();renderStage()});
+  syncS3();
+  $("#tracker").innerHTML=STAGES.map((s,i)=>{const st=rec.st[i];const state=i+1===viewStage?"cur":(st===2?"done":"open");
+    const lbl=st===2?"완료 ✓":st===1?"진행 중":"시작 전";
+    return`<button class="tstep" style="--c:${s.c}" data-i="${i+1}" data-state="${state}" ${i+1===viewStage?'aria-current="step"':""}><span class="k">STEP ${s.k}</span><span class="t">${s.t}</span><span class="s">${lbl}</span><span class="bar"><i style="width:${stagePct(i)}%"></i></span></button>`}).join("");
+  $$(".tstep",$("#tracker")).forEach(b=>b.onclick=()=>goStage(+b.dataset.i));
 }
 function head(i,q,a){const s=STAGES[i-1];const desc=["전시 학습에서 배운 '산소의 이동'으로 산화·환원을 다시 확인해요.","질산 은 수용액을 안전하게 다루기 위한 준비를 점검해요.","구리줄과 질산 은 수용액을 직접 반응시키고 관찰해요.","관찰 결과를 바탕으로 결과보고서를 완성해 제출해요."][i-1];
   return`<div class="stage-head"><div class="stage-title" style="--c:${s.c}"><span class="ring"></span><p class="k">STEP ${s.k}</p><h2>${s.t}</h2><p>${desc}</p></div>
@@ -735,10 +743,10 @@ function renderStage(){
   const box=$("#stageBox");
   if(rec.cur>4&&viewStage===5)viewStage=4;
   const i=viewStage;
-  if(rec.st[i-1]===2&&!(i===4)){box.innerHTML=head(i,"이 단계는 이미 마쳤어요!","제출한 답은 수정할 수 없어요. 다음 단계로 이어가세요.")+`<div class="panel lockcard"><h3>✓ ${STAGES[i-1].t} 완료</h3><p class="lead">담당 선생님께 기록이 전송되었습니다.</p><div class="actions" style="justify-content:center"><button class="btn primary" id="toCur">진행 중인 단계로 →</button></div></div>`;$("#toCur").onclick=()=>{viewStage=Math.min(rec.cur,4);renderTracker();renderStage()};return}
+  if(rec.st[i-1]===2&&!(i===4)){box.innerHTML=head(i,"이 단계는 이미 마쳤어요!","제출한 답은 수정할 수 없어요. 다음 단계로 이어가세요.")+`<div class="panel lockcard"><h3>✓ ${STAGES[i-1].t} 완료</h3><p class="lead">담당 선생님께 기록이 전송되었습니다.</p><div class="actions" style="justify-content:center">${firstUndone(i)?`<button class="btn primary" id="toCur">${STAGES[firstUndone(i)-1].t} 단계로 →</button>`:""}</div></div>`;const tc=$("#toCur");if(tc)tc.onclick=()=>goStage(firstUndone(i));return}
   if(i===1)renderS1(box);else if(i===2)renderS2(box);else if(i===3)renderS3(box);else renderS4(box);
 }
-function advance(i){rec.st[i-1]=2;if(i<4){rec.st[i]=Math.max(rec.st[i],1);rec.cur=i+1}else rec.cur=5;persist();viewStage=Math.min(rec.cur,4);renderTracker();renderStage();window.scrollTo({top:0,behavior:"smooth"})}
+function advance(i){rec.st[i-1]=2;const n=firstUndone(i);if(n){rec.st[n-1]=Math.max(rec.st[n-1],1);rec.cur=n;viewStage=n}else{rec.cur=5;viewStage=i}persist();renderTracker();renderStage();window.scrollTo({top:0,behavior:"smooth"})}
 
 /* ----- STAGE 1 ----- */
 function renderS1(box){
@@ -835,15 +843,23 @@ function renderS2(box){
 let labSim=null,labRAF=0;
 function labStop(){cancelAnimationFrame(labRAF);labRAF=0}
 const SUBS=["안전 점검","사포질","구리줄 넣기","용액 붓기","관찰·기록","입자 모형","반응식"];
+let s3view=null;
+function subDone(d,k){d=d||{};if((d.sub||1)>k&&d.sub>=8)return true;return k===1?d.safety!=null:k===2?d.sand!=null:k===3?d.place!=null:k===4?d.pour!=null:k===5?d.obsScore!=null:k===6?d.partScore!=null:d.eqScore!=null}
+function nextSub(d,from){for(let k=1;k<=7;k++){const j=((from-1+k)%7)+1;if(!subDone(d,j))return j}return 0}
 function renderS3(box){
   const d=rec.d.s3;if(!d.sub)d.sub=1;
-  const sub=d.sub;
+  if(s3view==null||s3view<1||s3view>7)s3view=nextSub(d,0)||1;
+  const sub=s3view;
   const QS={1:["실험 시작 전, 마지막으로 무엇을 확인해야 할까요?","보호구와 폐수 통. 안전이 첫 번째 관찰입니다."],2:["구리줄을 왜 사포로 문지를까요?","표면의 산화 피막과 기름을 벗겨야 반응이 잘 일어나요."],3:["구리줄 모양은 자유! 어떤 모양으로 만들까요?","모양이 달라도 일어나는 반응은 같아요."],4:["질산 은 수용액은 얼마나 부어야 할까요?","구리줄이 완전히 잠길 만큼. 넘치면 위험해요."],5:["수용액의 색과 구리줄 표면은 어떻게 변할까요?","결과를 미리 판단하지 말고, 보이는 대로 기록해요."],6:["전자는 누구에게서 누구에게로 이동했을까요?","입자 모형에서 전자를 직접 옮겨 보세요."],7:["지금까지 본 것을 반응식으로 쓰면?","전자 잃으면 산화, 얻으면 환원!"]};
   const q=QS[Math.min(sub,7)];
-  box.innerHTML=head(3,q[0],q[1])+`<div class="panel"><div class="substeps">${SUBS.map((s,i)=>`<span class="${i+1<sub?"done":i+1===sub?"cur":""}">${i+1}. ${s}</span>`).join("")}</div><div id="subBox"></div></div>`;
+  box.innerHTML=head(3,q[0],q[1])+`<div class="panel"><div class="substeps">${SUBS.map((s,i)=>`<button type="button" data-k="${i+1}" class="${i+1===sub?"cur":subDone(d,i+1)?"done":""}">${subDone(d,i+1)&&i+1!==sub?"✓ ":""}${i+1}. ${s}</button>`).join("")}</div><div id="subBox"></div></div>`;
   const B=$("#subBox");labStop();labSim=null;
-  const next=()=>{d.sub++;rec.sc[2]=s3score();persist();renderTracker();renderS3(box);box.scrollIntoView({behavior:"smooth",block:"start"})};
-  if(sub===1)sub1(B,d,next);else if(sub===2)sub2(B,d,next);else if(sub===3)sub3(B,d,next);else if(sub===4)sub4(B,d,next);else if(sub===5)sub5(B,d,next);else if(sub===6)sub6(B,d,next);else sub7(B,d,()=>{rec.sc[2]=s3score();advance(3)});
+  $$(".substeps button",box).forEach(b=>b.onclick=()=>{s3view=+b.dataset.k;renderS3(box)});
+  const finishAll=()=>{d.sub=8;rec.sc[2]=s3score();s3view=null;advance(3)};
+  const next=()=>{d.sub=Math.max(d.sub,sub+1);rec.sc[2]=s3score();const n=nextSub(d,sub);if(!n){finishAll();return}s3view=n;persist();renderTracker();renderS3(box);box.scrollIntoView({behavior:"smooth",block:"start"})};
+  if(subDone(d,sub)){const n=nextSub(d,sub);B.innerHTML=`<div class="lockcard"><h3>✓ ${sub}. ${SUBS[sub-1]} 완료</h3><p class="lead">이미 마친 세부 단계예요. 기록은 선생님께 전송되었습니다.</p><div class="actions" style="justify-content:center">${n?`<button class="btn primary" id="toSub">${n}. ${SUBS[n-1]}(으)로 →</button>`:`<button class="btn go" id="toSub">가상 실험 마치기 →</button>`}</div></div>`;$("#toSub").onclick=()=>{if(n){s3view=n;renderS3(box)}else finishAll()};return}
+  if(sub===6&&d.partScore==null)d.part={};
+  if(sub===1)sub1(B,d,next);else if(sub===2)sub2(B,d,next);else if(sub===3)sub3(B,d,next);else if(sub===4)sub4(B,d,next);else if(sub===5)sub5(B,d,next);else if(sub===6)sub6(B,d,next);else sub7(B,d,next);
 }
 function s3score(){const d=rec.d.s3;return(d.safety||0)+(d.sand||0)+(d.place||0)+(d.pour||0)+(d.obsScore||0)+(d.partScore||0)+(d.eqScore||0)}
 function sub1(B,d,next){
@@ -1064,7 +1080,7 @@ function sub7(B,d,done){
     $$("select",B).forEach(s=>{const e=EQ.find(x=>x.id===s.dataset.id);s.disabled=true;s.classList.add(s.value===e.ans?"g-ok":"g-bad")});
     $("#eqMsg").textContent="";
     $("#fb7").innerHTML='<div class="fb ok" style="margin-top:12px"><b>정리</b>Cu → Cu²⁺ + 2e⁻ / 2Ag⁺ + 2e⁻ → 2Ag / Cu + 2Ag⁺ → Cu²⁺ + 2Ag. 전자를 잃으면 산화, 얻으면 환원이며 산화와 환원은 항상 동시에 일어납니다.</div>';
-    const g=$("#go");g.textContent="가상 실험 완료, 보고서 쓰기 →";g.className="btn go";g.onclick=()=>{d.sub=8;done()};
+    const g=$("#go");g.textContent="다음 →";g.className="btn go";g.onclick=done;
   };
 }
 
@@ -1087,12 +1103,13 @@ function scoreReport(a){
 }
 function renderS4(box){
   const d3=rec.d.s3||{};
-  if(rec.st[3]===2){box.innerHTML=`<div class="done-hero"><h2>보고서 제출 완료!</h2><p>${esc(rec.name)} 학생의 결과보고서가 담당 선생님께 전송되었습니다.<br>제출 시각 ${fmtTime(rec.submittedAt)}</p></div>`;return}
+  const left=[0,1,2].filter(k=>rec.st[k]!==2);
+  if(rec.st[3]===2){box.innerHTML=`<div class="done-hero"><h2>보고서 제출 완료!</h2><p>${esc(rec.name)} 학생의 결과보고서가 담당 선생님께 전송되었습니다.<br>제출 시각 ${fmtTime(rec.submittedAt)}</p>${left.length?`<p style="margin-top:16px;color:#fff;font-weight:700">아직 마치지 않은 단계가 있어요.</p><div class="actions" style="justify-content:center">${left.map(k=>`<button class="btn primary" data-go="${k+1}">${STAGES[k].k} ${STAGES[k].t} →</button>`).join("")}</div>`:""}</div>`;$$("[data-go]",box).forEach(b=>b.onclick=()=>goStage(+b.dataset.go));return}
   const a=(rec.d.s4&&rec.d.s4.ans)||{};
   const obsRows=TPTS.map(p=>{const o=(d3.obs||{})[p]||{};const c=COLORS.find(x=>x.id===o.c),s=SURF.find(x=>x.id===o.s);return`<tr><td class="t">${p}분</td><td>${c?`<i style="display:inline-block;width:14px;height:14px;border-radius:4px;background:${c.hex};border:1px solid var(--line);vertical-align:-2px;margin-right:6px"></i>${c.n}`:"-"}</td><td>${s?s.n:"-"}</td></tr>`}).join("");
   const shapeN={spiral:"나선",heart:"하트",zigzag:"지그재그"}[d3.shape]||"-";
   box.innerHTML=head(4,"오늘 실험, 한 문장으로 말하면?","'전자를 잃으면 산화, 얻으면 환원, 그리고 둘은 동시에!' 관찰 결과를 근거로 고찰을 써 보세요.")+
-  `<div class="panel"><div class="report">
+  (left.length?`<div class="fb try" style="margin-bottom:14px"><b>먼저 확인!</b>아직 마치지 않은 단계: ${left.map(k=>`<button class="btn line" style="padding:4px 10px;font-size:13px;margin:2px" data-go="${k+1}">${STAGES[k].k} ${STAGES[k].t}</button>`).join("")} 보고서는 제출하면 수정할 수 없으니, 앞 단계를 먼저 마치는 것을 권해요.${rec.st[2]!==2?" (가상 실험을 마치면 관찰 기록이 보고서에 자동으로 채워져요.)":""}</div>`:"")+`<div class="panel"><div class="report">
    <div class="rsec"><h4>실험 제목</h4><p><b>구리와 질산 은 수용액의 산화·환원 반응 관찰하기</b></p><p class="note" style="margin-top:4px">1학년 ${rec.cls}반 ${rec.num}번 ${esc(rec.name)} · 통합과학2 Ⅰ-2-01</p></div>
    <div class="rsec"><h4>실험 목표</h4><p>질산 은(AgNO₃) 수용액과 구리(Cu)의 산화·환원 반응을 관찰하고, 전자의 이동으로 설명할 수 있다.</p></div>
    <div class="rsec"><h4>준비물 · 안전</h4><p>질산 은 수용액, 구리줄, 페트리 접시, 사포, 핀셋 / 보안경, 실험용 장갑, 보호 장갑, 실험복</p><p class="note" style="margin-top:4px">질산 은 수용액이 피부나 옷에 닿으면 즉시 흐르는 물에 씻고, 남은 용액은 폐수 통에 버린다.</p></div>
@@ -1104,6 +1121,7 @@ function renderS4(box){
    </div></div>
   </div>
   <div class="actions"><span class="note" id="r4msg">작성 중인 내용은 자동으로 임시 저장됩니다.</span><button class="btn red" id="r4sub">결과보고서 제출</button></div><div id="r4conf"></div></div>`;
+  $$("[data-go]",box).forEach(b=>b.onclick=()=>goStage(+b.dataset.go));
   const collect=()=>{const o={};RQ.forEach(q=>o[q.k]=$("#r_"+q.k).value.trim());const c=$('input[name="q4c"]:checked');o.q4c=c?+c.value:null;return o};
   let tmr;$$("textarea",box).forEach(t=>t.oninput=()=>{t.nextElementSibling.firstElementChild.textContent=t.value.length;clearTimeout(tmr);tmr=setTimeout(()=>{if(!rec||rec.st[3]===2)return;rec.d.s4={ans:collect()};persist()},1500)});
   $$('input[name="q4c"]').forEach(r=>r.onchange=()=>{if(!rec||rec.st[3]===2)return;rec.d.s4={ans:collect()};persist()});
@@ -1140,7 +1158,7 @@ function renderTeacher(){
   R.sort((a,b)=>(key[sortBy](a)-key[sortBy](b))*sortDir);
   const cell=(r,i)=>{const st=r.st[i];const v=i===3?r4(r):r.sc[i];
     if(st===2)return`<span class="sc"><span class="chip ok">완료</span><span class="mono">${v}</span>${i===3&&r.rTeacher==null?'<span class="chip run">확인 필요</span>':""}</span>`;
-    if(st===1){const extra=i===2?` ${Math.max(1,(r.d.s3&&r.d.s3.sub)||1)}/7`:i===0?` ${Object.values(r.d.s1||{}).filter(x=>x.done).length}/10`:"";return`<span class="sc"><span class="chip run">진행 중${extra}</span>${i<3&&r.sc[i]?`<span class="mono" style="color:var(--faint)">${r.sc[i]}</span>`:""}</span>`}
+    if(st===1){const extra=i===2?` ${SUBS.filter((_,k)=>subDone(r.d.s3,k+1)).length}/7`:i===0?` ${Object.values(r.d.s1||{}).filter(x=>x.done).length}/10`:"";return`<span class="sc"><span class="chip run">진행 중${extra}</span>${i<3&&r.sc[i]?`<span class="mono" style="color:var(--faint)">${r.sc[i]}</span>`:""}</span>`}
     return'<span class="chip no">미시작</span>'};
   $("#roster").innerHTML=R.length?R.map(r=>`<tr><td class="mono">${r.cls}-${String(r.num).padStart(2,"0")}</td><td><b>${esc(r.name)}</b></td>${[0,1,2,3].map(i=>`<td>${cell(r,i)}</td>`).join("")}<td class="tot">${total(r)}</td><td class="note">${fmtTime(r.updatedAt)}</td><td><button class="btn line" style="padding:6px 12px;font-size:13px" data-k="${esc(r.key)}">${r.st[3]===2?"보고서 보기":"상세"}</button></td></tr>`).join(""):`<tr><td colspan="9" class="empty">아직 입장한 학생이 없습니다. 학생들이 반·번호·성명으로 입장하면 여기에 실시간으로 나타납니다.</td></tr>`;
   $$("#roster button[data-k]").forEach(b=>b.onclick=()=>openDetail(b.dataset.k));
