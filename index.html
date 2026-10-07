@@ -936,7 +936,7 @@ function sub5(B,d,next){
     $$(".sw button",tr).forEach(b=>b.onclick=()=>{(d.obs[p]=d.obs[p]||{}).c=b.dataset.c;$$(".sw button",tr).forEach(x=>x.setAttribute("aria-pressed",x===b))});
     $("select",tr).onchange=e=>{(d.obs[p]=d.obs[p]||{}).s=e.target.value}})};
   bindRows();
-  const setT=v=>{t=clamp(v,0,TMAX);if(Math.abs(t-Math.round(t))<.02)t=Math.round(t);if(!rev&&t>d.maxT){const before=d.maxT;d.maxT=t;if(TPTS.some(p=>p>before&&p<=t))bindRows()}
+  const setT=v=>{t=clamp(v,0,TMAX);if(!rev&&t>d.maxT){const before=d.maxT;d.maxT=t;if(TPTS.some(p=>p>before&&p<=t))bindRows()}
     labSim.draw(t);const pc=t/TMAX*100;$("#tlFill").style.width=pc+"%";$("#tlThumb").style.left=pc+"%";$("#tlSeen").style.width=(d.maxT/TMAX*100)+"%";$("#tl").setAttribute("aria-valuenow",t.toFixed(1));
     const m=Math.floor(t+1e-6),s=Math.floor((t-m)*60+1e-6);$("#clk").textContent=`${m}분 ${String(s).padStart(2,"0")}초`;
     $$("#tl .cp").forEach(b=>{const p=+b.dataset.t;b.classList.toggle("seen",d.maxT>=p);b.classList.toggle("now",Math.abs(t-p)<.05)})};
