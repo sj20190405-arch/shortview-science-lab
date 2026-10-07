@@ -7,5 +7,5 @@
  * 예) GAS_URL: "https://script.google.com/macros/s/AKfycb.../exec"
  */
 window.LAB_CONFIG = {
-  GAS_URL: ""
+  GAS_URL: "https://script.google.com/macros/s/AKfycbyc_xmOhy3xqnf5gr0nsef7hVCGCjbNvqjas0oO_hjDvComWrsspJfCtLDrRnNJFoRV/exec"
 };
