@@ -590,7 +590,7 @@ const TOOLS=[
  {id:"lamp",n:"알코올램프",ok:0},{id:"charc",n:"숯가루",ok:0},{id:"lime",n:"석회수",ok:0},{id:"tube",n:"시험관 집게",ok:0}
 ];
 const STEPS=[
- {id:"P",t:"실험용 장갑과 보안경을 착용한다."},
+ {id:"P",t:"실험용 장갑을 착용한다."},
  {id:"A",t:"구리줄 표면을 사포로 문지른다."},
  {id:"B",t:"구리줄로 원하는 모양을 만들어 페트리 접시에 넣는다."},
  {id:"C",t:"구리줄이 잠기도록 질산 은 수용액을 넣는다."},
@@ -765,7 +765,7 @@ function renderTracker(){
     return`<button class="tstep" style="--c:${s.c}" data-i="${i+1}" data-state="${state}" ${i+1===viewStage?'aria-current="step"':""}><span class="k">STEP ${s.k}</span><span class="t">${s.t}</span><span class="s">${lbl}</span><span class="bar"><i style="width:${stagePct(i)}%"></i></span></button>`}).join("");
   $$(".tstep",$("#tracker")).forEach(b=>b.onclick=()=>goStage(+b.dataset.i));
 }
-function head(i,q,a){const s=STAGES[i-1];const desc=["지난 시간에 배운 '산소의 이동'으로 산화·환원을 다시 확인해요.","질산 은 수용액을 안전하게 다루기 위한 준비를 점검해요.","구리줄과 질산 은 수용액을 직접 반응시키고 관찰해요.","관찰 결과를 바탕으로 결과보고서를 완성해 제출해요."][i-1];
+function head(i,q,a){const s=STAGES[i-1];const desc=["지난 시간에 배운 '산소의 이동'으로 산화·환원을 다시 확인해요.","안전한 실험을 위해 점검해요.","구리줄과 질산 은 수용액을 직접 반응시키고 관찰해요.","관찰 결과를 바탕으로 결과보고서를 완성해 제출해요."][i-1];
   return`<div class="stage-head"><div class="stage-title" style="--c:${s.c}"><span class="ring"></span><p class="k">STEP ${s.k}</p><h2>${s.t}</h2><p>${desc}</p></div>
   <div class="shorts"><div class="avatar">한슬</div><div><p class="lbl">한슬쌤의 통합과학2 실험실</p><p class="q">Q. ${q}</p><p class="a">${a}</p></div></div></div>`}
 function renderStage(){
@@ -809,7 +809,8 @@ function renderS1(box){
 
 /* ----- STAGE 2 ----- */
 function silverIllust(){
-  const hand=(x,y,f,st,glove)=>`<g transform="translate(${x} ${y})"><rect x="0" y="52" width="66" height="62" rx="20" fill="${f}" stroke="${st}" stroke-width="2.5"/>${[0,1,2,3].map(k=>`<rect x="${3+k*16}" y="${[8,0,2,12][k]}" width="14" height="58" rx="7" fill="${f}" stroke="${st}" stroke-width="2.5"/>`).join("")}<rect x="-20" y="56" width="16" height="46" rx="8" transform="rotate(-32 -12 80)" fill="${f}" stroke="${st}" stroke-width="2.5"/><rect x="2" y="44" width="62" height="22" fill="${f}"/>${glove?`<rect x="-4" y="108" width="74" height="22" rx="6" fill="#5E95D6" stroke="#2D5F9E" stroke-width="2.5"/>`:""}</g>`;
+  const HAND=['<rect x="2" y="56" width="70" height="66" rx="24"/>','<rect x="4" y="16" width="15" height="70" rx="7.5"/>','<rect x="21" y="4" width="15" height="80" rx="7.5"/>','<rect x="38" y="8" width="15" height="76" rx="7.5"/>','<rect x="55" y="22" width="14" height="64" rx="7"/>','<rect x="-24" y="62" width="17" height="52" rx="8.5" transform="rotate(-38 -15.5 88)"/>','<rect x="-12" y="78" width="30" height="34" rx="12"/>'];
+  const hand=(x,y,f,st,glove)=>`<g transform="translate(${x} ${y})"><g fill="${st}" stroke="${st}" stroke-width="5" stroke-linejoin="round">${HAND.join("")}</g><g fill="${f}">${HAND.join("")}</g><g stroke="${st}" stroke-width="1.6" stroke-linecap="round" opacity=".45" fill="none"><path d="M11.5 74v-8M28.5 72v-10M45.5 72v-10M62 74v-8"/></g>${glove?`<rect x="-2" y="112" width="78" height="24" rx="7" fill="#5E95D6" stroke="#2D5F9E" stroke-width="2.5"/><path d="M6 124h62" stroke="#2D5F9E" stroke-width="1.5" opacity=".5"/>`:""}</g>`;
   return`<svg viewBox="0 0 700 250" class="ag-ill" role="img" aria-label="질산 은 수용액이 손에 묻으면 갈색 반점, 흐르는 물로 씻기, 실험용 장갑 착용">
   <rect x="6" y="6" width="210" height="238" rx="18" fill="#FFF3F3" stroke="#F0B7C0" stroke-width="2"/>
   <rect x="245" y="6" width="210" height="238" rx="18" fill="#EEF5FF" stroke="#B9D2F5" stroke-width="2"/>
@@ -837,7 +838,7 @@ function renderS2(box){
      <div class="agq-ans" id="agqAns" ${st.revealed?"":"hidden"}>${silverIllust()}
        <ul class="agq-list"><li><b>①</b> 질산 은 수용액이 피부에 닿으면 <b class="red">갈색 반점</b>이 생길 수 있다.</li><li><b>②</b> 질산 은 수용액이 피부나 옷에 닿으면 <b class="blue">즉시 흐르는 물에 씻는다.</b></li></ul>
        <p class="agq-must">그러니까 준비된 <u>실험용 장갑</u>을 반드시 착용합니다!</p></div></div>
-   <div class="panel"><h3>A. 실험 도구 고르기 <span class="sub">탐구에 필요한 것만 모두 고르세요</span></h3><div class="tiles" id="tTools"></div></div>
+   <div class="panel"><h3>A. 실험 도구 고르기 <span class="sub">실험에 필요한 것만 모두 고르세요</span></h3><div class="tiles" id="tTools"></div></div>
    <div class="panel"><h3>B. 실험 과정 순서 정하기 <span class="sub">카드를 마우스로 끌어 위아래로 옮기세요</span></h3><div class="order" id="tOrd"></div>
      <div class="actions"><span class="note" id="s2msg"></span><button class="btn primary" id="s2sub">실험 준비 점검 제출</button></div>
      <div id="s2after"></div></div>`;
@@ -872,7 +873,7 @@ function renderS2(box){
     $$(".tile",$("#tTools")).forEach(b=>{const x=TOOLS.find(t=>t.id===b.dataset.id);const on=st.tools.has(x.id);b.classList.add(on?(x.ok?"g-ok":"g-bad"):(x.ok?"g-miss":"_"))});
     drawOrd();$$(".orow").forEach((r,i)=>r.classList.add(STEPS[i].id===r.dataset.id?"g-ok":"g-bad"));
     $("#s2sub").hidden=true;$("#s2msg").textContent="";
-    $("#s2after").innerHTML=`<div class="fb ok" style="margin-top:14px"><b>점검 완료.</b>초록 테두리는 맞은 것, 빨간 테두리는 틀린 것, 점선은 빠뜨린 준비물입니다. 올바른 순서: 장갑·보안경 착용 → 사포질 → 모양 만들어 넣기 → 질산 은 수용액 붓기 → 움직이지 않고 관찰.</div><div class="actions"><button class="btn go" id="s2next">다음 단계 고르기 →</button></div>`;
+    $("#s2after").innerHTML=`<div class="fb ok" style="margin-top:14px"><b>점검 완료.</b>초록 테두리는 맞은 것, 빨간 테두리는 틀린 것, 점선은 빠뜨린 준비물입니다. 올바른 순서: 실험용 장갑 착용 → 사포질 → 모양 만들어 넣기 → 질산 은 수용액 붓기 → 움직이지 않고 관찰.</div><div class="actions"><button class="btn go" id="s2next">다음 단계 고르기 →</button></div>`;
     $("#s2next").onclick=()=>advance(2);
   };
 }
