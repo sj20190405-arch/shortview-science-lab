@@ -648,20 +648,28 @@ function shapePath(shape){
   else if(shape==="zigzag"){const k=[[-.62,-.35],[-.31,.35],[0,-.35],[.31,.35],[.62,-.35]];for(let i=0;i<k.length-1;i++)for(let s=0;s<1;s+=.04)P.push([k[i][0]+(k[i+1][0]-k[i][0])*s,k[i][1]+(k[i+1][1]-k[i][1])*s]);P.push(k[k.length-1])}
   return P;
 }
+function flakePaths(cx,cy,R,rot){const L=[],dens=(a,b)=>{const n=Math.max(2,Math.ceil(Math.hypot(b[0]-a[0],b[1]-a[1])/.03));const o=[];for(let i=0;i<=n;i++)o.push([a[0]+(b[0]-a[0])*i/n,a[1]+(b[1]-a[1])*i/n]);return o};
+  const pt=(r,ang)=>[cx+r*Math.cos(ang),cy+r*Math.sin(ang)];
+  for(let k=0;k<6;k++){const a=rot+k*Math.PI/3;L.push(dens(pt(.08*R,a),pt(R,a)));
+    [[.42,.30],[.70,.20]].forEach(([t,l])=>{const b=pt(t*R,a);[1,-1].forEach(sg=>{const aa=a+sg*Math.PI/3;L.push(dens(b,[b[0]+l*R*Math.cos(aa),b[1]+l*R*Math.sin(aa)]))})})}
+  const ring=[];for(let k=0;k<=6;k++)ring.push(pt(.2*R,rot+k*Math.PI/3+Math.PI/6));for(let k=0;k<6;k++)L.push(dens(ring[k],ring[k+1]));
+  return L}
 class Sim{
   constructor(cv,o){this.cv=cv;this.o=Object.assign({shape:"spiral",hero:false,reverse:false,solution:true,seed:11},o);this.t=0;this.resize();}
   set(o){Object.assign(this.o,o);this.build();this.draw(this.t)}
   resize(){const r=this.cv.getBoundingClientRect();const d=Math.min(2,window.devicePixelRatio||1);this.W=Math.max(10,r.width);this.H=Math.max(10,r.height);this.cv.width=Math.round(this.W*d);this.cv.height=Math.round(this.H*d);this.ctx=this.cv.getContext("2d");this.ctx.setTransform(d,0,0,d,0,0);this.build();this.draw(this.t)}
   build(){
     const o=this.o,rnd=rngOf(o.seed);
-    if(o.hero){this.u=this.H/2.2;this.cx=this.W*.62;this.cy=this.H*.55;const span=(this.W*.75)/this.u;const P=[];for(let x=-span;x<=span;x+=.03)P.push([x,Math.sin(x*1.6)*.28+Math.sin(x*.7)*.18]);this.P=P}
-    else{this.u=Math.min(this.W,this.H)/2*.86;this.cx=this.W/2;this.cy=this.H/2;this.P=shapePath(o.shape)}
-    const P=this.P,segs=[];
+    if(o.hero){this.u=Math.min(this.H,this.W*.55)/2.2;this.cx=this.W*.5;this.cy=this.H*.5;const ux=x=>(x-this.cx)/this.u,uy=y=>(y-this.cy)/this.u;
+      const F=[[this.W*.95,this.H*.6,.95,.35],[this.W*.04,this.H*.82,.75,.2],[this.W*.51,this.H*.12,.42,.1],[this.W*.5,this.H*.93,.32,.5]];
+      this.PL=[].concat(...F.map(([x,y,r,rt])=>flakePaths(ux(x),uy(y),r,rt)))}
+    else{this.u=Math.min(this.W,this.H)/2*.86;this.cx=this.W/2;this.cy=this.H/2;this.PL=[shapePath(o.shape)]}
+    this.P=this.PL[0];const segs=[];
     const grow=(x,y,a,len,dep,st)=>{const x2=x+Math.cos(a)*len,y2=y+Math.sin(a)*len;segs.push({x1:x,y1:y,x2,y2,s:st,d:.2,w:Math.max(.5,2.6-dep*.55)});
       if(dep<4){const nb=dep===0?2:(rnd()<.55?2:1);for(let i=0;i<nb;i++)grow(x2,y2,a+(rnd()-.5)*1.25,len*(.62+rnd()*.2),dep+1,st+.14+rnd()*.07)}};
-    const step=o.hero?5:4;
-    for(let i=2;i<P.length-2;i+=step){const tx=P[i+1][0]-P[i-1][0],ty=P[i+1][1]-P[i-1][1];const L=Math.hypot(tx,ty)||1;const nx=-ty/L,ny=tx/L;const side=rnd()<.5?1:-1;
-      const a=Math.atan2(ny*side,nx*side)+(rnd()-.5)*.9;grow(P[i][0],P[i][1],a,(o.hero?.09:.07)*(.7+rnd()*.6),0,.02+rnd()*.1)}
+    const step=o.hero?6:4;
+    for(const P of this.PL)for(let i=(o.hero?1:2);i<P.length-(o.hero?1:2);i+=step){const tx=P[i+1][0]-P[i-1][0],ty=P[i+1][1]-P[i-1][1];const L=Math.hypot(tx,ty)||1;const nx=-ty/L,ny=tx/L;const side=rnd()<.5?1:-1;
+      const a=Math.atan2(ny*side,nx*side)+(rnd()-.5)*.9;grow(P[i][0],P[i][1],a,(o.hero?.05:.07)*(.7+rnd()*.6),0,.02+rnd()*.1)}
     this.segs=segs;
   }
   X(x){return this.cx+x*this.u} Y(y){return this.cy+y*this.u}
@@ -682,11 +690,11 @@ class Sim{
       c.beginPath();c.arc(this.cx,this.cy,R*.93,Math.PI*1.1,Math.PI*1.45);c.lineWidth=4;c.strokeStyle="rgba(255,255,255,.9)";c.stroke();
     }
     // wire
-    const P=this.P;const lw=(o.hero?.05:.042)*this.u;
+    const lw=(o.hero?.045:.042)*this.u;if(o.hero)c.globalAlpha=.82;
     const mix=(a,b,k)=>a.map((v,i)=>Math.round(v+(b[i]-v)*k));
     const base=o.reverse?[200,208,214]:mix([201,119,63],[150,86,52],g*.55);
     c.lineCap="round";c.lineJoin="round";
-    c.beginPath();P.forEach((p,i)=>i?c.lineTo(this.X(p[0]),this.Y(p[1])):c.moveTo(this.X(p[0]),this.Y(p[1])));
+    c.beginPath();for(const P of this.PL)P.forEach((p,i)=>i?c.lineTo(this.X(p[0]),this.Y(p[1])):c.moveTo(this.X(p[0]),this.Y(p[1])));
     c.strokeStyle=`rgb(${mix(base,[40,20,10],.35)})`;c.lineWidth=lw+2;c.stroke();c.strokeStyle=`rgb(${base})`;c.lineWidth=lw;c.stroke();
     c.strokeStyle=o.reverse?"rgba(255,255,255,.8)":`rgba(255,214,170,${.75-g*.4})`;c.lineWidth=lw*.28;c.stroke();
     // silver dendrites
@@ -697,6 +705,7 @@ class Sim{
       c.shadowBlur=0;
       if(!o.hero){c.strokeStyle="rgba(255,255,255,.85)";for(let i=0;i<this.segs.length;i+=7){const s=this.segs[i];const p=clamp((g-s.s)/s.d,0,1);if(p<1)continue;c.lineWidth=.7;c.beginPath();c.moveTo(this.X(s.x1),this.Y(s.y1));c.lineTo(this.X((s.x1+s.x2)/2),this.Y((s.y1+s.y2)/2));c.stroke()}}
     }
+    c.globalAlpha=1;
   }
 }
 
