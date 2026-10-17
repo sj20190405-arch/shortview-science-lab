@@ -319,6 +319,7 @@ select.inp.g-bad{border-color:var(--bad);background:#FDF4F5}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 .eqline{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-family:var(--f-mono);font-size:17px;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;margin-top:10px}
 .eqline .lb{font-family:var(--f-body);font-size:12px;font-weight:700;color:var(--muted);width:100%}
+.eqline.ko,.eqline.ko select{font-family:var(--f-body);font-size:16px}
 .eqline select{font-family:var(--f-mono);font-size:15px;padding:5px 6px;border-radius:8px;border:1.5px solid var(--line);background:#F7FAFC}
 .eqline select.g-ok{border-color:var(--ok);background:#E9F7F0}
 .eqline select.g-bad{border-color:var(--bad);background:#FCEDEF}
@@ -768,7 +769,7 @@ function renderTracker(){
     return`<button class="tstep" style="--c:${s.c}" data-i="${i+1}" data-state="${state}" ${i+1===viewStage?'aria-current="step"':""}><span class="k">STEP ${s.k}</span><span class="t">${s.t}</span><span class="s">${lbl}</span><span class="bar"><i style="width:${stagePct(i)}%"></i></span></button>`}).join("");
   $$(".tstep",$("#tracker")).forEach(b=>b.onclick=()=>goStage(+b.dataset.i));
 }
-function head(i,q,a){const s=STAGES[i-1];const desc=["지난 시간에 배운 '산소의 이동'으로 산화·환원을 다시 확인해요.","안전한 실험을 위해 점검해요.","구리줄과 질산 은 수용액을 직접 반응시키고 관찰해요.","관찰 결과를 바탕으로 결과보고서를 완성해 제출해요."][i-1];
+function head(i,q,a){const s=STAGES[i-1];const desc=["지난 시간에 배운 '산소의 이동'으로 산화·환원을 다시 확인해요.","안전한 실험을 위해 점검해요.","구리줄과 질산 은 수용액을 직접 반응시키고 관찰해요.","관찰 결과를 바탕으로 결과 보고서를 완성하고 제출해요."][i-1];
   return`<div class="stage-head"><div class="stage-title" style="--c:${s.c}"><span class="ring"></span><p class="k">STEP ${s.k}</p><h2>${s.t}</h2><p>${desc}</p></div>
   <div class="shorts"><div class="avatar">한슬</div><div><p class="lbl">한슬쌤의 통합과학2 실험실</p><p class="q">Q. ${q}</p><p class="a">${a}</p></div></div></div>`}
 function renderStage(){
@@ -884,7 +885,7 @@ function renderS2(box){
 /* ----- STAGE 3 ----- */
 let labSim=null,labRAF=0;
 function labStop(){cancelAnimationFrame(labRAF);labRAF=0}
-const SUBS=["사포질","구리줄 넣기","질산 은 수용액 넣기","관찰·기록","입자 모형","반응식"];
+const SUBS=["사포질 하기","구리줄 넣기","질산 은 수용액 넣기","관찰하고 기록하기","입자 모형으로 확인하기","반응식 완성하기"];
 let s3view=null;
 function subDone(d,k){d=d||{};if((d.sub||1)>k&&d.sub>=8)return true;return k===1?d.sand!=null:k===2?d.place!=null:k===3?d.pour!=null:k===4?d.obsScore!=null:k===5?d.partScore!=null:d.eqScore!=null}
 function nextSub(d,from){const N=SUBS.length;for(let k=1;k<=N;k++){const j=((from-1+k+N)%N)+1;if(!subDone(d,j))return j}return 0}
@@ -892,7 +893,7 @@ function renderS3(box){
   const d=rec.d.s3;if(!d.sub)d.sub=1;
   if(s3view==null||s3view<1||s3view>SUBS.length)s3view=nextSub(d,0)||1;
   const sub=s3view;
-  const QS={1:["구리줄을 왜 사포로 문지를까요?","표면의 산화 피막과 기름을 벗겨야 반응이 잘 일어나요."],2:["구리줄 모양은 자유! 어떤 모양으로 만들까요?","모양이 달라도 일어나는 반응은 같아요."],3:["질산 은 수용액은 얼마나 넣어야 할까요?","구리줄이 완전히 잠길 만큼. 넘치면 위험해요."],4:["수용액의 색과 구리줄 표면은 어떻게 변할까요?","결과를 미리 판단하지 말고, 보이는 대로 기록해요."],5:["전자는 누구에게서 누구에게로 이동했을까요?","입자 모형에서 전자를 직접 옮겨 보세요."],6:["지금까지 본 것을 반응식으로 쓰면?","전자 잃으면 산화, 얻으면 환원!"]};
+  const QS={1:["구리줄을 왜 사포로 문지를까요?","표면의 산화 피막과 기름을 벗겨야 반응이 잘 일어나요."],2:["구리줄 모양은 자유! 어떤 모양으로 만들까요?","모양이 달라도 일어나는 반응은 같아요."],3:["질산 은 수용액은 얼마나 넣어야 할까요?","구리줄이 완전히 잠길 만큼만, 넘치면 위험해요."],4:["수용액의 색과 구리줄 표면은 어떻게 변할까요?","결과를 미리 판단하지 말고, 보이는 대로 기록해요."],5:["전자는 누구에게서 누구에게로 이동했을까요?","입자 모형에서 전자를 직접 옮겨 보세요."],6:["지금까지 본 것을 반응식으로 쓰면?","전자 잃으면 산화, 얻으면 환원!"]};
   const q=QS[Math.min(sub,SUBS.length)];
   box.innerHTML=head(3,q[0],q[1])+`<div class="panel"><div class="substeps">${SUBS.map((s,i)=>`<button type="button" data-k="${i+1}" class="${i+1===sub?"cur":subDone(d,i+1)?"done":""}">${subDone(d,i+1)&&i+1!==sub?"✓ ":""}${i+1}. ${s}</button>`).join("")}</div><div id="subBox"></div></div>`;
   const B=$("#subBox");labStop();labSim=null;
@@ -972,7 +973,7 @@ function sub4(B,d,next){
 function sub5(B,d,next){
   d.obs=d.obs||{};d.maxT=d.maxT||0;let t=0,play=false,last=0,rev=false;
   B.innerHTML=`<div class="lab"><div class="bench"><span class="cap" id="cap5">구리줄 + 질산 은 수용액</span><canvas id="labCv"></canvas></div>
-  <div><h3>④ 관찰하고 기록하기</h3><p class="lead">총 20분 관찰합니다. 재생하면 1초에 1분씩 지나가고, 시간 축을 끌거나 위의 시간 깃발을 눌러 이동할 수도 있어요. 깃발 시간에 도달하면 기록 칸이 열립니다.</p>
+  <div><h3>④ 관찰하고 기록하기</h3><p class="lead">총 20분을 관찰합니다.<br>재생하면 1초에 1분씩 지나갑니다.<br>또 시간 축을 끌거나 위의 시간 깃발을 눌러 이동할 수도 있어요.<br>시간 깃발이 각 시간에 도달하면 기록 칸이 열립니다.</p>
    <div style="display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap"><button class="btn dark" id="playB">▶ 재생</button><span class="clockbig" id="clk">0분 00초</span><span class="note">/ 20분</span></div>
    <div class="tl" id="tl" role="slider" tabindex="0" aria-label="경과 시간(분)" aria-valuemin="0" aria-valuemax="${TMAX}" aria-valuenow="0">
      ${TPTS.map(p=>`<button class="cp" data-t="${p}" style="left:${p/TMAX*100}%">${p}분</button>`).join("")}
@@ -1030,7 +1031,7 @@ function sub6(B,d,next){
     {k:"f",q:"수용액이 푸른색으로 변한 까닭은?",o:["구리 이온(Cu²⁺)이 생겨 수용액으로 들어갔기 때문이다","은(Ag)이 석출되었기 때문이다","질산 이온이 늘어났기 때문이다","구리줄이 녹슬었기 때문이다"],a:0}
   ];
   shuffleOpts(PQ,1021);
-  B.innerHTML=`<h3>⑤ 입자 모형으로 전자 옮기기</h3>
+  B.innerHTML=`<h3>⑤ 입자 모형으로 확인하기</h3>
   <div class="pm-guide" id="pmGuide">
     <div class="pg-step" data-s="1"><span class="pg-n">1</span><span>깜빡이는 <b>노란 전자(e⁻)</b>를 잡으세요</span></div><span class="pg-arrow">→</span>
     <div class="pg-step" data-s="2"><span class="pg-n">2</span><span>전자를 받을 입자 위에 <b>끌어다 놓으세요</b></span></div><span class="pg-arrow">→</span>
@@ -1082,7 +1083,7 @@ function sub6(B,d,next){
     A.forEach((a,i)=>{$("circle",a).setAttribute("fill","#EEF2F5");$("circle",a).setAttribute("stroke","#5E6E7A");$("text",a).textContent="Ag";a.style.transform=`translate(${-230}px,${i===0?-10:-40}px)`});
     E.forEach(e=>e.style.opacity=0);
     d.part.a=mist===0?2:mist===1?1:0;
-    fb('<div class="fb ok"><b>관찰해 보세요.</b>구리 원자는 전자 2개를 잃고 Cu²⁺가 되어 수용액으로 들어가고, 은 이온 2개는 전자를 1개씩 얻어 은(Ag)이 되어 구리줄 표면에 석출됩니다.</div>');
+    fb('<div class="fb ok"><b>관찰해 보세요.</b>구리 원자(Cu)는 전자 2개를 잃고 구리 이온(Cu²⁺)이 되어 수용액으로 들어가고, 은 이온(Ag⁺) 2개는 전자를 1개씩 얻어 은(Ag)이 되어 구리줄 표면에 석출됩니다.</div>');
     showQ();
   }
   function showQ(){const W=$("#pmQ");W.hidden=false;
@@ -1113,7 +1114,7 @@ function sub7(B,d,done){
   <div class="eqline"><span class="lb">산화 (전자를 잃음)</span>Cu → Cu<sup>${S("a")}</sup> + ${S("b")} e⁻</div>
   <div class="eqline"><span class="lb">환원 (전자를 얻음)</span>${S("c")} Ag⁺ + ${S("d")} e⁻ → ${S("e")} Ag</div>
   <div class="eqline"><span class="lb">전체 반응 (NO₃⁻는 반응 전후 그대로)</span>Cu + ${S("f")} Ag⁺ → Cu²⁺ + ${S("g")} Ag</div>
-  <div class="eqline"><span class="lb">전자의 이동 방향</span>전자는 ${S("h")} 방향으로 이동한다.</div>
+  <div class="eqline ko"><span class="lb">전자의 이동 방향</span>전자는 ${S("h")} 방향으로 이동한다.</div>
   <div id="fb7"></div><div class="actions"><span class="note" id="eqMsg"></span><button class="btn primary" id="go">반응식 제출</button></div>`;
   $$("select",B).forEach(s=>s.onchange=()=>d.eq[s.dataset.id]=s.value);
   $("#go").onclick=()=>{
@@ -1150,7 +1151,7 @@ function renderS4(box){
   const a=(rec.d.s4&&rec.d.s4.ans)||{};
   const obsRows=TPTS.map(p=>{const o=(d3.obs||{})[p]||{};const c=COLORS.find(x=>x.id===o.c),s=SURF.find(x=>x.id===o.s);return`<tr><td class="t">${p}분</td><td>${c?`<i style="display:inline-block;width:14px;height:14px;border-radius:4px;background:${c.hex};border:1px solid var(--line);vertical-align:-2px;margin-right:6px"></i>${c.n}`:"-"}</td><td>${s?s.n:"-"}</td></tr>`}).join("");
   const shapeN={spiral:"나선",heart:"하트",zigzag:"지그재그"}[d3.shape]||"-";
-  box.innerHTML=head(4,"오늘 실험, 한 문장으로 말하면?","'전자를 잃으면 산화, 얻으면 환원, 그리고 둘은 동시에!' 관찰 결과를 근거로 고찰을 써 보세요.")+
+  box.innerHTML=head(4,"오늘 실험을 한 문장으로 정리하면?","'전자를 잃으면 산화, 얻으면 환원, 그리고 둘은 동시에!'<br>관찰 결과를 근거로 고찰을 써 보세요.")+
   (left.length?`<div class="fb try" style="margin-bottom:14px"><b>먼저 확인!</b>아직 마치지 않은 단계: ${left.map(k=>`<button class="btn line" style="padding:4px 10px;font-size:13px;margin:2px" data-go="${k+1}">${STAGES[k].k} ${STAGES[k].t}</button>`).join("")} 보고서는 제출하면 수정할 수 없으니, 앞 단계를 먼저 마치는 것을 권해요.${rec.st[2]!==2?" (가상 실험을 마치면 관찰 기록이 보고서에 자동으로 채워져요.)":""}</div>`:"")+`<div class="panel"><div class="report">
    <div class="rsec"><h4>실험 제목</h4><p><b>구리와 질산 은 수용액의 산화·환원 반응 관찰하기</b></p><p class="note" style="margin-top:4px">1학년 ${rec.cls}반 ${rec.num}번 ${esc(rec.name)} · 통합과학2 Ⅰ-2-01</p></div>
    <div class="rsec"><h4>실험 목표</h4><p>질산 은(AgNO₃) 수용액과 구리(Cu)의 산화·환원 반응을 관찰하고, 전자의 이동으로 설명할 수 있다.</p></div>
