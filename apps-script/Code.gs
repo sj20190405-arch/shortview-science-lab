@@ -1,5 +1,5 @@
 /**
- * 한슬쌤의 '숏'터뷰 통합과학실험실 — 구글 드라이브 성적관리 (Apps Script)
+ * 한슬쌤의 통합과학2 실험실 — 구글 드라이브 성적관리 (Apps Script)
  * 동패고등학교 1학년 통합과학 (Ⅰ-2-01 산화·환원 반응의 규칙성)
  *
  * 이 스크립트를 붙인 구글 시트가 곧 '성적관리 파일'입니다.
@@ -25,12 +25,12 @@ const RAW_H = ['키', '반', '번호', '성명', '현재 단계',
   '3단계 상태', '3단계 가상실험(40)', '4단계 상태', '4단계 자동채점(20)', '4단계 교사확정(20)',
   '총점(100)', '시작', '최근 활동', '보고서 제출', '상세(JSON)'];
 const GRADE_H = ['반', '번호', '성명',
-  '① 기초이론\n(20)',
-  '② 도구\n(5)', '② 보호구\n(4)', '② 안전OX\n(7)', '② 순서\n(4)', '② 실험준비\n(20)',
+  '① 이론복습\n(20)',
+  '② 도구\n(10)', '② 순서\n(10)', '② 실험준비\n(20)',
   '③ 조작\n(10)', '③ 관찰\n(10)', '③ 입자모형\n(12)', '③ 반응식\n(8)', '③ 가상실험\n(40)',
   '④ 자동채점\n(20)', '④ 교사확정\n(20)', '④ 결과보고서\n(20)',
   '총점\n(100)', '진행 상태', '보고서 제출', '최근 활동', '키'];
-const G_TEACHER = 16, G_KEY = 22;                 // 성적표: 교사확정 열, 키 열
+const G_TEACHER = 14, G_KEY = 20;                 // 성적표: 교사확정 열, 키 열
 const REPORT_H = ['반', '번호', '성명', '제출 시각', '구리줄 모양', '용액(mL)',
   '관찰 0분', '관찰 2분', '관찰 5분', '관찰 10분', '관찰 20분',
   'Q1 수용액이 푸른색이 된 까닭', 'Q2 석출된 물질과 까닭', 'Q3 산화·환원이 동시인 까닭',
@@ -43,11 +43,11 @@ const R_TEACHER = 19, R_KEY = 20;                 // 보고서: 교사확정 열
 function doGet() {
   try {
     return HtmlService.createHtmlOutputFromFile('index')
-      .setTitle("한슬쌤의 '숏'터뷰 통합과학실험실")
+      .setTitle("한슬쌤의 통합과학2 실험실")
       .addMetaTag('viewport', 'width=device-width, initial-scale=1')
       .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
   } catch (e) {
-    return ContentService.createTextOutput("한슬쌤의 '숏'터뷰 통합과학실험실 성적관리 서버 작동 중");
+    return ContentService.createTextOutput("한슬쌤의 통합과학2 실험실 성적관리 서버 작동 중");
   }
 }
 
@@ -148,7 +148,16 @@ function raw_() {
 }
 function grade_() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const isNew = !ss.getSheetByName(SH_GRADE);
+  const old = ss.getSheetByName(SH_GRADE);
+  if (old && String(old.getRange(1, 5).getValue()) !== GRADE_H[4]) {   // 예전 열 배치 → 새 배치로 자동 재작성
+    ss.deleteSheet(old);
+    const fresh = sheet_(SH_GRADE, GRADE_H); formatGrade_(fresh);
+    const recs = allRecs_().sort(function (a, b) { return a.cls - b.cls || a.num - b.num; });
+    if (recs.length) fresh.getRange(2, 1, recs.length, GRADE_H.length).setValues(recs.map(gradeRow_));
+    if (ss.getSheetByName(SH_STAT)) buildStats(true);
+    return fresh;
+  }
+  const isNew = !old;
   const sh = sheet_(SH_GRADE, GRADE_H);
   if (isNew) formatGrade_(sh);
   return sh;
@@ -171,18 +180,18 @@ function formatGrade_(sh) {
   const head = sh.getRange(1, 1, 1, GRADE_H.length);
   head.setBackground('#0A141C');
   sh.getRange(1, 4).setBackground('#12959E');
-  sh.getRange(1, 5, 1, 5).setBackground('#D98A00');
-  sh.getRange(1, 10, 1, 5).setBackground('#2F6FE8');
-  sh.getRange(1, 15, 1, 3).setBackground('#C8004A');
-  sh.getRange(1, 18).setBackground('#0A141C');
+  sh.getRange(1, 5, 1, 3).setBackground('#D98A00');
+  sh.getRange(1, 8, 1, 5).setBackground('#2F6FE8');
+  sh.getRange(1, 13, 1, 3).setBackground('#C8004A');
+  sh.getRange(1, 16).setBackground('#0A141C');
   sh.getRange(1, G_TEACHER).setValue('④ 교사확정\n(20) ✎');
   sh.getRange(2, G_TEACHER, sh.getMaxRows() - 1, 1).setBackground('#FFF4D6');
   sh.getRange(1, G_TEACHER).setNote('결과보고서 점수를 0~20 사이 정수로 입력하면 총점과 교사 화면에 바로 반영됩니다. 비우면 자동채점 점수가 쓰입니다.');
-  [9, 14, 17, 18].forEach(function (c) { sh.getRange(2, c, sh.getMaxRows() - 1, 1).setFontWeight('bold'); });
+  [7, 12, 15, 16].forEach(function (c) { sh.getRange(2, c, sh.getMaxRows() - 1, 1).setFontWeight('bold'); });
   sh.setColumnWidths(1, 2, 44); sh.setColumnWidth(3, 80);
-  sh.setColumnWidths(4, 15, 74);
-  sh.setColumnWidth(19, 150); sh.setColumnWidths(20, 2, 130);
-  sh.getRange(2, 1, sh.getMaxRows() - 1, 18).setHorizontalAlignment('center');
+  sh.setColumnWidths(4, 13, 74);
+  sh.setColumnWidth(17, 150); sh.setColumnWidths(18, 2, 130);
+  sh.getRange(2, 1, sh.getMaxRows() - 1, 16).setHorizontalAlignment('center');
   sh.hideColumns(G_KEY);
 }
 
@@ -228,7 +237,7 @@ function gradeRow_(r) {
   const anyOp = d3.safety != null || d3.sand != null || d3.place != null || d3.pour != null;
   return [r.cls, r.num, r.name,
     r.st[0] === 0 ? '' : n_(r.sc[0]),
-    s2('tools'), s2('ppe'), s2('ox'), s2('order'), r.st[1] === 2 ? n_(r.sc[1]) : '',
+    s2('tools'), s2('order'), r.st[1] === 2 ? n_(r.sc[1]) : '',
     anyOp ? op : '', d3.obsScore == null ? '' : d3.obsScore, d3.partScore == null ? '' : d3.partScore, d3.eqScore == null ? '' : d3.eqScore,
     r.st[2] === 0 ? '' : n_(r.sc[2]),
     r.st[3] === 2 ? n_(r.rAuto) : '', r.rTeacher != null ? r.rTeacher : '', r.st[3] === 2 ? report4_(r) : '',
@@ -268,7 +277,7 @@ function onOpen() {
     .addItem('처음 설정하기', 'setupLab')
     .addItem('교사 비밀번호 바꾸기', 'setPassword')
     .addSeparator()
-    .addItem('성적표·보고서 반/번호순으로 다시 정리', 'rebuildSheets')
+    .addItem('성적표·보고서 새로 만들기 (반/번호순)', 'rebuildSheets')
     .addItem('반별 통계 새로 만들기', 'buildStats')
     .addSeparator()
     .addItem('선택한 학생 기록 삭제', 'deleteSelected')
@@ -339,20 +348,22 @@ function setPassword() {
 
 function rebuildSheets() {
   const recs = allRecs_().sort(function (a, b) { return a.cls - b.cls || a.num - b.num; });
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  [SH_GRADE, SH_REPORT].forEach(function (n) { const x = ss.getSheetByName(n); if (x) ss.deleteSheet(x); });
   const g = grade_(), rp = report_();
-  if (g.getLastRow() > 1) g.getRange(2, 1, g.getLastRow() - 1, GRADE_H.length).clearContent();
-  if (rp.getLastRow() > 1) rp.getRange(2, 1, rp.getLastRow() - 1, REPORT_H.length).clearContent();
   if (recs.length) g.getRange(2, 1, recs.length, GRADE_H.length).setValues(recs.map(gradeRow_));
   const subs = recs.filter(function (r) { return r.st[3] === 2; });
   if (subs.length) rp.getRange(2, 1, subs.length, REPORT_H.length).setValues(subs.map(reportRow_));
-  SpreadsheetApp.getActiveSpreadsheet().toast('학생 ' + recs.length + '명, 보고서 ' + subs.length + '건을 반·번호순으로 정리했습니다.', '정리 완료', 4);
+  buildStats(true);
+  ss.setActiveSheet(g); ss.moveActiveSheet(1);
+  ss.toast('학생 ' + recs.length + '명, 보고서 ' + subs.length + '건을 반·번호순으로 새로 정리했습니다.', '정리 완료', 4);
 }
 
 function buildStats(silent) {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   let sh = ss.getSheetByName(SH_STAT);
   if (sh) sh.clear(); else sh = ss.insertSheet(SH_STAT);
-  const H = ['반', '참여 인원', '보고서 제출', '① 기초이론 평균(20)', '② 실험준비 평균(20)', '③ 가상실험 평균(40)', '④ 결과보고서 평균(20)', '총점 평균(100)', '총점 최고', '총점 최저'];
+  const H = ['반', '참여 인원', '보고서 제출', '① 이론복습 평균(20)', '② 실험준비 평균(20)', '③ 가상실험 평균(40)', '④ 결과보고서 평균(20)', '총점 평균(100)', '총점 최고', '총점 최저'];
   sh.getRange(1, 1, 1, H.length).setValues([H]).setFontWeight('bold').setBackground('#0A141C').setFontColor('#fff').setWrap(true).setHorizontalAlignment('center');
   const G = "'" + SH_GRADE + "'!";
   const rows = [];
@@ -360,21 +371,21 @@ function buildStats(silent) {
     const r = c + 1;
     rows.push([c + '반',
       '=COUNTIF(' + G + 'A:A,' + c + ')',
-      '=COUNTIFS(' + G + 'A:A,' + c + ',' + G + 'T:T,"<>")',
+      '=COUNTIFS(' + G + 'A:A,' + c + ',' + G + 'R:R,"<>")',
       '=IFERROR(ROUND(AVERAGEIFS(' + G + 'D:D,' + G + 'A:A,' + c + ',' + G + 'D:D,"<>"),1),"-")',
-      '=IFERROR(ROUND(AVERAGEIFS(' + G + 'I:I,' + G + 'A:A,' + c + ',' + G + 'I:I,"<>"),1),"-")',
-      '=IFERROR(ROUND(AVERAGEIFS(' + G + 'N:N,' + G + 'A:A,' + c + ',' + G + 'N:N,"<>"),1),"-")',
-      '=IFERROR(ROUND(AVERAGEIFS(' + G + 'Q:Q,' + G + 'A:A,' + c + ',' + G + 'Q:Q,"<>"),1),"-")',
-      '=IFERROR(ROUND(AVERAGEIFS(' + G + 'R:R,' + G + 'A:A,' + c + ',' + G + 'T:T,"<>"),1),"-")',
-      '=IFERROR(MAXIFS(' + G + 'R:R,' + G + 'A:A,' + c + ',' + G + 'T:T,"<>"),"-")',
-      '=IFERROR(MINIFS(' + G + 'R:R,' + G + 'A:A,' + c + ',' + G + 'T:T,"<>"),"-")']);
+      '=IFERROR(ROUND(AVERAGEIFS(' + G + 'G:G,' + G + 'A:A,' + c + ',' + G + 'G:G,"<>"),1),"-")',
+      '=IFERROR(ROUND(AVERAGEIFS(' + G + 'L:L,' + G + 'A:A,' + c + ',' + G + 'L:L,"<>"),1),"-")',
+      '=IFERROR(ROUND(AVERAGEIFS(' + G + 'O:O,' + G + 'A:A,' + c + ',' + G + 'O:O,"<>"),1),"-")',
+      '=IFERROR(ROUND(AVERAGEIFS(' + G + 'P:P,' + G + 'A:A,' + c + ',' + G + 'R:R,"<>"),1),"-")',
+      '=IFERROR(MAXIFS(' + G + 'P:P,' + G + 'A:A,' + c + ',' + G + 'R:R,"<>"),"-")',
+      '=IFERROR(MINIFS(' + G + 'P:P,' + G + 'A:A,' + c + ',' + G + 'R:R,"<>"),"-")']);
   }
   const L = CLASS_COUNT + 1;
   rows.push(['전체', '=SUM(B2:B' + L + ')', '=SUM(C2:C' + L + ')',
-    '=IFERROR(ROUND(AVERAGE(' + G + 'D2:D),1),"-")', '=IFERROR(ROUND(AVERAGE(' + G + 'I2:I),1),"-")',
-    '=IFERROR(ROUND(AVERAGE(' + G + 'N2:N),1),"-")', '=IFERROR(ROUND(AVERAGE(' + G + 'Q2:Q),1),"-")',
-    '=IFERROR(ROUND(AVERAGEIFS(' + G + 'R:R,' + G + 'T:T,"<>"),1),"-")',
-    '=IFERROR(MAXIFS(' + G + 'R:R,' + G + 'T:T,"<>"),"-")', '=IFERROR(MINIFS(' + G + 'R:R,' + G + 'T:T,"<>"),"-")']);
+    '=IFERROR(ROUND(AVERAGE(' + G + 'D2:D),1),"-")', '=IFERROR(ROUND(AVERAGE(' + G + 'G2:G),1),"-")',
+    '=IFERROR(ROUND(AVERAGE(' + G + 'L2:L),1),"-")', '=IFERROR(ROUND(AVERAGE(' + G + 'O2:O),1),"-")',
+    '=IFERROR(ROUND(AVERAGEIFS(' + G + 'P:P,' + G + 'R:R,"<>"),1),"-")',
+    '=IFERROR(MAXIFS(' + G + 'P:P,' + G + 'R:R,"<>"),"-")', '=IFERROR(MINIFS(' + G + 'P:P,' + G + 'R:R,"<>"),"-")']);
   sh.getRange(2, 1, rows.length, H.length).setFormulas(rows.map(function (r) { return r.map(function (v) { return String(v).charAt(0) === '=' ? v : ''; }); }));
   sh.getRange(2, 1, rows.length, 1).setValues(rows.map(function (r) { return [r[0]]; }));
   sh.getRange(rows.length + 1, 1, 1, H.length).setFontWeight('bold').setBackground('#E2F5EC');

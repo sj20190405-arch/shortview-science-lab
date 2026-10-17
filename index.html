@@ -194,6 +194,17 @@ p{margin:0}
 .tile.g-ok{border-color:var(--ok)!important;background:#EAF7F1!important;box-shadow:none!important}
 .tile.g-bad{border-color:var(--bad)!important;background:#FCEDEF!important;box-shadow:none!important}
 .tile.g-miss{border-style:dashed;border-color:var(--ok)}
+.agq{border:2px solid #F2C14E;background:#FFFBEF}
+.agq-btn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border:0;background:transparent;padding:0;text-align:left}
+.agq-q{font-size:clamp(18px,2.2vw,22px);font-weight:700;color:var(--text)}
+.agq-hint{font-size:13.5px;font-weight:700;color:#fff;background:var(--red);border-radius:999px;padding:7px 14px;white-space:nowrap}
+.agq-btn[aria-expanded="true"] .agq-hint{background:var(--ok)}
+.agq-ans{margin-top:16px;display:grid;gap:12px}
+.ag-ill{width:100%;height:auto;display:block;background:#fff;border-radius:14px}
+.agq-list{margin:0;padding:0;list-style:none;display:grid;gap:6px;font-size:16px}
+.agq-list b.red{color:#B0263A}.agq-list b.blue{color:#2458C6}
+.agq-must{background:var(--red);color:#fff;font-size:clamp(17px,2.2vw,21px);font-weight:700;border-radius:12px;padding:14px 18px;text-align:center}
+.agq-must u{text-decoration-color:#FFD34D;text-decoration-thickness:3px;text-underline-offset:4px}
 .ppe{display:grid;grid-template-columns:170px 1fr;gap:18px;align-items:center;margin-top:12px}
 .ppe svg.body{width:100%;max-width:170px;height:auto}
 .ox{display:grid;gap:8px;margin-top:14px}
@@ -439,7 +450,7 @@ footer.foot .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:
           <div class="field"><label for="inName">성명</label><input class="inp" id="inName" maxlength="12" placeholder="이름을 입력하세요" required></div>
           <p class="msg" id="stuMsg" role="alert"></p>
           <button class="btn primary full" type="submit" id="stuGo">실험실 입장하기 →</button>
-          <p class="note">1학년 · 반·번호·성명을 모두 입력해야 수업에 참여할 수 있어요. 같은 정보로 다시 들어오면 이어서 진행됩니다.</p>
+          <p class="note">반·번호·성명을 모두 입력해야 수업에 참여할 수 있어요.<br>같은 정보로 다시 들어오면 이어서 진행됩니다.</p>
         </form>
         <form class="form" id="teaForm" hidden autocomplete="off">
           <div class="field"><label for="inPw">교사 비밀번호</label><input class="inp mono" id="inPw" type="password" inputmode="numeric" maxlength="8" placeholder="••••"></div>
@@ -466,7 +477,7 @@ footer.foot .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:
     </dl>
     <div class="cards4">
       <div class="pcard" style="--c:var(--s1)"><span class="blob"></span><span class="num">01</span><h3>이론 복습</h3><p>지난 시간에 학습한 산소의 이동으로 본 산화·환원 반응을 10문항으로 점검해 봅시다.</p><span class="pts"><span class="mono">20</span>점</span></div>
-      <div class="pcard" style="--c:var(--s2)"><span class="blob"></span><span class="num">02</span><h3>실험 준비</h3><p>준비물·보호구·안전 수칙·실험 순서를 확인합니다. 질산 은 수용액 취급법이 핵심이에요.</p><span class="pts"><span class="mono">20</span>점</span></div>
+      <div class="pcard" style="--c:var(--s2)"><span class="blob"></span><span class="num">02</span><h3>실험 준비</h3><p>준비물·안전 수칙·실험 순서를 확인합니다. 질산 은 수용액 취급법이 핵심이에요.</p><span class="pts"><span class="mono">20</span>점</span></div>
       <div class="pcard" style="--c:var(--s3)"><span class="blob"></span><span class="num">03</span><h3>가상 실험</h3><p>사포질부터 관찰 기록까지 직접 조작하고, 입자 모형으로 전자를 옮겨 반응식을 완성합니다.</p><span class="pts"><span class="mono">40</span>점</span></div>
       <div class="pcard" style="--c:var(--s4)"><span class="blob"></span><span class="num">04</span><h3>결과 보고서</h3><p>관찰 결과가 자동으로 채워진 보고서에 고찰을 쓰고 제출하면 선생님이 바로 확인합니다.</p><span class="pts"><span class="mono">20</span>점</span></div>
     </div>
@@ -575,26 +586,19 @@ function shuffleOpts(list,seed){const r=rngOf(seed);list.forEach(q=>{const idx=q
 shuffleOpts(Q1,601);
 /* ================= 데이터: 2단계 ================= */
 const TOOLS=[
- {id:"agno3",n:"질산 은 수용액",ok:1},{id:"cuw",n:"구리줄",ok:1},{id:"dish",n:"페트리 접시",ok:1},{id:"sand",n:"사포",ok:1},{id:"tweez",n:"핀셋",ok:1},
+ {id:"agno3",n:"질산 은 수용액",ok:1},{id:"cuw",n:"구리줄",ok:1},{id:"dish",n:"페트리 접시",ok:1},{id:"sand",n:"사포",ok:1},{id:"tweez",n:"핀셋",ok:1},{id:"glv",n:"실험용 장갑",ok:1},
  {id:"lamp",n:"알코올램프",ok:0},{id:"charc",n:"숯가루",ok:0},{id:"lime",n:"석회수",ok:0},{id:"tube",n:"시험관 집게",ok:0}
 ];
-const PPE=[{id:"gog",n:"보안경",ok:1},{id:"glv",n:"실험용 장갑",ok:1},{id:"pglv",n:"보호 장갑",ok:1},{id:"coat",n:"실험복",ok:1},{id:"slip",n:"슬리퍼",ok:0},{id:"short",n:"반바지",ok:0}];
-const OX=[
- {t:"질산 은 수용액이 피부나 옷에 닿으면 즉시 흐르는 물에 씻는다.",a:"O"},
- {t:"질산 은 수용액이 피부에 닿으면 갈색 반점이 생길 수 있다.",a:"O"},
- {t:"실험 후 남은 용액은 개수대에 바로 버린다.",a:"X",ex:"남은 용액은 폐수 통에 버립니다."},
- {t:"보안경은 용액을 부을 때만 잠깐 쓰면 된다.",a:"X",ex:"실험이 끝날 때까지 착용합니다."},
- {t:"질산 은 수용액은 햇빛에 분해되므로 갈색 병에 넣어 보관한다.",a:"O"},
- {t:"구리줄이 잠긴 뒤 변화를 빨리 보려면 페트리 접시를 계속 흔든다.",a:"X",ex:"구리줄이 움직이지 않게 두고 관찰합니다."},
- {t:"반응이 잘 일어나지 않으면 구리줄 표면을 사포로 다시 문지른 뒤 실험한다.",a:"O"}
-];
 const STEPS=[
+ {id:"P",t:"실험용 장갑과 보안경을 착용한다."},
  {id:"A",t:"구리줄 표면을 사포로 문지른다."},
  {id:"B",t:"구리줄로 원하는 모양을 만들어 페트리 접시에 넣는다."},
  {id:"C",t:"구리줄이 잠기도록 질산 은 수용액을 넣는다."},
  {id:"D",t:"움직이지 않고 수용액의 색과 구리줄 표면의 변화를 관찰한다."}
 ];
-const ORDER0=["C","A","D","B"];
+const ORDER0=["C","A","P","D","B"];
+/* 순서 점수: 5단계에서 두 단계씩 짝지은 10쌍 중 앞뒤가 맞는 쌍마다 1점 */
+function orderScore(ord){const pos=id=>ord.indexOf(id);let n=0;for(let i=0;i<STEPS.length;i++)for(let j=i+1;j<STEPS.length;j++)if(pos(STEPS[i].id)<pos(STEPS[j].id))n++;return n}
 const ICON={
  agno3:'<svg viewBox="0 0 48 48"><path d="M18 6h12v8l6 6v20a3 3 0 0 1-3 3H15a3 3 0 0 1-3-3V20l6-6z" fill="#7A4A22"/><rect x="17" y="3" width="14" height="5" rx="1.5" fill="#3A2A1C"/><rect x="15" y="24" width="18" height="10" rx="1.5" fill="#F3E7D8"/><text x="24" y="31.5" font-size="6.5" text-anchor="middle" font-family="monospace" fill="#3A2A1C">AgNO3</text></svg>',
  cuw:'<svg viewBox="0 0 48 48"><path d="M8 34c6-18 12 8 18-10s10 6 14-6" fill="none" stroke="#C9773F" stroke-width="4" stroke-linecap="round"/></svg>',
@@ -750,7 +754,7 @@ function renderHub(box){
   const rec1=firstUndone(0);const all=rec.st.every(x=>x===2);
   box.innerHTML=`<div class="stage-head one"><div class="stage-title" style="--c:var(--mint-d)"><span class="ring"></span><p class="k">LAB MENU</p><h2>활동 단계 선택</h2><p>${esc(rec.name)} 학생, ${all?"모든 단계를 마쳤어요! 결과보고서가 담당 선생님께 전송되었습니다.":"원하는 단계를 골라 시작하세요. 01. 이론 복습부터 순서대로 하는 것을 권해요."}</p></div></div>
   <div class="hub">${STAGES.map((g,i)=>{const st=rec.st[i];const isRec=!all&&i+1===rec1;
-    return`<button class="hcard" style="--c:${g.c}" data-go="${i+1}">${isRec?'<span class="hrec">추천</span>':""}<span class="num">${g.k}</span><span class="ht">${g.t}</span><span class="hd">${["지난 시간 학습 내용 확인 · 10문항","준비물·보호구·안전 수칙·순서","조작 → 관찰 → 입자 모형 → 반응식","관찰 결과로 보고서 작성·제출"][i]}</span>
+    return`<button class="hcard" style="--c:${g.c}" data-go="${i+1}">${isRec?'<span class="hrec">추천</span>':""}<span class="num">${g.k}</span><span class="ht">${g.t}</span><span class="hd">${["지난 시간 학습 내용 확인 · 10문항","준비물·안전 수칙·실험 순서","조작 → 관찰 → 입자 모형 → 반응식","관찰 결과로 보고서 작성·제출"][i]}</span>
     <span class="hs ${st===2?"ok":st===1?"run":""}">${st===2?"완료 ✓":st===1?"진행 중":"시작 전"}</span><span class="hgo">${st===2?"확인하기":st===1?"이어하기 →":"시작하기 →"}</span></button>`}).join("")}</div>`;
   $$(".hcard",box).forEach(b=>b.onclick=()=>goStage(+b.dataset.go));
 }
@@ -763,7 +767,7 @@ function renderTracker(){
 }
 function head(i,q,a){const s=STAGES[i-1];const desc=["지난 시간에 배운 '산소의 이동'으로 산화·환원을 다시 확인해요.","질산 은 수용액을 안전하게 다루기 위한 준비를 점검해요.","구리줄과 질산 은 수용액을 직접 반응시키고 관찰해요.","관찰 결과를 바탕으로 결과보고서를 완성해 제출해요."][i-1];
   return`<div class="stage-head"><div class="stage-title" style="--c:${s.c}"><span class="ring"></span><p class="k">STEP ${s.k}</p><h2>${s.t}</h2><p>${desc}</p></div>
-  <div class="shorts"><div class="avatar">한슬</div><div><p class="lbl">한슬쌤의 '숏'터뷰</p><p class="q">Q. ${q}</p><p class="a">${a}</p></div></div></div>`}
+  <div class="shorts"><div class="avatar">한슬</div><div><p class="lbl">한슬쌤의 통합과학2 실험실</p><p class="q">Q. ${q}</p><p class="a">${a}</p></div></div></div>`}
 function renderStage(){
   const box=$("#stageBox");
   if(viewStage===0){renderHub(box);return}
@@ -804,30 +808,43 @@ function renderS1(box){
 }
 
 /* ----- STAGE 2 ----- */
+function silverIllust(){
+  const hand=(x,y,f,st,glove)=>`<g transform="translate(${x} ${y})"><rect x="0" y="52" width="66" height="62" rx="20" fill="${f}" stroke="${st}" stroke-width="2.5"/>${[0,1,2,3].map(k=>`<rect x="${3+k*16}" y="${[8,0,2,12][k]}" width="14" height="58" rx="7" fill="${f}" stroke="${st}" stroke-width="2.5"/>`).join("")}<rect x="-20" y="56" width="16" height="46" rx="8" transform="rotate(-32 -12 80)" fill="${f}" stroke="${st}" stroke-width="2.5"/><rect x="2" y="44" width="62" height="22" fill="${f}"/>${glove?`<rect x="-4" y="108" width="74" height="22" rx="6" fill="#5E95D6" stroke="#2D5F9E" stroke-width="2.5"/>`:""}</g>`;
+  return`<svg viewBox="0 0 700 250" class="ag-ill" role="img" aria-label="질산 은 수용액이 손에 묻으면 갈색 반점, 흐르는 물로 씻기, 실험용 장갑 착용">
+  <rect x="6" y="6" width="210" height="238" rx="18" fill="#FFF3F3" stroke="#F0B7C0" stroke-width="2"/>
+  <rect x="245" y="6" width="210" height="238" rx="18" fill="#EEF5FF" stroke="#B9D2F5" stroke-width="2"/>
+  <rect x="484" y="6" width="210" height="238" rx="18" fill="#EAF8F1" stroke="#0F9D63" stroke-width="4"/>
+  ${hand(78,62,"#F2D2B6","#C49A7A")}
+  <g fill="#7A4A22"><circle cx="100" cy="140" r="7"/><circle cx="122" cy="156" r="5"/><circle cx="96" cy="164" r="4.5"/><circle cx="113" cy="85" r="4"/><circle cx="131" cy="132" r="3.5"/></g>
+  <path d="M58 40c0 0-14 18-14 27a14 14 0 0 0 28 0c0-9-14-27-14-27z" fill="#C9D3DA" stroke="#8193A0" stroke-width="2"/><text x="58" y="96" font-size="12" font-weight="700" text-anchor="middle" fill="#5E6E7A" font-family="IBM Plex Mono,monospace">AgNO₃</text>
+  <circle cx="190" cy="34" r="17" fill="#D2334A"/><path d="M182 26l16 16M198 26l-16 16" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+  <text x="111" y="228" font-size="17" font-weight="700" text-anchor="middle" fill="#B0263A">갈색 반점이 생겨요</text>
+  <rect x="300" y="22" width="92" height="20" rx="6" fill="#8193A0"/><rect x="368" y="42" width="22" height="26" rx="4" fill="#8193A0"/><rect x="330" y="14" width="22" height="10" rx="3" fill="#5E6E7A"/>
+  <g stroke="#3B8FE8" stroke-width="5" stroke-linecap="round" opacity=".85"><path d="M372 74v40"/><path d="M380 74v52"/><path d="M388 74v36"/></g>
+  ${hand(320,104,"#F2D2B6","#C49A7A").replace('translate(320 104)','translate(320 104) scale(.82)')}
+  <g fill="#7FB7F2"><circle cx="352" cy="128" r="4"/><circle cx="396" cy="150" r="3.5"/><circle cx="342" cy="168" r="3"/></g>
+  <text x="350" y="228" font-size="17" font-weight="700" text-anchor="middle" fill="#2458C6">즉시 흐르는 물에 씻어요</text>
+  ${hand(556,50,"#9CC8F5","#3E77B6",true)}
+  <circle cx="668" cy="34" r="18" fill="#0F9D63"/><path d="M659 34l6 7 12-14" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="589" y="228" font-size="18" font-weight="700" text-anchor="middle" fill="#0B7A4C">실험용 장갑 착용!</text>
+  <g fill="#C9961E"><path d="M222 125l14 0-6-7M236 125l-6 7" stroke="#C9961E" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M461 125l14 0-6-7M475 125l-6 7" stroke="#C9961E" stroke-width="3" fill="none" stroke-linecap="round"/></g>
+  </svg>`}
 function renderS2(box){
-  const st={tools:new Set(),ppe:new Set(),ox:{},order:ORDER0.slice()};
-  box.innerHTML=head(2,"질산 은 수용액이 손에 묻으면 어떻게 될까요?","피부에 갈색 반점이 생기고 몸에 해로워요. 준비물과 보호구, 안전 수칙부터 챙겨 봅시다.")+
-  `<div class="panel"><h3>A. 실험 도구 고르기 <span class="sub">탐구에 필요한 것만 모두 고르세요</span></h3><div class="tiles" id="tTools"></div></div>
-   <div class="panel"><h3>B. 보호구 착용하기 <span class="sub">실험실에 들어가기 전 착용할 것을 모두 고르세요</span></h3>
-     <div class="ppe"><svg class="body" id="ppeBody" viewBox="0 0 170 230"></svg><div class="tiles" id="tPpe" style="margin-top:0"></div></div></div>
-   <div class="panel"><h3>C. 안전 수칙 OX <span class="sub">7문항</span></h3><div class="ox" id="tOx"></div></div>
-   <div class="panel"><h3>D. 실험 과정 순서 정하기 <span class="sub">카드를 마우스로 끌어 위아래로 옮기세요</span></h3><div class="order" id="tOrd"></div>
+  const prev=rec.d.s2||{};
+  const st={tools:new Set(),order:ORDER0.slice(),revealed:!!prev.revealed};
+  box.innerHTML=head(2,"실험을 시작하기 전에 무엇을 확인해야 할까요?","질산 은 수용액 취급법, 준비물, 실험 순서를 차례로 확인해요.")+
+  `<div class="panel agq"><button class="agq-btn" id="agqBtn" aria-expanded="${st.revealed}" aria-controls="agqAns"><span class="agq-q">Q. 질산 은 수용액이 손에 묻으면 어떻게 될까요?</span><span class="agq-hint" id="agqHint">${st.revealed?"답 확인 완료 ✓":"눌러서 답 보기 ▾"}</span></button>
+     <div class="agq-ans" id="agqAns" ${st.revealed?"":"hidden"}>${silverIllust()}
+       <ul class="agq-list"><li><b>①</b> 질산 은 수용액이 피부에 닿으면 <b class="red">갈색 반점</b>이 생길 수 있다.</li><li><b>②</b> 질산 은 수용액이 피부나 옷에 닿으면 <b class="blue">즉시 흐르는 물에 씻는다.</b></li></ul>
+       <p class="agq-must">그러니까 준비된 <u>실험용 장갑</u>을 반드시 착용합니다!</p></div></div>
+   <div class="panel"><h3>A. 실험 도구 고르기 <span class="sub">탐구에 필요한 것만 모두 고르세요</span></h3><div class="tiles" id="tTools"></div></div>
+   <div class="panel"><h3>B. 실험 과정 순서 정하기 <span class="sub">카드를 마우스로 끌어 위아래로 옮기세요</span></h3><div class="order" id="tOrd"></div>
      <div class="actions"><span class="note" id="s2msg"></span><button class="btn primary" id="s2sub">실험 준비 점검 제출</button></div>
      <div id="s2after"></div></div>`;
+  $("#agqBtn").onclick=()=>{const A=$("#agqAns");const open=A.hidden;A.hidden=!open;$("#agqBtn").setAttribute("aria-expanded",open);if(open&&!st.revealed){st.revealed=true;rec.d.s2=Object.assign({},rec.d.s2||{},{revealed:true});persist()}$("#agqHint").textContent=open?"답 확인 완료 ✓ (다시 누르면 접기)":"다시 보기 ▾"};
   const mk=(list,set,host,cb)=>{host.innerHTML=list.map(x=>`<button class="tile" data-id="${x.id}" aria-pressed="false">${ICON[x.id]}<span>${x.n}</span></button>`).join("");
     $$(".tile",host).forEach(b=>b.onclick=()=>{if(st.locked)return;const id=b.dataset.id;set.has(id)?set.delete(id):set.add(id);b.setAttribute("aria-pressed",set.has(id));cb&&cb()})};
-  mk(TOOLS,st.tools,$("#tTools"));mk(PPE,st.ppe,$("#tPpe"),drawBody);drawBody();
-  function drawBody(){const h=id=>st.ppe.has(id);
-    $("#ppeBody").innerHTML=`<circle cx="85" cy="40" r="24" fill="#F2D2B6"/><path d="M61 36a24 24 0 0 1 48 0c-6-9-40-9-48 0z" fill="#3A2A1C"/>
-    ${h("gog")?'<rect x="60" y="33" width="50" height="14" rx="6" fill="#7FD3E0" stroke="#2A6F7C" stroke-width="2"/>':'<circle cx="76" cy="40" r="2.5" fill="#3A2A1C"/><circle cx="94" cy="40" r="2.5" fill="#3A2A1C"/>'}
-    <path d="M50 76q35-14 70 0l8 70H42z" fill="${h("coat")?"#F7FAFC":"#6E8BD6"}" stroke="${h("coat")?"#8AA3B2":"#4D69B3"}" stroke-width="2"/>
-    ${h("coat")?'<path d="M85 70v76" stroke="#8AA3B2" stroke-width="1.5"/><circle cx="90" cy="95" r="2" fill="#8AA3B2"/><circle cx="90" cy="115" r="2" fill="#8AA3B2"/>':""}
-    <path d="M44 80l-14 58M126 80l14 58" stroke="${h("coat")?"#E7EEF2":"#6E8BD6"}" stroke-width="14" stroke-linecap="round"/>
-    <circle cx="29" cy="144" r="9" fill="${h("pglv")?"#F4C54B":h("glv")?"#9CC8F5":"#F2D2B6"}"/><circle cx="141" cy="144" r="9" fill="${h("pglv")?"#F4C54B":h("glv")?"#9CC8F5":"#F2D2B6"}"/>
-    <path d="M58 146h54l-4 ${h("short")?30:66}H62z" fill="#34465A"/>${h("short")?'<path d="M66 176l-2 34M104 176l2 34" stroke="#F2D2B6" stroke-width="12" stroke-linecap="round"/>':""}
-    <ellipse cx="68" cy="216" rx="14" ry="6" fill="${h("slip")?"#F29B9B":"#2A2F36"}"/><ellipse cx="102" cy="216" rx="14" ry="6" fill="${h("slip")?"#F29B9B":"#2A2F36"}"/>`}
-  $("#tOx").innerHTML=OX.map((x,i)=>`<div class="oxrow" data-i="${i}"><span class="txt"><b class="mono">${i+1}.</b> ${esc(x.t)}</span><span class="oxbtns"><button aria-pressed="false" data-v="O" aria-label="${i+1}번 O">O</button><button aria-pressed="false" data-v="X" aria-label="${i+1}번 X">X</button></span></div>`).join("");
-  $$(".oxrow").forEach(r=>$$("button",r).forEach(b=>b.onclick=()=>{if(st.locked)return;st.ox[r.dataset.i]=b.dataset.v;$$("button",r).forEach(x=>x.setAttribute("aria-pressed",x===b))}));
+  mk(TOOLS,st.tools,$("#tTools"));
   function drawOrd(){const H=$("#tOrd");H.classList.toggle("locked",!!st.locked);
     H.innerHTML=st.order.map(id=>{const s=STEPS.find(x=>x.id===id);return`<div class="orow" data-id="${id}" tabindex="${st.locked?-1:0}" aria-label="${esc(s.t)} (위아래 화살표 키로도 옮길 수 있음)"><span>${esc(s.t)}</span><span class="grip" aria-hidden="true">⠿</span></div>`}).join("");
     if(st.locked)return;
@@ -845,22 +862,17 @@ function renderS2(box){
     })}
   drawOrd();
   $("#s2sub").onclick=()=>{
-    if(!st.tools.size||!st.ppe.size){$("#s2msg").textContent="A, B에서 하나 이상 고르세요.";return}
-    if(Object.keys(st.ox).length<OX.length){$("#s2msg").textContent=`C의 OX를 모두 답하세요. (${Object.keys(st.ox).length}/${OX.length})`;return}
+    if(!st.revealed){$("#s2msg").textContent="먼저 맨 위의 질문을 눌러 질산 은 수용액 취급법을 확인하세요.";$("#agqBtn").focus();return}
+    if(!st.tools.size){$("#s2msg").textContent="A에서 실험 도구를 하나 이상 고르세요.";return}
     st.locked=true;
-    const tc=TOOLS.filter(t=>t.ok&&st.tools.has(t.id)).length,tw=TOOLS.filter(t=>!t.ok&&st.tools.has(t.id)).length;
-    const pc=PPE.filter(t=>t.ok&&st.ppe.has(t.id)).length,pw=PPE.filter(t=>!t.ok&&st.ppe.has(t.id)).length;
-    const sT=Math.max(0,tc-tw),sP=Math.max(0,pc-pw),sO=OX.filter((x,i)=>st.ox[i]===x.a).length,sR=st.order.filter((id,i)=>STEPS[i].id===id).length;
-    rec.sc[1]=sT+sP+sO+sR;
-    rec.d.s2={tools:[...st.tools],ppe:[...st.ppe],ox:st.ox,order:st.order,part:{tools:sT,ppe:sP,ox:sO,order:sR}};
+    const sT=TOOLS.filter(t=>st.tools.has(t.id)===!!t.ok).length,sR=orderScore(st.order);
+    rec.sc[1]=sT+sR;
+    rec.d.s2={revealed:true,tools:[...st.tools],order:st.order,part:{tools:sT,order:sR}};
     rec.st[1]=1;persist();
-    // 채점 표시 (점수는 숨김)
-    const grade=(list,set,host)=>$$(".tile",host).forEach(b=>{const x=list.find(t=>t.id===b.dataset.id);const on=set.has(x.id);b.classList.add(on?(x.ok?"g-ok":"g-bad"):(x.ok?"g-miss":"_"))});
-    grade(TOOLS,st.tools,$("#tTools"));grade(PPE,st.ppe,$("#tPpe"));
-    $$(".oxrow").forEach(r=>{const x=OX[r.dataset.i];const ok=st.ox[r.dataset.i]===x.a;r.classList.add(ok?"g-ok":"g-bad");if(!ok)$(".txt",r).insertAdjacentHTML("beforeend",` <span class="chip bad">정답 ${x.a}${x.ex?" · "+esc(x.ex):""}</span>`)});
+    $$(".tile",$("#tTools")).forEach(b=>{const x=TOOLS.find(t=>t.id===b.dataset.id);const on=st.tools.has(x.id);b.classList.add(on?(x.ok?"g-ok":"g-bad"):(x.ok?"g-miss":"_"))});
     drawOrd();$$(".orow").forEach((r,i)=>r.classList.add(STEPS[i].id===r.dataset.id?"g-ok":"g-bad"));
     $("#s2sub").hidden=true;$("#s2msg").textContent="";
-    $("#s2after").innerHTML=`<div class="fb ok" style="margin-top:14px"><b>점검 완료.</b>초록 테두리는 맞은 것, 빨간 테두리는 틀린 것, 점선은 빠뜨린 준비물입니다. 올바른 순서: 사포질 → 모양 만들어 넣기 → 질산 은 수용액 붓기 → 움직이지 않고 관찰.</div><div class="actions"><button class="btn go" id="s2next">가상 실험 시작 →</button></div>`;
+    $("#s2after").innerHTML=`<div class="fb ok" style="margin-top:14px"><b>점검 완료.</b>초록 테두리는 맞은 것, 빨간 테두리는 틀린 것, 점선은 빠뜨린 준비물입니다. 올바른 순서: 장갑·보안경 착용 → 사포질 → 모양 만들어 넣기 → 질산 은 수용액 붓기 → 움직이지 않고 관찰.</div><div class="actions"><button class="btn go" id="s2next">다음 단계 고르기 →</button></div>`;
     $("#s2next").onclick=()=>advance(2);
   };
 }
@@ -1200,7 +1212,7 @@ function openDetail(key){
   $("#dBody").innerHTML=`
    <div class="brk">
     <div class="b" style="--c:var(--s1)"><p class="l">① 이론 복습</p><p class="v">${r.sc[0]}<small class="note">/20</small></p><ul>${Q1.map((q,i)=>li(`Q${i+1} ${LV[q.lv]}`,d1[i]&&d1[i].done?d1[i].score:null,2)).join("")}</ul></div>
-    <div class="b" style="--c:var(--s2)"><p class="l">② 실험 준비</p><p class="v">${r.sc[1]}<small class="note">/20</small></p><ul>${li("실험 도구",p2.tools,5)}${li("보호구",p2.ppe,4)}${li("안전 수칙 OX",p2.ox,7)}${li("과정 순서",p2.order,4)}</ul></div>
+    <div class="b" style="--c:var(--s2)"><p class="l">② 실험 준비</p><p class="v">${r.sc[1]}<small class="note">/20</small></p><ul>${li("실험 도구",p2.tools,10)}${li("실험 순서",p2.order,10)}</ul></div>
     <div class="b" style="--c:var(--s3)"><p class="l">③ 가상 실험</p><p class="v">${r.sc[2]}<small class="note">/40</small></p><ul>${li("실험 조작",(d3.safety||0)+(d3.sand||0)+(d3.place||0)+(d3.pour||0),10)}${li("관찰 기록",d3.obsScore,10)}${li("입자 모형",d3.partScore,12)}${li("반응식",d3.eqScore,8)}</ul></div>
     <div class="b" style="--c:var(--s4)"><p class="l">④ 결과 보고서</p><p class="v">${r.st[3]===2?r4(r):"-"}<small class="note">/20</small></p><ul>${RQ.map(q=>li(q.k.toUpperCase()+" 자동",au[q.k],4)).join("")}</ul></div>
    </div>
@@ -1225,7 +1237,7 @@ function seedExamples(){
   const mk=(num,name,stage,sc,extra)=>{const r=newRec(13,num,"(예시)"+name);r.st=[0,1,2,3].map(i=>i<stage-1?2:i===stage-1?1:0);r.cur=stage;r.sc=sc;
     const t=new Date(Date.now()-extra.ago*60000).toISOString();r.updatedAt=t;r.startedAt=new Date(Date.now()-(extra.ago+35)*60000).toISOString();
     r.d.s1=Object.fromEntries(Q1.map((q,i)=>[i,{done:true,tries:1,picks:[0],score:i%4===3?1:2}]));
-    if(stage>2)r.d.s2={part:{tools:5,ppe:4,ox:6,order:4}};
+    if(stage>2)r.d.s2={revealed:true,part:{tools:9,order:9}};
     r.d.s3=stage>3?{sub:8,safety:2,sand:2,place:2,pour:4,pourTries:1,vol:20,shape:"heart",obs:{0:{c:"c0",s:"s0"},2:{c:"c1",s:"s1"},5:{c:"c2",s:"s2"},10:{c:"c3",s:"s2"},20:{c:"c3",s:"s1"}},obsScore:9,part:{},partScore:11,eqScore:8,sawRev:true}:{sub:extra.sub||1,safety:2,sand:2};
     if(extra.rep){r.st[3]=2;r.cur=5;r.d.s4={ans:{q1:"구리 원자가 전자를 2개 잃고 구리 이온(Cu2+)이 되어 수용액으로 녹아 들어갔기 때문이다.",q2:"은. 은 이온(Ag+)이 구리가 내놓은 전자를 얻어 은 원자로 환원되어 구리줄 표면에 붙었다.",q3:"구리가 잃은 전자를 은 이온이 얻기 때문에 전자를 주고받으며 산화와 환원이 동시에 일어난다.",q4c:1,q4:"은이 구리보다 전자를 잃기 어려워서 반응이 일어나지 않는다.",q5:"손난로 속 철가루가 공기 중 산소와 반응해 산화되면서 열을 낸다."}};r.d.s4.auto=scoreReport(r.d.s4.ans);r.rAuto=Object.values(r.d.s4.auto).reduce((a,b)=>a+b,0);r.sc[3]=r.rAuto;r.submittedAt=t}
     return r};
