@@ -973,7 +973,7 @@ function sub4(B,d,next){
 function sub5(B,d,next){
   d.obs=d.obs||{};d.maxT=d.maxT||0;let t=0,play=false,last=0,rev=false;
   B.innerHTML=`<div class="lab"><div class="bench"><span class="cap" id="cap5">구리줄 + 질산 은 수용액</span><canvas id="labCv"></canvas></div>
-  <div><h3>④ 관찰하고 기록하기</h3><p class="lead">총 20분을 관찰합니다.<br>재생하면 1초에 1분씩 지나갑니다.<br>또 시간 축을 끌거나 위의 시간 깃발을 눌러 이동할 수도 있어요.<br>시간 깃발이 각 시간에 도달하면 기록 칸이 열립니다.</p>
+  <div><h3>④ 관찰하고 기록하기</h3><p class="lead">총 20분을 관찰합니다. 재생하면 1초에 1분씩 지나갑니다.<br>또 시간 축을 끌거나 위의 시간 깃발을 눌러 이동할 수도 있어요.<br>시간 깃발이 각 시간에 도달하면 기록 칸이 열립니다.</p>
    <div style="display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap"><button class="btn dark" id="playB">▶ 재생</button><span class="clockbig" id="clk">0분 00초</span><span class="note">/ 20분</span></div>
    <div class="tl" id="tl" role="slider" tabindex="0" aria-label="경과 시간(분)" aria-valuemin="0" aria-valuemax="${TMAX}" aria-valuenow="0">
      ${TPTS.map(p=>`<button class="cp" data-t="${p}" style="left:${p/TMAX*100}%">${p}분</button>`).join("")}
