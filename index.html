@@ -1,4 +1,4 @@
-<title>한슬쌤의 '숏'터뷰 통합과학실험실</title>
+<title>한슬쌤의 통합과학2 실험실</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -101,6 +101,9 @@ p{margin:0}
 .pcard .pts{margin-top:auto;display:flex;align-items:baseline;gap:4px;font-weight:700;color:var(--c)}
 .pcard .pts .mono{font-size:22px}
 .pcard .blob{position:absolute;right:-26px;top:-26px;width:92px;height:92px;border-radius:50%;background:var(--c);opacity:.1}
+.goal-top{margin:0 0 18px!important;border-left:6px solid var(--red)}
+.goal-top dt{color:var(--red)!important}
+.goal-top dd{font-size:15.5px!important;font-weight:500}
 .goal{margin-top:18px;display:grid;grid-template-columns:auto 1fr;gap:10px 18px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px}
 .goal dt{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.06em;padding-top:2px}
 .goal dd{margin:0;font-size:14.5px}
@@ -134,6 +137,7 @@ p{margin:0}
 .tstep .bar i{display:block;height:100%;background:var(--c);width:0;transition:width .4s}
 
 .stage-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:18px;align-items:stretch;margin-bottom:18px}
+.stage-head.one{grid-template-columns:1fr}
 .stage-title{background:var(--ink);color:#fff;border-radius:18px;padding:22px;position:relative;overflow:hidden}
 .stage-title .k{font-family:var(--f-mono);font-size:12px;color:var(--mint);letter-spacing:.12em}
 .stage-title h2{font-family:var(--f-disp);font-weight:400;font-size:clamp(28px,3.4vw,40px);margin-top:6px;line-height:1.1}
@@ -401,7 +405,7 @@ footer.foot .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:
   <div class="wrap">
     <a class="logo" href="#" id="homeLink" aria-label="처음 화면으로">
       <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><path d="M13 4h8M14.5 4v9L6.5 27a3 3 0 0 0 2.6 4.5h15.8a3 3 0 0 0 2.6-4.5L19.5 13V4" fill="none" stroke="#A6F1F3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.3 22.5h15.4l2.2 4.3a1.6 1.6 0 0 1-1.4 2.4H8.5a1.6 1.6 0 0 1-1.4-2.4z" fill="#2B7FD8"/><circle cx="14" cy="25.5" r="1.4" fill="#E9EEF2"/><circle cx="19.5" cy="24.4" r="1" fill="#E9EEF2"/></svg>
-      <span><b>한슬쌤의 '숏'터뷰</b><small>Integrated Science Lab</small></span>
+      <span><b>한슬쌤의 통합과학2</b><small>Integrated Science Lab</small></span>
     </a>
     <div class="who" id="whoBox" hidden><span class="dot"></span><span id="whoText"></span></div>
     <button class="pill ghost" id="exitBtn" hidden>나가기</button>
@@ -415,9 +419,9 @@ footer.foot .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:
     <canvas id="heroCv" aria-hidden="true"></canvas>
     <div class="wrap hero-in">
       <div>
-        <p class="kicker">전자는 어디로 갔을까, 물을 때</p>
-        <h1><span class="h1-small">한슬쌤의 '숏'터뷰</span><span class="h1-big">통합과학실험실</span></h1>
-        <p class="hero-sub">구리줄을 질산 은 수용액에 담그면 용액은 푸르게, 구리줄에는 은백색 결정이 자랍니다. 4단계 실험으로 산화·환원을 전자의 이동으로 설명해 봅시다.</p>
+        <p class="kicker">전자는 어디로 갔을까?</p>
+        <h1><span class="h1-small">한슬쌤의</span><span class="h1-big"><span style="white-space:nowrap">통합과학2</span> <span style="white-space:nowrap">실험실</span></span></h1>
+        <p class="hero-sub">산화·환원 반응을 전자의 이동으로 설명해 봅시다.</p>
         <div class="hero-meta">
           <span class="tag">통합과학2 Ⅰ-2-01</span><span class="tag">산화·환원 반응의 규칙성</span><span class="tag">교과서 38~43쪽</span><span class="tag">3 / 12차시</span>
         </div>
@@ -454,19 +458,18 @@ footer.foot .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:
 
   <div class="wrap program">
     <div class="sec-head">
-      <div><p class="eyebrow">Lab Program · 100점</p><h2>오늘의 실험은 4단계로 진행됩니다</h2></div>
+      <div><p class="eyebrow">Lab Program · 100점</p><h2>오늘의 수업은 4단계로 진행됩니다</h2></div>
       <p class="note" id="modeNote"></p>
     </div>
+    <dl class="goal goal-top">
+      <dt>학습 목표</dt><dd>구리줄(Cu)을 질산 은(AgNO₃) 수용액에 담그면 수용액은 푸르게, 구리줄에는 은백색 결정이 자랍니다.<br>질산 은(AgNO₃) 수용액과 구리(Cu)의 반응에서 나타나는 산화·환원 반응을 관찰하고, 산화·환원 반응을 전자의 이동과 연결하여 설명해 봅시다.</dd>
+    </dl>
     <div class="cards4">
-      <div class="pcard" style="--c:var(--s1)"><span class="blob"></span><span class="num">01</span><h3>기초 이론</h3><p>전시 학습 확인. 산소의 이동으로 본 산화·환원을 초·중·고급 10문항으로 점검합니다.</p><span class="pts"><span class="mono">20</span>점</span></div>
-      <div class="pcard" style="--c:var(--s2)"><span class="blob"></span><span class="num">02</span><h3>기초 실험 준비</h3><p>준비물·보호구·안전 수칙·실험 순서를 확인합니다. 질산 은 수용액 취급법이 핵심이에요.</p><span class="pts"><span class="mono">20</span>점</span></div>
+      <div class="pcard" style="--c:var(--s1)"><span class="blob"></span><span class="num">01</span><h3>이론 복습</h3><p>지난 시간에 학습한 산소의 이동으로 본 산화·환원 반응을 10문항으로 점검해 봅시다.</p><span class="pts"><span class="mono">20</span>점</span></div>
+      <div class="pcard" style="--c:var(--s2)"><span class="blob"></span><span class="num">02</span><h3>실험 준비</h3><p>준비물·보호구·안전 수칙·실험 순서를 확인합니다. 질산 은 수용액 취급법이 핵심이에요.</p><span class="pts"><span class="mono">20</span>점</span></div>
       <div class="pcard" style="--c:var(--s3)"><span class="blob"></span><span class="num">03</span><h3>가상 실험</h3><p>사포질부터 관찰 기록까지 직접 조작하고, 입자 모형으로 전자를 옮겨 반응식을 완성합니다.</p><span class="pts"><span class="mono">40</span>점</span></div>
       <div class="pcard" style="--c:var(--s4)"><span class="blob"></span><span class="num">04</span><h3>결과 보고서</h3><p>관찰 결과가 자동으로 채워진 보고서에 고찰을 쓰고 제출하면 선생님이 바로 확인합니다.</p><span class="pts"><span class="mono">20</span>점</span></div>
     </div>
-    <dl class="goal">
-      <dt>학습 목표</dt><dd>산화·환원 반응을 전자의 이동으로 설명할 수 있다. 질산 은(AgNO₃) 수용액과 구리(Cu)의 반응에서 나타나는 변화를 관찰하고, 전자의 이동과 연결하여 설명할 수 있다.</dd>
-      <dt>성취 기준</dt><dd>[10통과2-01-03] 광합성, 화석 연료 사용, 철의 제련 등에서 공통점을 찾아 산화와 환원을 이해하고, 생활 주변의 다양한 변화를 산화와 환원의 특징과 규칙성으로 분석할 수 있다.</dd>
-    </dl>
   </div>
 </section>
 
@@ -494,7 +497,7 @@ footer.foot .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:
     <div class="board" id="board"></div>
     <div class="tablewrap"><table class="roster"><thead><tr>
       <th><button data-sort="cls">반·번호 ↕</button></th><th>성명</th>
-      <th>① 기초 이론 <span class="mono">/20</span></th><th>② 실험 준비 <span class="mono">/20</span></th><th>③ 가상 실험 <span class="mono">/40</span></th><th>④ 결과 보고서 <span class="mono">/20</span></th>
+      <th>① 이론 복습 <span class="mono">/20</span></th><th>② 실험 준비 <span class="mono">/20</span></th><th>③ 가상 실험 <span class="mono">/40</span></th><th>④ 결과 보고서 <span class="mono">/20</span></th>
       <th><button data-sort="tot">총점 ↕</button></th><th><button data-sort="upd">최근 활동 ↕</button></th><th></th>
     </tr></thead><tbody id="roster"></tbody></table></div>
   </div>
@@ -502,7 +505,7 @@ footer.foot .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:
 
 <div class="modal" id="modal" hidden><div class="drawer" role="dialog" aria-modal="true" aria-labelledby="dTitle"><div class="dh"><h3 id="dTitle"></h3><button class="pill ghost" id="dClose">닫기</button></div><div class="db" id="dBody"></div></div></div>
 
-<footer class="foot"><div class="wrap"><span>동패고등학교 1학년 통합과학 · 지도교사 김한슬</span><span>한슬쌤의 '숏'터뷰 통합과학실험실</span></div></footer>
+<footer class="foot"><div class="wrap"><span>동패고등학교 1학년 통합과학 · 지도교사 김한슬</span><span>한슬쌤의 통합과학2 실험실</span></div></footer>
 
 <script src="config.js"></script>
 <script>
@@ -513,8 +516,8 @@ const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelect
 const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const STAGES=[
-  {k:"01",t:"기초 이론",max:20,c:"var(--s1)",hex:"#12959E"},
-  {k:"02",t:"기초 실험 준비",max:20,c:"var(--s2)",hex:"#D98A00"},
+  {k:"01",t:"이론 복습",max:20,c:"var(--s1)",hex:"#12959E"},
+  {k:"02",t:"실험 준비",max:20,c:"var(--s2)",hex:"#D98A00"},
   {k:"03",t:"가상 실험",max:40,c:"var(--s3)",hex:"#2F6FE8"},
   {k:"04",t:"결과 보고서",max:20,c:"var(--s4)",hex:"#C8004A"}
 ];
@@ -566,7 +569,7 @@ const Q1=[
  {lv:3,q:"다음 중 산소가 포함되어 있지만 산화·환원 반응이 아닌 것은?",o:["CaCO₃ → CaO + CO₂","C + O₂ → CO₂","2CuO + C → 2Cu + CO₂","Fe₂O₃ + 3CO → 2Fe + 3CO₂"],a:0,ex:"석회석의 분해는 산소가 다른 물질로 이동하지 않으므로 산화·환원 반응이 아닙니다. 산소가 들어 있다고 모두 산화·환원 반응은 아니에요."},
  {lv:3,q:"오늘의 반응 Cu + 2AgNO₃ → Cu(NO₃)₂ + 2Ag에서는 산소가 이동하지 않습니다. 이 반응을 산화·환원으로 설명하려면?",o:["산소 말고 다른 기준(전자의 이동)이 필요하다","산소가 없으니 산화·환원 반응이 아니다","NO₃⁻가 산소를 주고받는다고 본다","구리가 산소를 얻었다고 본다"],a:0,ex:"모든 산화·환원 반응을 산소의 이동만으로 설명할 수는 없습니다. 오늘은 '전자의 이동'으로 설명해 봅니다."}
 ];
-const LV=["","초급","중급","고급"];
+const LV=["","난이도 하","난이도 중","난이도 상"];
 function shuffleOpts(list,seed){const r=rngOf(seed);list.forEach(q=>{const idx=q.o.map((_,i)=>i);for(let i=idx.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[idx[i],idx[j]]=[idx[j],idx[i]]}q.o=idx.map(i=>q.o[i]);q.a=idx.indexOf(q.a)})}
 
 shuffleOpts(Q1,601);
@@ -745,10 +748,9 @@ function goStage(i){syncS3();viewStage=i;labStop();if(i>0){if(rec.st[i-1]===0)re
 $("#hubBtn").onclick=()=>goStage(0);
 function renderHub(box){
   const rec1=firstUndone(0);const all=rec.st.every(x=>x===2);
-  box.innerHTML=`<div class="stage-head"><div class="stage-title" style="--c:var(--mint-d)"><span class="ring"></span><p class="k">LAB MENU</p><h2>활동 단계 선택</h2><p>${esc(rec.name)} 학생, 원하는 단계를 골라 시작하세요. 처음이라면 ①부터 순서대로 하는 것을 권해요.</p></div>
-  <div class="shorts"><div class="avatar">한슬</div><div><p class="lbl">한슬쌤의 '숏'터뷰</p><p class="q">Q. ${all?"모든 단계를 마쳤어요! 오늘 실험 한 줄 소감은?":"오늘은 어디부터 시작해 볼까요?"}</p><p class="a">${all?"결과보고서가 담당 선생님께 전송되었습니다.":`추천 단계: <b>${STAGES[rec1-1].k} ${STAGES[rec1-1].t}</b>`}</p></div></div></div>
+  box.innerHTML=`<div class="stage-head one"><div class="stage-title" style="--c:var(--mint-d)"><span class="ring"></span><p class="k">LAB MENU</p><h2>활동 단계 선택</h2><p>${esc(rec.name)} 학생, ${all?"모든 단계를 마쳤어요! 결과보고서가 담당 선생님께 전송되었습니다.":"원하는 단계를 골라 시작하세요. 01. 이론 복습부터 순서대로 하는 것을 권해요."}</p></div></div>
   <div class="hub">${STAGES.map((g,i)=>{const st=rec.st[i];const isRec=!all&&i+1===rec1;
-    return`<button class="hcard" style="--c:${g.c}" data-go="${i+1}">${isRec?'<span class="hrec">추천</span>':""}<span class="num">${g.k}</span><span class="ht">${g.t}</span><span class="hd">${["전시 학습 확인 · 10문항","준비물·보호구·안전 수칙·순서","조작 → 관찰 → 입자 모형 → 반응식","관찰 결과로 보고서 작성·제출"][i]}</span>
+    return`<button class="hcard" style="--c:${g.c}" data-go="${i+1}">${isRec?'<span class="hrec">추천</span>':""}<span class="num">${g.k}</span><span class="ht">${g.t}</span><span class="hd">${["지난 시간 학습 내용 확인 · 10문항","준비물·보호구·안전 수칙·순서","조작 → 관찰 → 입자 모형 → 반응식","관찰 결과로 보고서 작성·제출"][i]}</span>
     <span class="hs ${st===2?"ok":st===1?"run":""}">${st===2?"완료 ✓":st===1?"진행 중":"시작 전"}</span><span class="hgo">${st===2?"확인하기":st===1?"이어하기 →":"시작하기 →"}</span></button>`}).join("")}</div>`;
   $$(".hcard",box).forEach(b=>b.onclick=()=>goStage(+b.dataset.go));
 }
@@ -759,7 +761,7 @@ function renderTracker(){
     return`<button class="tstep" style="--c:${s.c}" data-i="${i+1}" data-state="${state}" ${i+1===viewStage?'aria-current="step"':""}><span class="k">STEP ${s.k}</span><span class="t">${s.t}</span><span class="s">${lbl}</span><span class="bar"><i style="width:${stagePct(i)}%"></i></span></button>`}).join("");
   $$(".tstep",$("#tracker")).forEach(b=>b.onclick=()=>goStage(+b.dataset.i));
 }
-function head(i,q,a){const s=STAGES[i-1];const desc=["전시 학습에서 배운 '산소의 이동'으로 산화·환원을 다시 확인해요.","질산 은 수용액을 안전하게 다루기 위한 준비를 점검해요.","구리줄과 질산 은 수용액을 직접 반응시키고 관찰해요.","관찰 결과를 바탕으로 결과보고서를 완성해 제출해요."][i-1];
+function head(i,q,a){const s=STAGES[i-1];const desc=["지난 시간에 배운 '산소의 이동'으로 산화·환원을 다시 확인해요.","질산 은 수용액을 안전하게 다루기 위한 준비를 점검해요.","구리줄과 질산 은 수용액을 직접 반응시키고 관찰해요.","관찰 결과를 바탕으로 결과보고서를 완성해 제출해요."][i-1];
   return`<div class="stage-head"><div class="stage-title" style="--c:${s.c}"><span class="ring"></span><p class="k">STEP ${s.k}</p><h2>${s.t}</h2><p>${desc}</p></div>
   <div class="shorts"><div class="avatar">한슬</div><div><p class="lbl">한슬쌤의 '숏'터뷰</p><p class="q">Q. ${q}</p><p class="a">${a}</p></div></div></div>`}
 function renderStage(){
@@ -775,8 +777,8 @@ function advance(i){rec.st[i-1]=2;const n=firstUndone(i);rec.cur=n||5;persist();
 /* ----- STAGE 1 ----- */
 function renderS1(box){
   const d=rec.d.s1;
-  box.innerHTML=head(1,"숨 쉬기, 손난로, 철 제련. 공통으로 관여하는 원소는 무엇일까요?","초급 4 · 중급 3 · 고급 3문항. 문항마다 두 번까지 답할 수 있어요.")+
-  `<div class="panel"><h3>전시 학습 확인 <span class="sub">산소의 이동과 산화·환원</span></h3><div class="qlist" id="qlist"></div>
+  box.innerHTML=head(1,"숨 쉬기, 손난로, 철 제련. 공통으로 관여하는 원소는 무엇일까요?","난이도 하 4 · 중 3 · 상 3문항. 문항마다 두 번까지 답할 수 있어요.")+
+  `<div class="panel"><h3>지난 시간 학습 내용 확인 <span class="sub">산소의 이동과 산화·환원</span></h3><div class="qlist" id="qlist"></div>
    <div class="actions"><span class="note" id="s1left"></span><button class="btn go" id="s1done" disabled>1단계 마치고 실험 준비로 →</button></div></div>`;
   const L=$("#qlist");
   Q1.forEach((q,qi)=>{const a=d[qi]||{tries:0,picks:[],done:false,score:0};
@@ -1197,7 +1199,7 @@ function openDetail(key){
   const a=d4.ans||{};
   $("#dBody").innerHTML=`
    <div class="brk">
-    <div class="b" style="--c:var(--s1)"><p class="l">① 기초 이론</p><p class="v">${r.sc[0]}<small class="note">/20</small></p><ul>${Q1.map((q,i)=>li(`Q${i+1} ${LV[q.lv]}`,d1[i]&&d1[i].done?d1[i].score:null,2)).join("")}</ul></div>
+    <div class="b" style="--c:var(--s1)"><p class="l">① 이론 복습</p><p class="v">${r.sc[0]}<small class="note">/20</small></p><ul>${Q1.map((q,i)=>li(`Q${i+1} ${LV[q.lv]}`,d1[i]&&d1[i].done?d1[i].score:null,2)).join("")}</ul></div>
     <div class="b" style="--c:var(--s2)"><p class="l">② 실험 준비</p><p class="v">${r.sc[1]}<small class="note">/20</small></p><ul>${li("실험 도구",p2.tools,5)}${li("보호구",p2.ppe,4)}${li("안전 수칙 OX",p2.ox,7)}${li("과정 순서",p2.order,4)}</ul></div>
     <div class="b" style="--c:var(--s3)"><p class="l">③ 가상 실험</p><p class="v">${r.sc[2]}<small class="note">/40</small></p><ul>${li("실험 조작",(d3.safety||0)+(d3.sand||0)+(d3.place||0)+(d3.pour||0),10)}${li("관찰 기록",d3.obsScore,10)}${li("입자 모형",d3.partScore,12)}${li("반응식",d3.eqScore,8)}</ul></div>
     <div class="b" style="--c:var(--s4)"><p class="l">④ 결과 보고서</p><p class="v">${r.st[3]===2?r4(r):"-"}<small class="note">/20</small></p><ul>${RQ.map(q=>li(q.k.toUpperCase()+" 자동",au[q.k],4)).join("")}</ul></div>
