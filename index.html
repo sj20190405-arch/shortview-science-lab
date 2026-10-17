@@ -466,7 +466,7 @@ footer.foot .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:
           <div class="field"><label for="inPw">교사 비밀번호</label><input class="inp mono" id="inPw" type="password" inputmode="numeric" maxlength="8" placeholder="••••"></div>
           <p class="msg" id="teaMsg" role="alert"></p>
           <button class="btn dark full" type="submit" id="teaGo">교사 화면 열기</button>
-          <p class="note">평가 결과와 결과보고서는 교사 화면에서만 볼 수 있습니다.</p>
+          <p class="note">평가 결과와 결과 보고서는 교사 화면에서만 볼 수 있습니다.</p>
         </form>
       </div>
     </div>
@@ -769,7 +769,7 @@ function goStage(i){syncS3();prac=null;s3prac=null;revise4=false;viewStage=i;lab
 $("#hubBtn").onclick=()=>goStage(0);
 function renderHub(box){
   const rec1=firstUndone(0);const all=rec.st.every(x=>x===2);
-  box.innerHTML=`<div class="stage-head one"><div class="stage-title" style="--c:var(--mint-d)"><span class="ring"></span><p class="k">LAB MENU</p><h2>활동 단계 선택</h2><p>${esc(rec.name)} 학생, ${all?"모든 단계를 마쳤어요! 결과보고서가 담당 선생님께 전송되었습니다.":"원하는 단계를 골라 시작하세요. 01. 이론 복습부터 순서대로 하는 것을 추천해요."}</p></div></div>
+  box.innerHTML=`<div class="stage-head one"><div class="stage-title" style="--c:var(--mint-d)"><span class="ring"></span><p class="k">LAB MENU</p><h2>활동 단계 선택</h2><p>${esc(rec.name)} 학생, ${all?"모든 단계를 마쳤어요! 결과 보고서가 담당 선생님께 전송되었습니다.":"원하는 단계를 골라 시작하세요. 01. 이론 복습부터 순서대로 하는 것을 추천해요."}</p></div></div>
   <div class="hub">${STAGES.map((g,i)=>{const st=rec.st[i];const isRec=!all&&i+1===rec1;
     return`<button class="hcard" style="--c:${g.c}" data-go="${i+1}">${isRec?'<span class="hrec">추천</span>':""}<span class="num">${g.k}</span><span class="ht">${g.t}</span><span class="hd">${["지난 시간 학습 내용 확인 · 10문항","준비물·안전 수칙·실험 순서","조작 → 관찰 → 입자 모형 → 반응식","관찰 결과로 보고서 작성·제출"][i]}</span>
     <span class="hs ${st===2?"ok":st===1?"run":""}">${st===2?"완료 ✓":st===1?"진행 중":"시작 전"}</span><span class="hgo">${st===2?"확인하기":st===1?"이어하기 →":"시작하기 →"}</span></button>`}).join("")}</div>`;
@@ -1173,7 +1173,7 @@ function scoreReport(a){
 function renderS4(box){
   const d3=rec.d.s3||{};
   const left=[0,1,2].filter(k=>rec.st[k]!==2);
-  if(rec.st[3]===2&&!revise4){const rv=(rec.d.s4&&rec.d.s4.revised)||0;box.innerHTML=`<div class="done-hero"><h2>보고서 제출 완료!</h2><p>${esc(rec.name)} 학생의 결과보고서가 담당 선생님께 전송되었습니다.<br>제출 시각 ${fmtTime(rec.submittedAt)}${rv?` · 고쳐서 다시 제출 ${rv}회`:""}</p><div class="actions" style="justify-content:center"><button class="btn line" id="rev4" style="background:#fff">✎ 보고서 고쳐서 다시 제출하기</button></div><p style="font-size:13px;color:#9FB3BF;margin-top:6px">다시 제출하면 선생님은 고친 답안을 보게 됩니다. 자동 채점 점수는 처음 제출 기준이 유지돼요.</p>${left.length?`<p style="margin-top:16px;color:#fff;font-weight:700">아직 마치지 않은 단계가 있어요.</p><div class="actions" style="justify-content:center">${left.map(k=>`<button class="btn primary" data-go="${k+1}">${STAGES[k].k} ${STAGES[k].t} →</button>`).join("")}</div>`:""}</div>`;$$("[data-go]",box).forEach(b=>b.onclick=()=>goStage(+b.dataset.go));$("#rev4").onclick=()=>{revise4=true;renderS4(box);stageNav(box,4);window.scrollTo({top:0,behavior:"smooth"})};return}
+  if(rec.st[3]===2&&!revise4){const rv=(rec.d.s4&&rec.d.s4.revised)||0;box.innerHTML=`<div class="done-hero"><h2>보고서 제출 완료!</h2><p>${esc(rec.name)} 학생의 결과 보고서가 담당 선생님께 전송되었습니다.<br>제출 시각 ${fmtTime(rec.submittedAt)}${rv?` · 고쳐서 다시 제출 ${rv}회`:""}</p><div class="actions" style="justify-content:center"><button class="btn line" id="rev4" style="background:#fff">✎ 보고서 고쳐서 다시 제출하기</button></div><p style="font-size:13px;color:#9FB3BF;margin-top:6px">다시 제출하면 선생님은 고친 답안을 보게 됩니다. 자동 채점 점수는 처음 제출 기준이 유지돼요.</p>${left.length?`<p style="margin-top:16px;color:#fff;font-weight:700">아직 마치지 않은 단계가 있어요.</p><div class="actions" style="justify-content:center">${left.map(k=>`<button class="btn primary" data-go="${k+1}">${STAGES[k].k} ${STAGES[k].t} →</button>`).join("")}</div>`:""}</div>`;$$("[data-go]",box).forEach(b=>b.onclick=()=>goStage(+b.dataset.go));$("#rev4").onclick=()=>{revise4=true;renderS4(box);stageNav(box,4);window.scrollTo({top:0,behavior:"smooth"})};return}
   const a=(rec.d.s4&&rec.d.s4.ans)||{};
   const obsRows=TPTS.map(p=>{const o=(d3.obs||{})[p]||{};const c=COLORS.find(x=>x.id===o.c),s=SURF.find(x=>x.id===o.s);return`<tr><td class="t">${p}분</td><td>${c?`<i style="display:inline-block;width:14px;height:14px;border-radius:4px;background:${c.hex};border:1px solid var(--line);vertical-align:-2px;margin-right:6px"></i>${c.n}`:"-"}</td><td>${s?s.n:"-"}</td></tr>`}).join("");
   const shapeN={spiral:"나선",heart:"하트",zigzag:"지그재그"}[d3.shape]||"-";
@@ -1189,19 +1189,19 @@ function renderS4(box){
     ${RQ.map(q=>`<div><p class="rq">${q.q}</p><p class="rhint">${q.h}</p>${q.choice?`<div class="radios">${q.choice.map((c,i)=>`<label><input type="radio" name="q4c" value="${i}" ${a.q4c===i?"checked":""}> ${c}</label>`).join("")}</div>`:""}<textarea id="r_${q.k}" data-k="${q.k}" maxlength="600" placeholder="${q.choice?"까닭을 쓰세요.":"여기에 쓰세요."}">${esc(a[q.k]||"")}</textarea><p class="cnt"><span>${(a[q.k]||"").length}</span>/600</p></div>`).join("")}
    </div></div>
   </div>
-  <div class="actions"><span class="note" id="r4msg">작성 중인 내용은 자동으로 임시 저장됩니다.</span><button class="btn red" id="r4sub">${revise4?"고친 보고서 다시 제출":"결과보고서 제출"}</button></div><div id="r4conf"></div></div>`;
+  <div class="actions"><span class="note" id="r4msg">작성 중인 내용은 자동으로 임시 저장됩니다.</span><button class="btn red" id="r4sub">${revise4?"고친 보고서 다시 제출":"결과 보고서 제출"}</button></div><div id="r4conf"></div></div>`;
   $$("[data-go]",box).forEach(b=>b.onclick=()=>goStage(+b.dataset.go));
   const collect=()=>{const o={};RQ.forEach(q=>o[q.k]=$("#r_"+q.k).value.trim());const c=$('input[name="q4c"]:checked');o.q4c=c?+c.value:null;return o};
   let tmr;$$("textarea",box).forEach(t=>t.oninput=()=>{t.nextElementSibling.firstElementChild.textContent=t.value.length;clearTimeout(tmr);tmr=setTimeout(()=>{if(!rec||rec.st[3]===2)return;rec.d.s4={ans:collect()};persist()},1500)});
   $$('input[name="q4c"]').forEach(r=>r.onchange=()=>{if(!rec||rec.st[3]===2)return;rec.d.s4={ans:collect()};persist()});
   $("#r4sub").onclick=()=>{const o=collect();const empty=RQ.filter(q=>o[q.k].length<5);
     if(empty.length||o.q4c==null){$("#r4msg").textContent=`${empty.map(q=>q.k.slice(1)+"번").join(", ")}${o.q4c==null?" 4번 선택지":""} 답을 5자 이상 채우세요.`.replace(/^, /,"");$("#r4msg").style.color="var(--bad)";return}
-    $("#r4conf").innerHTML=revise4?'<div class="confirm"><p>고친 보고서를 다시 제출할까요? 점수는 처음 제출 기준이 유지되고, 선생님은 고친 답안을 보게 됩니다.</p><button class="btn line" id="cNo">다시 보기</button><button class="btn red" id="cYes">다시 제출합니다</button></div>':'<div class="confirm"><p>제출할까요? 제출한 뒤에도 고쳐서 다시 제출할 수 있어요.</p><button class="btn line" id="cNo">다시 보기</button><button class="btn red" id="cYes">제출합니다</button></div>';
+    $("#r4conf").innerHTML=revise4?'<div class="confirm"><p>고친 보고서를 다시 제출할까요? 점수는 처음 제출 기준이 유지되고, 선생님은 고친 답안을 보게 됩니다.</p><button class="btn line" id="cNo">다시 보기</button><button class="btn red" id="cYes">다시 제출하기</button></div>':'<div class="confirm"><p>제출할까요? 제출한 뒤에도 고쳐서 다시 제출할 수 있어요.</p><button class="btn line" id="cNo">다시 보기</button><button class="btn red" id="cYes">제출하기</button></div>';
     $("#cNo").onclick=()=>$("#r4conf").innerHTML="";
     $("#cYes").onclick=async()=>{clearTimeout(tmr);
       if(revise4){const s4=rec.d.s4;if(!s4.first)s4.first=s4.ans;s4.ans=o;s4.revised=(s4.revised||0)+1;s4.revisedAt=new Date().toISOString();revise4=false;persist();toast("고친 보고서를 다시 제출했습니다.");renderStage();window.scrollTo({top:0,behavior:"smooth"});return}
       const s=scoreReport(o);const tot=Object.values(s).reduce((x,y)=>x+y,0);rec.d.s4={ans:o,auto:s};rec.rAuto=tot;rec.sc[3]=tot;rec.submittedAt=new Date().toISOString();
-      $("#cYes").disabled=true;advance(4);toast("결과보고서를 제출했습니다.")};
+      $("#cYes").disabled=true;advance(4);toast("결과 보고서를 제출했습니다.")};
   };
 }
 
@@ -1252,7 +1252,7 @@ function openDetail(key){
    <div class="panel"><h3>총점 <span class="mono" style="font-size:22px">${total(r)}</span><span class="sub">/ 100 · 시작 ${fmtTime(r.startedAt)} · 제출 ${fmtTime(r.submittedAt)}</span></h3>
      <p class="lead">가상 실험 세부: 사포질 ${d3.sand||0}/3 · 구리줄 넣기 ${d3.place||0}/3 · 질산 은 수용액 넣기 ${d3.pour||0}/4 (시도 ${d3.pourTries||0}회${d3.vol?`, ${d3.vol} mL`:""}) · 추가 실험 확인 ${d3.sawRev?"함":"안 함"}</p>${(()=>{const R=r.d.redo||{};const s3n=Object.keys(R).filter(k=>k.startsWith("s3_")).reduce((a,k)=>a+R[k],0);const rv=(d4.revised)||0;return (R.s1||R.s2||s3n||rv)?`<p class="lead">다시 해 보기(연습, 점수 변동 없음): 이론 복습 ${R.s1||0}회 · 실험 준비 ${R.s2||0}회 · 가상 실험 ${s3n}회 · 보고서 다시 제출 ${rv}회${rv?` (마지막 ${fmtTime(d4.revisedAt)})`:""}</p>`:""})()}</div>
    ${r.st[3]===2?`<div class="adjust"><b>④ 결과 보고서 점수 확정</b><span class="note">자동 채점 ${r.rAuto}점 (핵심어 기준)</span><input class="inp" id="adjV" type="number" min="0" max="20" step="1" value="${r.rTeacher!=null?r.rTeacher:r.rAuto}" aria-label="보고서 점수"><span class="note">/ 20</span><button class="btn red" id="adjB">점수 확정</button>${r.rTeacher!=null?'<span class="chip ok">교사 확정됨</span>':""}</div>`:""}
-   <div class="panel"><h3>결과보고서 <span class="sub">${r.st[3]===2?"제출됨":r.st[3]===1?"작성 중 (미제출)":"미작성"}</span></h3>
+   <div class="panel"><h3>결과 보고서 <span class="sub">${r.st[3]===2?"제출됨":r.st[3]===1?"작성 중 (미제출)":"미작성"}</span></h3>
     <div class="report" style="margin-top:12px">
      <div class="rsec"><h4>실험 과정 기록</h4><p>구리줄 모양: ${({spiral:"나선",heart:"하트",zigzag:"지그재그"})[d3.shape]||"-"} · 질산 은 수용액 ${d3.vol||"-"} mL</p></div>
      <div class="rsec"><h4>실험 결과 (학생 관찰 기록)</h4><div class="obs-table-wrap" style="margin-top:0"><table class="obs"><thead><tr><th>시간</th><th>수용액의 색</th><th>구리줄 표면</th></tr></thead><tbody>${obs}</tbody></table></div></div>
