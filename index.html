@@ -1196,7 +1196,7 @@ function renderS4(box){
   $$('input[name="q4c"]').forEach(r=>r.onchange=()=>{if(!rec||rec.st[3]===2)return;rec.d.s4={ans:collect()};persist()});
   $("#r4sub").onclick=()=>{const o=collect();const empty=RQ.filter(q=>o[q.k].length<5);
     if(empty.length||o.q4c==null){$("#r4msg").textContent=`${empty.map(q=>q.k.slice(1)+"번").join(", ")}${o.q4c==null?" 4번 선택지":""} 답을 5자 이상 채우세요.`.replace(/^, /,"");$("#r4msg").style.color="var(--bad)";return}
-    $("#r4conf").innerHTML=revise4?'<div class="confirm"><p>고친 보고서를 다시 제출할까요? 점수는 처음 제출 기준이 유지되고, 선생님은 고친 답안을 보게 됩니다.</p><button class="btn line" id="cNo">다시 보기</button><button class="btn red" id="cYes">다시 제출합니다.</button></div>':'<div class="confirm"><p>제출할까요? 제출한 뒤에도 고쳐서 다시 제출할 수 있어요.</p><button class="btn line" id="cNo">다시 보기</button><button class="btn red" id="cYes">제출합니다.</button></div>';
+    $("#r4conf").innerHTML=revise4?'<div class="confirm"><p>고친 보고서를 다시 제출할까요? 점수는 처음 제출 기준이 유지되고, 선생님은 고친 답안을 보게 됩니다.</p><button class="btn line" id="cNo">다시 보기</button><button class="btn red" id="cYes">다시 제출합니다</button></div>':'<div class="confirm"><p>제출할까요? 제출한 뒤에도 고쳐서 다시 제출할 수 있어요.</p><button class="btn line" id="cNo">다시 보기</button><button class="btn red" id="cYes">제출합니다</button></div>';
     $("#cNo").onclick=()=>$("#r4conf").innerHTML="";
     $("#cYes").onclick=async()=>{clearTimeout(tmr);
       if(revise4){const s4=rec.d.s4;if(!s4.first)s4.first=s4.ans;s4.ans=o;s4.revised=(s4.revised||0)+1;s4.revisedAt=new Date().toISOString();revise4=false;persist();toast("고친 보고서를 다시 제출했습니다.");renderStage();window.scrollTo({top:0,behavior:"smooth"});return}
