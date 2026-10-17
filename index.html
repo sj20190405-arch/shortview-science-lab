@@ -579,7 +579,7 @@ const Q1=[
  {lv:2,q:"산화 구리(Ⅱ)를 숯가루와 함께 가열했습니다. 환원되는 물질은?",eq:"2CuO + C → 2Cu + CO₂",o:["CuO","C","Cu","CO₂"],a:0,ex:"CuO는 산소를 잃고 Cu가 되므로 환원됩니다."},
  {lv:2,q:"같은 반응(2CuO + C → 2Cu + CO₂)에서 산소는 어떻게 이동했을까요?",o:["CuO → C","C → CuO","CO₂ → Cu","이동하지 않는다"],a:0,ex:"산소는 산화 구리(Ⅱ)에서 분리되어 탄소와 결합했습니다."},
  {lv:2,q:"철의 제련 반응에서 산화되는 물질은?",eq:"Fe₂O₃ + 3CO → 2Fe + 3CO₂",o:["CO","Fe₂O₃","Fe","CO₂"],a:0,ex:"일산화 탄소(CO)가 산소를 얻어 CO₂가 되므로 산화됩니다. Fe₂O₃는 환원됩니다."},
- {lv:3,q:"산화와 환원이 항상 동시에 일어나는 까닭으로 옳은 것은?",o:["한 물질이 잃은 산소를 다른 물질이 얻기 때문","반응 속도가 매우 빠르기 때문","열이 항상 방출되기 때문","반응물이 항상 두 가지이기 때문"],a:0,ex:"산소의 분리와 결합이 짝을 이루므로 산화와 환원은 동시에 일어납니다."},
+ {lv:3,q:"산화와 환원이 항상 동시에 일어나는 까닭으로 옳은 것은?",o:["한 물질이 잃은 산소를 다른 물질이 얻기 때문이다","반응 속도가 매우 빠르기 때문이다","열이 항상 방출되기 때문이다","반응물이 항상 두 가지이기 때문이다"],a:0,ex:"산소의 분리와 결합이 짝을 이루므로 산화와 환원은 동시에 일어납니다."},
  {lv:3,q:"다음 중 산소가 포함되어 있지만 산화·환원 반응이 아닌 것은?",o:["CaCO₃ → CaO + CO₂","C + O₂ → CO₂","2CuO + C → 2Cu + CO₂","Fe₂O₃ + 3CO → 2Fe + 3CO₂"],a:0,ex:"석회석의 분해는 산소가 다른 물질로 이동하지 않으므로 산화·환원 반응이 아닙니다. 산소가 들어 있다고 모두 산화·환원 반응은 아니에요."},
  {lv:3,q:"오늘의 반응 Cu + 2AgNO₃ → Cu(NO₃)₂ + 2Ag에서는 산소가 이동하지 않습니다. 이 반응을 산화·환원으로 설명하려면?",o:["산소 말고 다른 기준(전자의 이동)이 필요하다","산소가 없으니 산화·환원 반응이 아니다","NO₃⁻가 산소를 주고받는다고 본다","구리가 산소를 얻었다고 본다"],a:0,ex:"모든 산화·환원 반응을 산소의 이동만으로 설명할 수는 없습니다. 오늘은 '전자의 이동'으로 설명해 봅니다."}
 ];
@@ -748,7 +748,7 @@ let viewStage=1;
 function openStudent(){show("student");$("#whoText").textContent=`1학년 ${rec.cls}반 ${rec.num}번 ${rec.name}`;viewStage=0;renderTracker();renderStage()}
 function stagePct(i){const s=rec.st[i];if(s===2)return 100;if(s===0)return 0;
   if(i===0)return Object.keys(rec.d.s1||{}).filter(k=>rec.d.s1[k].done).length/Q1.length*100;
-  if(i===2)return SUBS.filter((_,k)=>subDone(rec.d.s3,k+1)).length/7*100;return 15}
+  if(i===2)return SUBS.filter((_,k)=>subDone(rec.d.s3,k+1)).length/SUBS.length*100;return 15}
 function firstUndone(from){for(let k=1;k<=4;k++){const i=((from-1+k)%4)+1;if(rec.st[i-1]!==2)return i}return 0}
 function syncS3(){if(rec.st[2]!==2&&!nextSub(rec.d.s3,0)){rec.st[2]=2;rec.d.s3.sub=8;rec.sc[2]=s3score();if(rec.st.every(x=>x===2))rec.cur=5}}
 function goStage(i){syncS3();viewStage=i;labStop();if(i>0){if(rec.st[i-1]===0)rec.st[i-1]=1;if(rec.st[i-1]!==2)rec.cur=i;persist()}renderTracker();renderStage();window.scrollTo({top:0,behavior:"smooth"})}
@@ -784,7 +784,7 @@ function advance(i){rec.st[i-1]=2;const n=firstUndone(i);rec.cur=n||5;persist();
 /* ----- STAGE 1 ----- */
 function renderS1(box){
   const d=rec.d.s1;
-  box.innerHTML=head(1,"숨 쉬기, 손난로, 철 제련. 공통으로 관여하는 원소는 무엇일까요?","난이도 하 4 · 중 3 · 상 3문항. 문항마다 두 번까지 답할 수 있어요.")+
+  box.innerHTML=head(1,"광합성, 세포호흡, 철의 제련, 화석연료의 연소에서<br>공통으로 관여하는 원소는 무엇일까요?","난이도 하 4 · 중 3 · 상 3문항. 문항마다 두 번까지 답할 수 있어요.")+
   `<div class="panel"><h3>지난 시간 학습 내용 확인 <span class="sub">산소의 이동과 산화·환원</span></h3><div class="qlist" id="qlist"></div>
    <div class="actions"><span class="note" id="s1left"></span><button class="btn go" id="s1done" disabled>1단계 마치고 실험 준비로 →</button></div></div>`;
   const L=$("#qlist");
@@ -876,7 +876,7 @@ function renderS2(box){
     $$(".tile",$("#tTools")).forEach(b=>{const x=TOOLS.find(t=>t.id===b.dataset.id);const on=st.tools.has(x.id);b.classList.add(on?(x.ok?"g-ok":"g-bad"):(x.ok?"g-miss":"_"))});
     drawOrd();$$(".orow").forEach((r,i)=>r.classList.add(STEPS[i].id===r.dataset.id?"g-ok":"g-bad"));
     $("#s2sub").hidden=true;$("#s2msg").textContent="";
-    $("#s2after").innerHTML=`<div class="fb ok" style="margin-top:14px"><b>점검 완료.</b>초록 테두리는 맞은 것, 빨간 테두리는 틀린 것, 점선은 빠뜨린 준비물입니다. 올바른 순서: 실험용 장갑 착용 → 사포질 → 모양 만들어 넣기 → 질산 은 수용액 붓기 → 움직이지 않고 관찰.</div><div class="actions"><button class="btn go" id="s2next">다음 단계 고르기 →</button></div>`;
+    $("#s2after").innerHTML=`<div class="fb ok" style="margin-top:14px"><b>점검 완료.</b>초록 테두리는 맞은 것, 빨간 테두리는 틀린 것, 점선은 빠뜨린 준비물입니다. 올바른 순서: 실험용 장갑 착용 → 사포질 → 모양 만들어 넣기 → 질산 은 수용액 넣기 → 움직이지 않고 관찰.</div><div class="actions"><button class="btn go" id="s2next">다음 단계 고르기 →</button></div>`;
     $("#s2next").onclick=()=>advance(2);
   };
 }
@@ -884,16 +884,16 @@ function renderS2(box){
 /* ----- STAGE 3 ----- */
 let labSim=null,labRAF=0;
 function labStop(){cancelAnimationFrame(labRAF);labRAF=0}
-const SUBS=["안전 점검","사포질","구리줄 넣기","용액 붓기","관찰·기록","입자 모형","반응식"];
+const SUBS=["사포질","구리줄 넣기","질산 은 수용액 넣기","관찰·기록","입자 모형","반응식"];
 let s3view=null;
-function subDone(d,k){d=d||{};if((d.sub||1)>k&&d.sub>=8)return true;return k===1?d.safety!=null:k===2?d.sand!=null:k===3?d.place!=null:k===4?d.pour!=null:k===5?d.obsScore!=null:k===6?d.partScore!=null:d.eqScore!=null}
-function nextSub(d,from){for(let k=1;k<=7;k++){const j=((from-1+k)%7)+1;if(!subDone(d,j))return j}return 0}
+function subDone(d,k){d=d||{};if((d.sub||1)>k&&d.sub>=8)return true;return k===1?d.sand!=null:k===2?d.place!=null:k===3?d.pour!=null:k===4?d.obsScore!=null:k===5?d.partScore!=null:d.eqScore!=null}
+function nextSub(d,from){const N=SUBS.length;for(let k=1;k<=N;k++){const j=((from-1+k+N)%N)+1;if(!subDone(d,j))return j}return 0}
 function renderS3(box){
   const d=rec.d.s3;if(!d.sub)d.sub=1;
-  if(s3view==null||s3view<1||s3view>7)s3view=nextSub(d,0)||1;
+  if(s3view==null||s3view<1||s3view>SUBS.length)s3view=nextSub(d,0)||1;
   const sub=s3view;
-  const QS={1:["실험 시작 전, 마지막으로 무엇을 확인해야 할까요?","보호구와 폐수 통. 안전이 첫 번째 관찰입니다."],2:["구리줄을 왜 사포로 문지를까요?","표면의 산화 피막과 기름을 벗겨야 반응이 잘 일어나요."],3:["구리줄 모양은 자유! 어떤 모양으로 만들까요?","모양이 달라도 일어나는 반응은 같아요."],4:["질산 은 수용액은 얼마나 부어야 할까요?","구리줄이 완전히 잠길 만큼. 넘치면 위험해요."],5:["수용액의 색과 구리줄 표면은 어떻게 변할까요?","결과를 미리 판단하지 말고, 보이는 대로 기록해요."],6:["전자는 누구에게서 누구에게로 이동했을까요?","입자 모형에서 전자를 직접 옮겨 보세요."],7:["지금까지 본 것을 반응식으로 쓰면?","전자 잃으면 산화, 얻으면 환원!"]};
-  const q=QS[Math.min(sub,7)];
+  const QS={1:["구리줄을 왜 사포로 문지를까요?","표면의 산화 피막과 기름을 벗겨야 반응이 잘 일어나요."],2:["구리줄 모양은 자유! 어떤 모양으로 만들까요?","모양이 달라도 일어나는 반응은 같아요."],3:["질산 은 수용액은 얼마나 넣어야 할까요?","구리줄이 완전히 잠길 만큼. 넘치면 위험해요."],4:["수용액의 색과 구리줄 표면은 어떻게 변할까요?","결과를 미리 판단하지 말고, 보이는 대로 기록해요."],5:["전자는 누구에게서 누구에게로 이동했을까요?","입자 모형에서 전자를 직접 옮겨 보세요."],6:["지금까지 본 것을 반응식으로 쓰면?","전자 잃으면 산화, 얻으면 환원!"]};
+  const q=QS[Math.min(sub,SUBS.length)];
   box.innerHTML=head(3,q[0],q[1])+`<div class="panel"><div class="substeps">${SUBS.map((s,i)=>`<button type="button" data-k="${i+1}" class="${i+1===sub?"cur":subDone(d,i+1)?"done":""}">${subDone(d,i+1)&&i+1!==sub?"✓ ":""}${i+1}. ${s}</button>`).join("")}</div><div id="subBox"></div></div>`;
   const B=$("#subBox");labStop();labSim=null;
   $$(".substeps button",box).forEach(b=>b.onclick=()=>{s3view=+b.dataset.k;renderS3(box)});
@@ -901,7 +901,7 @@ function renderS3(box){
   const next=()=>{d.sub=Math.max(d.sub,sub+1);rec.sc[2]=s3score();const n=nextSub(d,sub);if(!n){finishAll();return}s3view=n;persist();renderTracker();renderS3(box);box.scrollIntoView({behavior:"smooth",block:"start"})};
   if(subDone(d,sub)){const n=nextSub(d,sub);B.innerHTML=`<div class="lockcard"><h3>✓ ${sub}. ${SUBS[sub-1]} 완료</h3><p class="lead">이미 마친 세부 단계예요. 기록은 선생님께 전송되었습니다.</p><div class="actions" style="justify-content:center">${n?`<button class="btn primary" id="toSub">${n}. ${SUBS[n-1]}(으)로 →</button>`:`<button class="btn go" id="toSub">가상 실험 마치기 →</button>`}</div></div>`;$("#toSub").onclick=()=>{if(n){s3view=n;renderS3(box)}else finishAll()};return}
   if(sub===6&&d.partScore==null)d.part={};
-  if(sub===1)sub1(B,d,next);else if(sub===2)sub2(B,d,next);else if(sub===3)sub3(B,d,next);else if(sub===4)sub4(B,d,next);else if(sub===5)sub5(B,d,next);else if(sub===6)sub6(B,d,next);else sub7(B,d,next);
+  [sub2,sub3,sub4,sub5,sub6,sub7][sub-1](B,d,next);
 }
 function s3score(){const d=rec.d.s3;return(d.safety||0)+(d.sand||0)+(d.place||0)+(d.pour||0)+(d.obsScore||0)+(d.partScore||0)+(d.eqScore||0)}
 function sub1(B,d,next){
@@ -912,7 +912,7 @@ function sub1(B,d,next){
 }
 function sub2(B,d,next){
   B.innerHTML=`<div class="lab"><div class="bench"><span class="cap">사포질 작업대</span><canvas id="sandCv" class="wide" aria-label="구리줄 사포질 영역"></canvas></div>
-   <div><h3>② 구리줄 표면 문지르기</h3><p class="lead">구리줄 위를 마우스(손가락)로 좌우로 문질러 광택이 날 때까지 사포질하세요. 문지르기 어려우면 버튼을 눌러도 됩니다.</p>
+   <div><h3>① 구리줄 표면 문지르기</h3><p class="lead">구리줄 위를 마우스(손가락)로 좌우로 문질러 광택이 날 때까지 사포질하세요.<br>문지르기 어려우면 버튼을 눌러도 됩니다.</p>
    <div class="meter"><i id="sandM"></i></div><div class="readout"><span class="note">광택도</span><span class="mono" id="sandP">0%</span></div>
    <div class="actions"><button class="btn line" id="sandBtn">사포로 한 번 문지르기</button><button class="btn primary" id="go" disabled>다음 →</button></div></div></div>`;
   const cv=$("#sandCv");let p=0,down=false,lx=0;
@@ -928,13 +928,13 @@ function sub2(B,d,next){
   cv.onpointerdown=e=>{down=true;lx=e.clientX;cv.setPointerCapture(e.pointerId)};cv.onpointerup=()=>down=false;cv.onpointercancel=()=>down=false;
   cv.onpointermove=e=>{if(!down)return;const dx=Math.abs(e.clientX-lx);lx=e.clientX;add(dx/cv.getBoundingClientRect().width*18)};
   $("#sandBtn").onclick=()=>add(12.5);draw();
-  $("#go").onclick=()=>{d.sand=2;next()};
+  $("#go").onclick=()=>{d.sand=3;next()};
 }
 function shapeIcon(s){const P=shapePath(s);return`<svg viewBox="-1 -1 2 2"><circle r=".92" fill="#F3F7F9" stroke="#B9C7D0" stroke-width=".04"/><polyline points="${P.map(p=>p.map(v=>v.toFixed(3)).join(",")).join(" ")}" fill="none" stroke="#C9773F" stroke-width=".08" stroke-linecap="round" stroke-linejoin="round"/></svg>`}
 function sub3(B,d,next){
   let shape=d.shape||null,tool=null,handTried=false;
   B.innerHTML=`<div class="lab"><div class="bench"><span class="cap">페트리 접시 (위에서 본 모습)</span><canvas id="labCv"></canvas></div>
-  <div><h3>③ 모양 만들어 페트리 접시에 넣기</h3><p class="lead">사포질한 구리줄로 원하는 모양을 고르세요.</p>
+  <div><h3>② 모양 만들어 페트리 접시에 넣기</h3><p class="lead">사포질한 구리줄로 원하는 모양을 고르세요.</p>
    <div class="shapes">${[["spiral","나선"],["heart","하트"],["zigzag","지그재그"]].map(([k,n])=>`<button class="shape" data-s="${k}" aria-pressed="${shape===k}">${shapeIcon(k)}${n}</button>`).join("")}</div>
    <p class="lead" style="margin-top:16px">어떻게 옮길까요?</p>
    <div class="actions" style="justify-content:flex-start"><button class="btn line" id="useT">핀셋으로 옮기기</button><button class="btn line" id="useH">손으로 옮기기</button></div>
@@ -944,15 +944,15 @@ function sub3(B,d,next){
   $$(".shape",B).forEach(b=>b.onclick=()=>{shape=b.dataset.s;$$(".shape",B).forEach(x=>x.setAttribute("aria-pressed",x===b));if(tool==="t"){labSim.set({shape})}});
   $("#useH").onclick=()=>{handTried=true;$("#fb3").innerHTML='<div class="fb no"><b>잠깐!</b>손의 땀과 기름이 사포질한 표면에 묻으면 반응이 잘 일어나지 않아요. 핀셋을 사용하세요.</div>'};
   $("#useT").onclick=()=>{if(!shape){$("#fb3").innerHTML='<div class="fb try"><b>먼저</b>구리줄 모양을 고르세요.</div>';return}tool="t";labSim.set({shape});$("#fb3").innerHTML='<div class="fb ok"><b>좋아요.</b>핀셋으로 구리줄을 페트리 접시 가운데에 놓았습니다.</div>';$("#go").disabled=false};
-  $("#go").onclick=()=>{d.shape=shape;d.place=handTried?1:2;next()};
+  $("#go").onclick=()=>{d.shape=shape;d.place=handTried?2:3;next()};
 }
 function sub4(B,d,next){
   d.pourTries=d.pourTries||0;let v=0;
   B.innerHTML=`<div class="lab"><div class="bench pour"><span class="cap">옆에서 본 모습</span><svg id="pourSv" viewBox="0 0 400 220" role="img" aria-label="페트리 접시 단면"></svg></div>
-  <div><h3>④ 질산 은 수용액 붓기</h3><p class="lead">슬라이더로 부을 양을 정한 뒤 붓기를 누르세요. 구리줄이 완전히 잠겨야 하고, 접시 높이를 넘으면 안 됩니다.</p>
+  <div><h3>③ 질산 은 수용액 넣기</h3><p class="lead">슬라이더로 넣을 양을 정한 뒤 넣기를 누르세요.<br>구리줄이 완전히 잠겨야 하고, 접시 높이를 넘으면 안 됩니다.</p>
    <input type="range" class="slider" id="vol" min="0" max="40" step="1" value="0" aria-label="질산 은 수용액 부피(mL)">
-   <div class="readout"><span class="note">부을 양</span><span class="mono"><span id="volV">0</span> mL</span></div>
-   <div id="fb4"></div><div class="actions"><button class="btn primary" id="pourBtn">붓기</button><button class="btn go" id="go" hidden>관찰 시작 →</button></div></div></div>`;
+   <div class="readout"><span class="note">넣을 양</span><span class="mono"><span id="volV">0</span> mL</span></div>
+   <div id="fb4"></div><div class="actions"><button class="btn primary" id="pourBtn">넣기</button><button class="btn go" id="go" hidden>관찰 시작 →</button></div></div></div>`;
   const draw=()=>{const lvl=v/40*120;const y=180-lvl;
     $("#pourSv").innerHTML=`<rect x="0" y="0" width="400" height="220" fill="#FBFBF8"/><rect x="40" y="188" width="320" height="10" rx="2" fill="#E3E3DA"/>
     <path d="M60 80v100q0 8 8 8h264q8 0 8-8V80" fill="rgba(230,240,245,.6)" stroke="#9FB3BF" stroke-width="3"/>
@@ -964,7 +964,7 @@ function sub4(B,d,next){
     $("#volV").textContent=v};
   $("#vol").oninput=e=>{v=+e.target.value;draw()};draw();
   $("#pourBtn").onclick=()=>{d.pourTries++;
-    if(v<15){$("#fb4").innerHTML=`<div class="fb no"><b>부족해요.</b>구리줄 일부가 공기 중에 드러나 있어요. 잠김선 위까지 부어야 해요.</div>`}
+    if(v<15){$("#fb4").innerHTML=`<div class="fb no"><b>부족해요.</b>구리줄 일부가 공기 중에 드러나 있어요. 잠김선 위까지 넣어야 해요.</div>`}
     else if(v>28){$("#fb4").innerHTML=`<div class="fb no"><b>너무 많아요.</b>접시를 옮기거나 관찰할 때 넘칠 수 있어요. 질산 은 수용액은 피부에 닿으면 안 됩니다.</div>`}
     else{d.pour=Math.max(1,5-d.pourTries);d.vol=v;$("#fb4").innerHTML=`<div class="fb ok"><b>적당해요.</b>${v} mL로 구리줄이 완전히 잠겼습니다. 이제 접시를 움직이지 말고 관찰해요.</div>`;$("#pourBtn").hidden=true;$("#vol").disabled=true;$("#go").hidden=false}};
   $("#go").onclick=next;
@@ -972,7 +972,7 @@ function sub4(B,d,next){
 function sub5(B,d,next){
   d.obs=d.obs||{};d.maxT=d.maxT||0;let t=0,play=false,last=0,rev=false;
   B.innerHTML=`<div class="lab"><div class="bench"><span class="cap" id="cap5">구리줄 + 질산 은 수용액</span><canvas id="labCv"></canvas></div>
-  <div><h3>⑤ 관찰하고 기록하기</h3><p class="lead">총 20분 관찰합니다. 재생하면 1초에 1분씩 지나가고, 시간 축을 끌거나 위의 시간 깃발을 눌러 이동할 수도 있어요. 깃발 시간에 도달하면 기록 칸이 열립니다.</p>
+  <div><h3>④ 관찰하고 기록하기</h3><p class="lead">총 20분 관찰합니다. 재생하면 1초에 1분씩 지나가고, 시간 축을 끌거나 위의 시간 깃발을 눌러 이동할 수도 있어요. 깃발 시간에 도달하면 기록 칸이 열립니다.</p>
    <div style="display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap"><button class="btn dark" id="playB">▶ 재생</button><span class="clockbig" id="clk">0분 00초</span><span class="note">/ 20분</span></div>
    <div class="tl" id="tl" role="slider" tabindex="0" aria-label="경과 시간(분)" aria-valuemin="0" aria-valuemax="${TMAX}" aria-valuenow="0">
      ${TPTS.map(p=>`<button class="cp" data-t="${p}" style="left:${p/TMAX*100}%">${p}분</button>`).join("")}
@@ -1027,10 +1027,10 @@ function sub6(B,d,next){
     {k:"c",q:"은 이온(Ag⁺)에 일어난 변화는?",o:["전자를 얻고 환원되었다","전자를 잃고 산화되었다","전자를 얻고 산화되었다","변화가 없다"],a:0},
     {k:"d",q:"질산 이온(NO₃⁻)은 어떻게 되었나요?",o:["반응 전후 그대로 수용액에 존재한다","전자를 얻어 환원되었다","구리줄 표면에 석출되었다","기체가 되어 날아갔다"],a:0},
     {k:"e",q:"구리 원자 1개가 반응할 때 석출되는 은 원자는 몇 개인가요?",o:["2개","1개","3개","4개"],a:0},
-    {k:"f",q:"수용액이 푸른색으로 변한 까닭은?",o:["구리 이온(Cu²⁺)이 생겨 수용액으로 들어갔기 때문","은(Ag)이 석출되었기 때문","질산 이온이 늘어났기 때문","구리줄이 녹슬었기 때문"],a:0}
+    {k:"f",q:"수용액이 푸른색으로 변한 까닭은?",o:["구리 이온(Cu²⁺)이 생겨 수용액으로 들어갔기 때문이다","은(Ag)이 석출되었기 때문이다","질산 이온이 늘어났기 때문이다","구리줄이 녹슬었기 때문이다"],a:0}
   ];
   shuffleOpts(PQ,1021);
-  B.innerHTML=`<h3>⑥ 입자 모형으로 전자 옮기기</h3>
+  B.innerHTML=`<h3>⑤ 입자 모형으로 전자 옮기기</h3>
   <div class="pm-guide" id="pmGuide">
     <div class="pg-step" data-s="1"><span class="pg-n">1</span><span>깜빡이는 <b>노란 전자(e⁻)</b>를 잡으세요</span></div><span class="pg-arrow">→</span>
     <div class="pg-step" data-s="2"><span class="pg-n">2</span><span>전자를 받을 입자 위에 <b>끌어다 놓으세요</b></span></div><span class="pg-arrow">→</span>
@@ -1109,7 +1109,7 @@ const EQ=[
 function sub7(B,d,done){
   d.eq=d.eq||{};
   const S=id=>{const e=EQ.find(x=>x.id===id);return`<select data-id="${id}" aria-label="빈칸 ${id}"><option value="">?</option>${e.o.map(o=>`<option ${d.eq[id]===o?"selected":""}>${o}</option>`).join("")}</select>`};
-  B.innerHTML=`<h3>⑦ 반응식 완성하기</h3><p class="lead">빈칸을 골라 산화·환원 반응식을 완성하세요. 한 번에 제출합니다.</p>
+  B.innerHTML=`<h3>⑥ 반응식 완성하기</h3><p class="lead">빈칸을 골라 산화·환원 반응식을 완성하세요. 한 번에 제출합니다.</p>
   <div class="eqline"><span class="lb">산화 (전자를 잃음)</span>Cu → Cu<sup>${S("a")}</sup> + ${S("b")} e⁻</div>
   <div class="eqline"><span class="lb">환원 (전자를 얻음)</span>${S("c")} Ag⁺ + ${S("d")} e⁻ → ${S("e")} Ag</div>
   <div class="eqline"><span class="lb">전체 반응 (NO₃⁻는 반응 전후 그대로)</span>Cu + ${S("f")} Ag⁺ → Cu²⁺ + ${S("g")} Ag</div>
@@ -1200,7 +1200,7 @@ function renderTeacher(){
   R.sort((a,b)=>(key[sortBy](a)-key[sortBy](b))*sortDir);
   const cell=(r,i)=>{const st=r.st[i];const v=i===3?r4(r):r.sc[i];
     if(st===2)return`<span class="sc"><span class="chip ok">완료</span><span class="mono">${v}</span>${i===3&&r.rTeacher==null?'<span class="chip run">확인 필요</span>':""}</span>`;
-    if(st===1){const extra=i===2?` ${SUBS.filter((_,k)=>subDone(r.d.s3,k+1)).length}/7`:i===0?` ${Object.values(r.d.s1||{}).filter(x=>x.done).length}/10`:"";return`<span class="sc"><span class="chip run">진행 중${extra}</span>${i<3&&r.sc[i]?`<span class="mono" style="color:var(--faint)">${r.sc[i]}</span>`:""}</span>`}
+    if(st===1){const extra=i===2?` ${SUBS.filter((_,k)=>subDone(r.d.s3,k+1)).length}/${SUBS.length}`:i===0?` ${Object.values(r.d.s1||{}).filter(x=>x.done).length}/10`:"";return`<span class="sc"><span class="chip run">진행 중${extra}</span>${i<3&&r.sc[i]?`<span class="mono" style="color:var(--faint)">${r.sc[i]}</span>`:""}</span>`}
     return'<span class="chip no">미시작</span>'};
   $("#roster").innerHTML=R.length?R.map(r=>`<tr><td class="mono">${r.cls}-${String(r.num).padStart(2,"0")}</td><td><b>${esc(r.name)}</b></td>${[0,1,2,3].map(i=>`<td>${cell(r,i)}</td>`).join("")}<td class="tot">${total(r)}</td><td class="note">${fmtTime(r.updatedAt)}</td><td><button class="btn line" style="padding:6px 12px;font-size:13px" data-k="${esc(r.key)}">${r.st[3]===2?"보고서 보기":"상세"}</button></td></tr>`).join(""):`<tr><td colspan="9" class="empty">아직 입장한 학생이 없습니다. 학생들이 반·번호·성명으로 입장하면 여기에 실시간으로 나타납니다.</td></tr>`;
   $$("#roster button[data-k]").forEach(b=>b.onclick=()=>openDetail(b.dataset.k));
@@ -1221,7 +1221,7 @@ function openDetail(key){
     <div class="b" style="--c:var(--s4)"><p class="l">④ 결과 보고서</p><p class="v">${r.st[3]===2?r4(r):"-"}<small class="note">/20</small></p><ul>${RQ.map(q=>li(q.k.toUpperCase()+" 자동",au[q.k],4)).join("")}</ul></div>
    </div>
    <div class="panel"><h3>총점 <span class="mono" style="font-size:22px">${total(r)}</span><span class="sub">/ 100 · 시작 ${fmtTime(r.startedAt)} · 제출 ${fmtTime(r.submittedAt)}</span></h3>
-     <p class="lead">가상 실험 세부: 안전 점검 ${d3.safety||0}/2 · 사포질 ${d3.sand||0}/2 · 구리줄 넣기 ${d3.place||0}/2 · 용액 붓기 ${d3.pour||0}/4 (시도 ${d3.pourTries||0}회${d3.vol?`, ${d3.vol} mL`:""}) · 추가 실험 확인 ${d3.sawRev?"함":"안 함"}</p></div>
+     <p class="lead">가상 실험 세부: 사포질 ${d3.sand||0}/3 · 구리줄 넣기 ${d3.place||0}/3 · 질산 은 수용액 넣기 ${d3.pour||0}/4 (시도 ${d3.pourTries||0}회${d3.vol?`, ${d3.vol} mL`:""}) · 추가 실험 확인 ${d3.sawRev?"함":"안 함"}</p></div>
    ${r.st[3]===2?`<div class="adjust"><b>④ 결과 보고서 점수 확정</b><span class="note">자동 채점 ${r.rAuto}점 (핵심어 기준)</span><input class="inp" id="adjV" type="number" min="0" max="20" step="1" value="${r.rTeacher!=null?r.rTeacher:r.rAuto}" aria-label="보고서 점수"><span class="note">/ 20</span><button class="btn red" id="adjB">점수 확정</button>${r.rTeacher!=null?'<span class="chip ok">교사 확정됨</span>':""}</div>`:""}
    <div class="panel"><h3>결과보고서 <span class="sub">${r.st[3]===2?"제출됨":r.st[3]===1?"작성 중 (미제출)":"미작성"}</span></h3>
     <div class="report" style="margin-top:12px">
@@ -1242,7 +1242,7 @@ function seedExamples(){
     const t=new Date(Date.now()-extra.ago*60000).toISOString();r.updatedAt=t;r.startedAt=new Date(Date.now()-(extra.ago+35)*60000).toISOString();
     r.d.s1=Object.fromEntries(Q1.map((q,i)=>[i,{done:true,tries:1,picks:[0],score:i%4===3?1:2}]));
     if(stage>2)r.d.s2={revealed:true,part:{tools:9,order:9}};
-    r.d.s3=stage>3?{sub:8,safety:2,sand:2,place:2,pour:4,pourTries:1,vol:20,shape:"heart",obs:{0:{c:"c0",s:"s0"},2:{c:"c1",s:"s1"},5:{c:"c2",s:"s2"},10:{c:"c3",s:"s2"},20:{c:"c3",s:"s1"}},obsScore:9,part:{},partScore:11,eqScore:8,sawRev:true}:{sub:extra.sub||1,safety:2,sand:2};
+    r.d.s3=stage>3?{sub:8,sand:3,place:3,pour:4,pourTries:1,vol:20,shape:"heart",obs:{0:{c:"c0",s:"s0"},2:{c:"c1",s:"s1"},5:{c:"c2",s:"s2"},10:{c:"c3",s:"s2"},20:{c:"c3",s:"s1"}},obsScore:9,part:{},partScore:11,eqScore:8,sawRev:true}:{sub:extra.sub||1,sand:3};
     if(extra.rep){r.st[3]=2;r.cur=5;r.d.s4={ans:{q1:"구리 원자가 전자를 2개 잃고 구리 이온(Cu2+)이 되어 수용액으로 녹아 들어갔기 때문이다.",q2:"은. 은 이온(Ag+)이 구리가 내놓은 전자를 얻어 은 원자로 환원되어 구리줄 표면에 붙었다.",q3:"구리가 잃은 전자를 은 이온이 얻기 때문에 전자를 주고받으며 산화와 환원이 동시에 일어난다.",q4c:1,q4:"은이 구리보다 전자를 잃기 어려워서 반응이 일어나지 않는다.",q5:"손난로 속 철가루가 공기 중 산소와 반응해 산화되면서 열을 낸다."}};r.d.s4.auto=scoreReport(r.d.s4.ans);r.rAuto=Object.values(r.d.s4.auto).reduce((a,b)=>a+b,0);r.sc[3]=r.rAuto;r.submittedAt=t}
     return r};
   const L=[mk(3,"김도윤",4,[19,19,38,0],{ago:2,rep:true}),mk(7,"박서연",3,[20,17,6,0],{ago:1,sub:4}),mk(12,"이준호",2,[16,0,0,0],{ago:3}),mk(21,"최하은",1,[8,0,0,0],{ago:0})];
