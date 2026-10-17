@@ -457,7 +457,7 @@ footer.foot .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:
             <div class="field"><label for="inCls">반</label><select class="inp" id="inCls" required></select></div>
             <div class="field"><label for="inNum">번호</label><select class="inp" id="inNum" required></select></div>
           </div>
-          <div class="field"><label for="inName">성명</label><input class="inp" id="inName" maxlength="12" placeholder="이름을 입력하세요" required></div>
+          <div class="field"><label for="inName">성명</label><input class="inp" id="inName" maxlength="12" placeholder="이름을 입력하세요." required></div>
           <p class="msg" id="stuMsg" role="alert"></p>
           <button class="btn primary full" type="submit" id="stuGo">실험실 입장하기 →</button>
           <p class="note">반·번호·성명을 모두 입력해야 수업에 참여할 수 있어요.<br>같은 정보로 다시 들어오면 이어서 진행됩니다.</p>
@@ -479,7 +479,7 @@ footer.foot .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:
 
   <div class="wrap program">
     <div class="sec-head">
-      <div><p class="eyebrow">Lab Program · 100점</p><h2>오늘의 수업은 4단계로 진행됩니다</h2></div>
+      <div><p class="eyebrow">Lab Program · 100점</p><h2>오늘의 수업은 4단계로 진행됩니다.</h2></div>
       <p class="note" id="modeNote"></p>
     </div>
     <dl class="goal goal-top">
@@ -581,14 +581,14 @@ function persist(){ if(!rec)return; rec.updatedAt=new Date().toISOString(); cons
 const Q1=[
  {lv:1,q:"물질이 산소와 결합하는 반응을 무엇이라고 할까요?",o:["산화","환원","중화","분해"],a:0,ex:"물질이 산소를 얻으면(산소와 결합하면) 산화, 산소를 잃으면 환원입니다."},
  {lv:1,q:"물질이 산소를 잃는(산소와 분리되는) 반응은 무엇일까요?",o:["산화","환원","연소","용해"],a:1,ex:"산소와 분리되는 반응은 환원입니다."},
- {lv:1,q:"광합성, 철의 제련, 화석 연료의 사용이 자연과 인류의 역사에 큰 변화를 가져온 반응이라는 점 외에 가지는 공통점은?",o:["모두 산소가 관여하는 산화·환원 반응이다","모두 열을 흡수하는 반응이다","모두 금속이 생성되는 반응이다","모두 기체가 생성되지 않는다"],a:0,ex:"세 반응 모두 산소가 관여하는 산화·환원 반응입니다."},
- {lv:1,q:"메테인의 연소 반응에서 산소와 결합하여 산화되는 물질은?",eq:"CH₄ + 2O₂ → CO₂ + 2H₂O",o:["CH₄","CO₂","H₂O","없다"],a:0,ex:"메테인(CH₄)의 탄소와 수소가 산소와 결합하므로 메테인이 산화됩니다."},
+ {lv:1,q:"광합성, 철의 제련, 화석 연료의 사용이 자연과 인류의 역사에 큰 변화를 가져온 반응이라는 점 외에 가지는 공통점은?",o:["모두 산소가 관여하는 산화·환원 반응이다.","모두 열을 흡수하는 반응이다.","모두 금속이 생성되는 반응이다.","모두 기체가 생성되지 않는다."],a:0,ex:"세 반응 모두 산소가 관여하는 산화·환원 반응입니다."},
+ {lv:1,q:"메테인의 연소 반응에서 산소와 결합하여 산화되는 물질은?",eq:"CH₄ + 2O₂ → CO₂ + 2H₂O",o:["CH₄","CO₂","H₂O","없다."],a:0,ex:"메테인(CH₄)의 탄소와 수소가 산소와 결합하므로 메테인이 산화됩니다."},
  {lv:2,q:"산화 구리(Ⅱ)를 숯가루와 함께 가열했습니다. 환원되는 물질은?",eq:"2CuO + C → 2Cu + CO₂",o:["CuO","C","Cu","CO₂"],a:0,ex:"CuO는 산소를 잃고 Cu가 되므로 환원됩니다."},
- {lv:2,q:"같은 반응(2CuO + C → 2Cu + CO₂)에서 산소는 어떻게 이동했을까요?",o:["CuO → C","C → CuO","CO₂ → Cu","이동하지 않는다"],a:0,ex:"산소는 산화 구리(Ⅱ)에서 분리되어 탄소와 결합했습니다."},
+ {lv:2,q:"같은 반응(2CuO + C → 2Cu + CO₂)에서 산소는 어떻게 이동했을까요?",o:["CuO → C","C → CuO","CO₂ → Cu","이동하지 않는다."],a:0,ex:"산소는 산화 구리(Ⅱ)에서 분리되어 탄소와 결합했습니다."},
  {lv:2,q:"철의 제련 반응에서 산화되는 물질은?",eq:"Fe₂O₃ + 3CO → 2Fe + 3CO₂",o:["CO","Fe₂O₃","Fe","CO₂"],a:0,ex:"일산화 탄소(CO)가 산소를 얻어 CO₂가 되므로 산화됩니다. Fe₂O₃는 환원됩니다."},
- {lv:3,q:"산화와 환원이 항상 동시에 일어나는 까닭으로 옳은 것은?",o:["한 물질이 잃은 산소를 다른 물질이 얻기 때문이다","반응 속도가 매우 빠르기 때문이다","열이 항상 방출되기 때문이다","반응물이 항상 두 가지이기 때문이다"],a:0,ex:"산소의 분리와 결합이 짝을 이루므로 산화와 환원은 동시에 일어납니다."},
+ {lv:3,q:"산화와 환원이 항상 동시에 일어나는 까닭으로 옳은 것은?",o:["한 물질이 잃은 산소를 다른 물질이 얻기 때문이다.","반응 속도가 매우 빠르기 때문이다.","열이 항상 방출되기 때문이다.","반응물이 항상 두 가지이기 때문이다."],a:0,ex:"산소의 분리와 결합이 짝을 이루므로 산화와 환원은 동시에 일어납니다."},
  {lv:3,q:"다음 중 산소가 포함되어 있지만 산화·환원 반응이 아닌 것은?",o:["CaCO₃ → CaO + CO₂","C + O₂ → CO₂","2CuO + C → 2Cu + CO₂","Fe₂O₃ + 3CO → 2Fe + 3CO₂"],a:0,ex:"석회석의 분해는 산소가 다른 물질로 이동하지 않으므로 산화·환원 반응이 아닙니다. 산소가 들어 있다고 모두 산화·환원 반응은 아니에요."},
- {lv:3,q:"오늘의 반응 Cu + 2AgNO₃ → Cu(NO₃)₂ + 2Ag에서는 산소가 이동하지 않습니다. 이 반응을 산화·환원으로 설명하려면?",o:["산소 말고 다른 기준(전자의 이동)이 필요하다","산소가 없으니 산화·환원 반응이 아니다","NO₃⁻가 산소를 주고받는다고 본다","구리가 산소를 얻었다고 본다"],a:0,ex:"모든 산화·환원 반응을 산소의 이동만으로 설명할 수는 없습니다. 오늘은 '전자의 이동'으로 설명해 봅니다."}
+ {lv:3,q:"오늘의 반응 Cu + 2AgNO₃ → Cu(NO₃)₂ + 2Ag에서는 산소가 이동하지 않습니다. 이 반응을 산화·환원으로 설명하려면?",o:["산소 말고 다른 기준(전자의 이동)이 필요하다.","산소가 없으니 산화·환원 반응이 아니다.","NO₃⁻가 산소를 주고받는다고 본다.","구리가 산소를 얻었다고 본다."],a:0,ex:"모든 산화·환원 반응을 산소의 이동만으로 설명할 수는 없습니다. 오늘은 '전자의 이동'으로 설명해 봅니다."}
 ];
 const LV=["","난이도 하","난이도 중","난이도 상"];
 function shuffleOpts(list,seed){const r=rngOf(seed);list.forEach(q=>{const idx=q.o.map((_,i)=>i);for(let i=idx.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[idx[i],idx[j]]=[idx[j],idx[i]]}q.o=idx.map(i=>q.o[i]);q.a=idx.indexOf(q.a)})}
@@ -840,12 +840,12 @@ function silverIllust(){
   <g fill="#7A4A22"><circle cx="100" cy="140" r="7"/><circle cx="122" cy="156" r="5"/><circle cx="96" cy="164" r="4.5"/><circle cx="113" cy="85" r="4"/><circle cx="131" cy="132" r="3.5"/></g>
   <path d="M58 40c0 0-14 18-14 27a14 14 0 0 0 28 0c0-9-14-27-14-27z" fill="#C9D3DA" stroke="#8193A0" stroke-width="2"/><text x="58" y="96" font-size="12" font-weight="700" text-anchor="middle" fill="#5E6E7A" font-family="IBM Plex Mono,monospace">AgNO₃</text>
   <circle cx="190" cy="34" r="17" fill="#D2334A"/><path d="M182 26l16 16M198 26l-16 16" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
-  <text x="111" y="228" font-size="17" font-weight="700" text-anchor="middle" fill="#B0263A">갈색 반점이 생겨요</text>
+  <text x="111" y="228" font-size="17" font-weight="700" text-anchor="middle" fill="#B0263A">갈색 반점이 생겨요.</text>
   <rect x="300" y="22" width="92" height="20" rx="6" fill="#8193A0"/><rect x="368" y="42" width="22" height="26" rx="4" fill="#8193A0"/><rect x="330" y="14" width="22" height="10" rx="3" fill="#5E6E7A"/>
   <g stroke="#3B8FE8" stroke-width="5" stroke-linecap="round" opacity=".85"><path d="M372 74v40"/><path d="M380 74v52"/><path d="M388 74v36"/></g>
   ${hand(320,104,"#F2D2B6","#C49A7A").replace('translate(320 104)','translate(320 104) scale(.82)')}
   <g fill="#7FB7F2"><circle cx="352" cy="128" r="4"/><circle cx="396" cy="150" r="3.5"/><circle cx="342" cy="168" r="3"/></g>
-  <text x="350" y="228" font-size="17" font-weight="700" text-anchor="middle" fill="#2458C6">즉시 흐르는 물에 씻어요</text>
+  <text x="350" y="228" font-size="17" font-weight="700" text-anchor="middle" fill="#2458C6">즉시 흐르는 물에 씻어요.</text>
   ${hand(556,50,"#9CC8F5","#3E77B6",true)}
   <circle cx="668" cy="34" r="18" fill="#0F9D63"/><path d="M659 34l6 7 12-14" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
   <text x="589" y="228" font-size="18" font-weight="700" text-anchor="middle" fill="#0B7A4C">실험용 장갑 착용!</text>
@@ -859,8 +859,8 @@ function renderS2(box,p){
      <div class="agq-ans" id="agqAns" ${st.revealed?"":"hidden"}>${silverIllust()}
        <ul class="agq-list"><li><b>①</b> 질산 은 수용액이 피부에 닿으면 <b class="red">갈색 반점</b>이 생길 수 있다.</li><li><b>②</b> 질산 은 수용액이 피부나 옷에 닿으면 <b class="blue">즉시 흐르는 물에 씻는다.</b></li></ul>
        <p class="agq-must">준비된 <u>실험용 장갑</u>을 반드시 착용합니다.</p></div></div>
-   <div class="panel"><h3>A. 실험 도구 고르기 <span class="sub">실험에 필요한 것만 모두 고르세요</span></h3><div class="tiles" id="tTools"></div></div>
-   <div class="panel"><h3>B. 실험 과정 순서 정하기 <span class="sub">카드를 마우스로 끌어 위아래로 옮기세요</span></h3><div class="order" id="tOrd"></div>
+   <div class="panel"><h3>A. 실험 도구 고르기 <span class="sub">실험에 필요한 것만 모두 고르세요.</span></h3><div class="tiles" id="tTools"></div></div>
+   <div class="panel"><h3>B. 실험 과정 순서 정하기 <span class="sub">카드를 마우스로 끌어 위아래로 옮기세요.</span></h3><div class="order" id="tOrd"></div>
      <div class="actions"><span class="note" id="s2msg"></span><button class="btn primary" id="s2sub">실험 준비 점검 제출</button></div>
      <div id="s2after"></div></div>`;
   $("#agqBtn").onclick=()=>{const A=$("#agqAns");const open=A.hidden;A.hidden=!open;$("#agqBtn").setAttribute("aria-expanded",open);if(open&&!st.revealed&&!p){st.revealed=true;rec.d.s2=Object.assign({},rec.d.s2||{},{revealed:true});persist()}$("#agqHint").textContent=open?"답 확인 완료 ✓ (다시 누르면 접기)":"다시 보기 ▾"};
@@ -932,7 +932,7 @@ function renderS3(box){
 }
 function s3score(){const d=rec.d.s3;return(d.safety||0)+(d.sand||0)+(d.place||0)+(d.pour||0)+(d.obsScore||0)+(d.partScore||0)+(d.eqScore||0)}
 function sub1(B,d,next){
-  const items=["보안경을 착용했다","실험용 장갑(보호 장갑)을 꼈다","실험복을 입었다","남은 용액을 버릴 폐수 통을 준비했다","질산 은 수용액을 햇빛이 들지 않는 곳(갈색 병)에서 가져왔다"];
+  const items=["보안경을 착용했다.","실험용 장갑(보호 장갑)을 꼈다.","실험복을 입었다.","남은 용액을 버릴 폐수 통을 준비했다.","질산 은 수용액을 햇빛이 들지 않는 곳(갈색 병)에서 가져왔다."];
   B.innerHTML=`<h3>① 안전 점검</h3><p class="lead">실제로 확인한 항목에 모두 체크하세요.</p><div class="checks">${items.map((t,i)=>`<label class="check"><input type="checkbox" id="sf${i}"> ${t}</label>`).join("")}</div><div class="actions"><button class="btn primary" id="go" disabled>점검 완료, 실험 시작</button></div>`;
   const cb=$$("input",B);cb.forEach(c=>c.onchange=()=>$("#go").disabled=!cb.every(x=>x.checked));
   $("#go").onclick=()=>{d.safety=2;next()};
@@ -1040,7 +1040,7 @@ function sub5(B,d,next){
   setT(0);
   $("#go").onclick=()=>{
     const miss=TPTS.filter(p=>!d.obs[p]||!d.obs[p].c||!d.obs[p].s);
-    if(miss.length){$("#obsMsg").textContent=`${miss.map(p=>p+"분").join(", ")} 기록을 채우세요.`+(d.maxT<TMAX?" (20분까지 관찰해야 모든 칸이 열려요)":"");return}
+    if(miss.length){$("#obsMsg").textContent=`${miss.map(p=>p+"분").join(", ")} 기록을 채우세요.`+(d.maxT<TMAX?" (20분까지 관찰해야 모든 칸이 열려요.)":"");return}
     let sc=0;TPTS.forEach(p=>{if(d.obs[p].c===colorLevel(p))sc++;if(d.obs[p].s===surfLevel(p))sc++});d.obsScore=sc;
     $$("#obsT tr").forEach(tr=>{const p=+tr.dataset.t;$$(".sw button",tr).forEach(b=>{b.disabled=true;if(b.dataset.c===d.obs[p].c)b.classList.add(b.dataset.c===colorLevel(p)?"g-ok":"g-bad")});const s=$("select",tr);s.disabled=true;s.classList.add(d.obs[p].s===surfLevel(p)?"g-ok":"g-bad")});
     $("#obsMsg").textContent="기록이 제출되었습니다. 초록은 관찰과 일치, 빨강은 다시 보세요.";
@@ -1050,17 +1050,17 @@ function sub5(B,d,next){
 function sub6(B,d,next){
   d.part=d.part||{};let sel=null,moved=0,mist=0;const filled=[false,false];
   const PQ=[
-    {k:"b",q:"구리(Cu)에 일어난 변화는?",o:["전자를 잃고 산화되었다","전자를 얻고 환원되었다","전자를 잃고 환원되었다","변화가 없다"],a:0},
-    {k:"c",q:"은 이온(Ag⁺)에 일어난 변화는?",o:["전자를 얻고 환원되었다","전자를 잃고 산화되었다","전자를 얻고 산화되었다","변화가 없다"],a:0},
-    {k:"d",q:"질산 이온(NO₃⁻)은 어떻게 되었나요?",o:["반응 전후 그대로 수용액에 존재한다","전자를 얻어 환원되었다","구리줄 표면에 석출되었다","기체가 되어 날아갔다"],a:0},
+    {k:"b",q:"구리(Cu)에 일어난 변화는?",o:["전자를 잃고 산화되었다.","전자를 얻고 환원되었다.","전자를 잃고 환원되었다.","변화가 없다."],a:0},
+    {k:"c",q:"은 이온(Ag⁺)에 일어난 변화는?",o:["전자를 얻고 환원되었다.","전자를 잃고 산화되었다.","전자를 얻고 산화되었다.","변화가 없다."],a:0},
+    {k:"d",q:"질산 이온(NO₃⁻)은 어떻게 되었나요?",o:["반응 전후 그대로 수용액에 존재한다.","전자를 얻어 환원되었다.","구리줄 표면에 석출되었다.","기체가 되어 날아갔다."],a:0},
     {k:"e",q:"구리 원자 1개가 반응할 때 석출되는 은 원자는 몇 개인가요?",o:["2개","1개","3개","4개"],a:0},
-    {k:"f",q:"수용액이 푸른색으로 변한 까닭은?",o:["구리 이온(Cu²⁺)이 생겨 수용액으로 들어갔기 때문이다","은(Ag)이 석출되었기 때문이다","질산 이온이 늘어났기 때문이다","구리줄이 녹슬었기 때문이다"],a:0}
+    {k:"f",q:"수용액이 푸른색으로 변한 까닭은?",o:["구리 이온(Cu²⁺)이 생겨 수용액으로 들어갔기 때문이다.","은(Ag)이 석출되었기 때문이다.","질산 이온이 늘어났기 때문이다.","구리줄이 녹슬었기 때문이다."],a:0}
   ];
   shuffleOpts(PQ,1021);
   B.innerHTML=`<h3>⑤ 입자 모형으로 확인하기</h3>
   <div class="pm-guide" id="pmGuide">
-    <div class="pg-step" data-s="1"><span class="pg-n">1</span><span>깜빡이는 <b>노란 전자(e⁻)</b>를 잡으세요</span></div><span class="pg-arrow">→</span>
-    <div class="pg-step" data-s="2"><span class="pg-n">2</span><span>전자를 받을 입자 위에 <b>끌어다 놓으세요</b></span></div><span class="pg-arrow">→</span>
+    <div class="pg-step" data-s="1"><span class="pg-n">1</span><span>깜빡이는 <b>노란 전자(e⁻)</b>를 잡으세요.</span></div><span class="pg-arrow">→</span>
+    <div class="pg-step" data-s="2"><span class="pg-n">2</span><span>전자를 받을 입자 위에 <b>끌어다 놓으세요.</b></span></div><span class="pg-arrow">→</span>
     <div class="pg-step" data-s="3"><span class="pg-n">3</span><span><b>2개</b> 모두 옮기고 변화 관찰</span></div>
     <span class="pg-count">옮긴 전자 <b id="pgCnt">0</b> / 2</span>
   </div>
@@ -1158,7 +1158,7 @@ const RQ=[
  {k:"q1",q:"1. 수용액의 색이 푸른색으로 변한 까닭을 전자의 이동으로 설명하시오.",h:"누가 전자를 잃었고, 무엇이 되었나요?"},
  {k:"q2",q:"2. 구리줄 표면에 석출된 물질은 무엇이며, 어떻게 생겼는지 전자의 이동으로 설명하시오.",h:"은 이온에 무슨 일이 일어났나요?"},
  {k:"q3",q:"3. 이 실험에서 산화와 환원이 동시에 일어난다고 할 수 있는 까닭을 쓰시오.",h:"전자를 주고 받는다는 점을 생각해 보세요."},
- {k:"q4",q:"4. 질산 구리(Ⅱ) 수용액에 은줄을 넣으면 구리가 석출될까요? 고르고 까닭을 쓰시오.",h:"가상 실험의 추가 실험 결과를 떠올려 보세요.",choice:["구리가 석출된다","반응이 일어나지 않는다"]},
+ {k:"q4",q:"4. 질산 구리(Ⅱ) 수용액에 은줄을 넣으면 구리가 석출될까요? 고르고 까닭을 쓰시오.",h:"가상 실험의 추가 실험 결과를 떠올려 보세요.",choice:["구리가 석출된다.","반응이 일어나지 않는다."]},
  {k:"q5",q:"5. 생활 속에서 볼 수 있는 산화·환원 반응의 예를 하나 들고, 무엇이 산화되는지 쓰시오.",h:"예: 철의 부식, 손난로, 연소 등"}
 ];
 function scoreReport(a){
@@ -1196,7 +1196,7 @@ function renderS4(box){
   $$('input[name="q4c"]').forEach(r=>r.onchange=()=>{if(!rec||rec.st[3]===2)return;rec.d.s4={ans:collect()};persist()});
   $("#r4sub").onclick=()=>{const o=collect();const empty=RQ.filter(q=>o[q.k].length<5);
     if(empty.length||o.q4c==null){$("#r4msg").textContent=`${empty.map(q=>q.k.slice(1)+"번").join(", ")}${o.q4c==null?" 4번 선택지":""} 답을 5자 이상 채우세요.`.replace(/^, /,"");$("#r4msg").style.color="var(--bad)";return}
-    $("#r4conf").innerHTML=revise4?'<div class="confirm"><p>고친 보고서를 다시 제출할까요? 점수는 처음 제출 기준이 유지되고, 선생님은 고친 답안을 보게 됩니다.</p><button class="btn line" id="cNo">다시 보기</button><button class="btn red" id="cYes">다시 제출합니다</button></div>':'<div class="confirm"><p>제출할까요? 제출한 뒤에도 고쳐서 다시 제출할 수 있어요.</p><button class="btn line" id="cNo">다시 보기</button><button class="btn red" id="cYes">제출합니다</button></div>';
+    $("#r4conf").innerHTML=revise4?'<div class="confirm"><p>고친 보고서를 다시 제출할까요? 점수는 처음 제출 기준이 유지되고, 선생님은 고친 답안을 보게 됩니다.</p><button class="btn line" id="cNo">다시 보기</button><button class="btn red" id="cYes">다시 제출합니다.</button></div>':'<div class="confirm"><p>제출할까요? 제출한 뒤에도 고쳐서 다시 제출할 수 있어요.</p><button class="btn line" id="cNo">다시 보기</button><button class="btn red" id="cYes">제출합니다.</button></div>';
     $("#cNo").onclick=()=>$("#r4conf").innerHTML="";
     $("#cYes").onclick=async()=>{clearTimeout(tmr);
       if(revise4){const s4=rec.d.s4;if(!s4.first)s4.first=s4.ans;s4.ans=o;s4.revised=(s4.revised||0)+1;s4.revisedAt=new Date().toISOString();revise4=false;persist();toast("고친 보고서를 다시 제출했습니다.");renderStage();window.scrollTo({top:0,behavior:"smooth"});return}
@@ -1218,7 +1218,7 @@ function r4(r){return r.st[3]===2?(r.rTeacher!=null?r.rTeacher:r.rAuto||0):0}
 function total(r){return r.sc[0]+r.sc[1]+r.sc[2]+r4(r)}
 function renderTeacher(){
   const f=$("#fCls").value;let R=(tData.records||[]).filter(r=>f==="all"||String(r.cls)===f);
-  $("#rfNote").textContent=`마지막 갱신 ${new Date().toLocaleTimeString("ko-KR",{timeZone:"Asia/Seoul"})}`+(MODE!=="demo"?"":" · 미리보기 모드: 이 브라우저의 기록만 보입니다 (config.js에 Apps Script 주소를 넣으면 전체 학생 기록이 모입니다)");
+  $("#rfNote").textContent=`마지막 갱신 ${new Date().toLocaleTimeString("ko-KR",{timeZone:"Asia/Seoul"})}`+(MODE!=="demo"?"":" · 미리보기 모드: 이 브라우저의 기록만 보입니다 (config.js에 Apps Script 주소를 넣으면 전체 학생 기록이 모입니다.)");
   if(tData.sheetUrl){$("#sheetLink").hidden=false;$("#sheetLink").href=tData.sheetUrl}
   const sub=R.filter(r=>r.st[3]===2);const avg=sub.length?(sub.reduce((s,r)=>s+total(r),0)/sub.length):null;
   const active=R.filter(r=>Date.now()-new Date(r.updatedAt).getTime()<5*60000).length;
@@ -1228,7 +1228,7 @@ function renderTeacher(){
   const key={cls:r=>r.cls*100+r.num,tot:r=>total(r),upd:r=>new Date(r.updatedAt).getTime()};
   R.sort((a,b)=>(key[sortBy](a)-key[sortBy](b))*sortDir);
   const cell=(r,i)=>{const st=r.st[i];const v=i===3?r4(r):r.sc[i];
-    if(st===2)return`<span class="sc"><span class="chip ok">완료</span><span class="mono">${v}</span>${i===3&&r.rTeacher==null?'<span class="chip run">확인 필요</span>':""}</span>`;
+    if(st===2)return`<span class="sc"><span class="chip ok">완료</span><span class="mono">${v}</span>${i===3&&r.rTeacher==null?'<span class="chip run">확인 필요.</span>':""}</span>`;
     if(st===1){const extra=i===2?` ${SUBS.filter((_,k)=>subDone(r.d.s3,k+1)).length}/${SUBS.length}`:i===0?` ${Object.values(r.d.s1||{}).filter(x=>x.done).length}/10`:"";return`<span class="sc"><span class="chip run">진행 중${extra}</span>${i<3&&r.sc[i]?`<span class="mono" style="color:var(--faint)">${r.sc[i]}</span>`:""}</span>`}
     return'<span class="chip no">미시작</span>'};
   $("#roster").innerHTML=R.length?R.map(r=>`<tr><td class="mono">${r.cls}-${String(r.num).padStart(2,"0")}</td><td><b>${esc(r.name)}</b></td>${[0,1,2,3].map(i=>`<td>${cell(r,i)}</td>`).join("")}<td class="tot">${total(r)}</td><td class="note">${fmtTime(r.updatedAt)}</td><td><button class="btn line" style="padding:6px 12px;font-size:13px" data-k="${esc(r.key)}">${r.st[3]===2?"보고서 보기":"상세"}</button></td></tr>`).join(""):`<tr><td colspan="9" class="empty">아직 입장한 학생이 없습니다. 학생들이 반·번호·성명으로 입장하면 여기에 실시간으로 나타납니다.</td></tr>`;
