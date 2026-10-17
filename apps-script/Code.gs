@@ -87,7 +87,10 @@ function saveRecord(json) {
     if (row > 0) {
       const old = JSON.parse(sh.getRange(row, RAW_H.length).getValue() || '{}');
       if (old.st && old.st[3] === 2) {        // 제출한 보고서는 바뀌지 않게 보호 (다른 단계는 계속 진행 가능)
-        r.st[3] = 2; r.d = r.d || {}; r.d.s4 = old.d && old.d.s4; r.rAuto = old.rAuto; r.sc[3] = old.sc[3]; r.submittedAt = old.submittedAt;
+        const os4 = (old.d && old.d.s4) || {}, ns4 = (r.d && r.d.s4) || {};
+        let keep = os4;                       // 고쳐서 다시 제출한 답안만 받아들이고, 자동채점·제출 시각은 처음 것을 유지
+        if ((ns4.revised || 0) > (os4.revised || 0) && ns4.ans) keep = Object.assign({}, os4, { ans: ns4.ans, revised: ns4.revised, revisedAt: ns4.revisedAt, first: os4.first || os4.ans });
+        r.st[3] = 2; r.d = r.d || {}; r.d.s4 = keep; r.rAuto = old.rAuto; r.sc[3] = old.sc[3]; r.submittedAt = old.submittedAt;
       }
       r.rTeacher = old.rTeacher != null ? old.rTeacher : null;
       if (old.startedAt) r.startedAt = old.startedAt;
