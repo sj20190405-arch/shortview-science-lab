@@ -756,7 +756,7 @@ function goStage(i){syncS3();viewStage=i;labStop();if(i>0){if(rec.st[i-1]===0)re
 $("#hubBtn").onclick=()=>goStage(0);
 function renderHub(box){
   const rec1=firstUndone(0);const all=rec.st.every(x=>x===2);
-  box.innerHTML=`<div class="stage-head one"><div class="stage-title" style="--c:var(--mint-d)"><span class="ring"></span><p class="k">LAB MENU</p><h2>활동 단계 선택</h2><p>${esc(rec.name)} 학생, ${all?"모든 단계를 마쳤어요! 결과보고서가 담당 선생님께 전송되었습니다.":"원하는 단계를 골라 시작하세요. 01. 이론 복습부터 순서대로 하는 것을 권해요."}</p></div></div>
+  box.innerHTML=`<div class="stage-head one"><div class="stage-title" style="--c:var(--mint-d)"><span class="ring"></span><p class="k">LAB MENU</p><h2>활동 단계 선택</h2><p>${esc(rec.name)} 학생, ${all?"모든 단계를 마쳤어요! 결과보고서가 담당 선생님께 전송되었습니다.":"원하는 단계를 골라 시작하세요. 01. 이론 복습부터 순서대로 하는 것을 추천해요."}</p></div></div>
   <div class="hub">${STAGES.map((g,i)=>{const st=rec.st[i];const isRec=!all&&i+1===rec1;
     return`<button class="hcard" style="--c:${g.c}" data-go="${i+1}">${isRec?'<span class="hrec">추천</span>':""}<span class="num">${g.k}</span><span class="ht">${g.t}</span><span class="hd">${["지난 시간 학습 내용 확인 · 10문항","준비물·안전 수칙·실험 순서","조작 → 관찰 → 입자 모형 → 반응식","관찰 결과로 보고서 작성·제출"][i]}</span>
     <span class="hs ${st===2?"ok":st===1?"run":""}">${st===2?"완료 ✓":st===1?"진행 중":"시작 전"}</span><span class="hgo">${st===2?"확인하기":st===1?"이어하기 →":"시작하기 →"}</span></button>`}).join("")}</div>`;
