@@ -86,6 +86,15 @@ p{margin:0}
 .btn.full{width:100%}
 .msg{font-size:13px;color:var(--bad);min-height:1.2em}
 .note{font-size:12.5px;color:var(--muted)}
+.entry-h{font-size:20px;font-weight:700;margin:2px 0 16px;padding-bottom:12px;border-bottom:1.5px solid var(--line2)}
+.navpills{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.navpills button.pill{border:0}
+.navpills button.pill:hover{filter:brightness(1.08)}
+.amodal{position:fixed;inset:0;z-index:70;background:rgba(10,20,28,.6);display:flex;align-items:center;justify-content:center;padding:16px}
+.adlg{background:var(--card);border-radius:18px;width:min(380px,100%);padding:22px;box-shadow:0 30px 60px -20px rgba(0,0,0,.6)}
+.adhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.adhead h3{font-size:18px}
+.adx{border:0;background:var(--line2);width:34px;height:34px;border-radius:50%;font-size:15px}
 .mode-flag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--amber);background:#FFF4DC;border-radius:6px;padding:2px 7px;margin-left:6px;vertical-align:middle}
 
 /* program overview (LG Discovery Lab 느낌의 컬러 카드) */
@@ -430,7 +439,7 @@ footer.foot .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:
     </a>
     <div class="who" id="whoBox" hidden><span class="dot"></span><span id="whoText"></span></div>
     <button class="pill ghost" id="exitBtn" hidden>나가기</button>
-    <span id="navPills"><span class="pill blue">동패고 1학년</span></span>
+    <span id="navPills" class="navpills"><span class="pill blue">동패고 1학년</span><button class="pill green" id="adminBtn" type="button">관리자 모드</button></span>
   </div>
 </header>
 
@@ -448,10 +457,7 @@ footer.foot .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:
         </div>
       </div>
       <div class="entry" role="region" aria-label="입장">
-        <div class="seg" role="tablist">
-          <button role="tab" id="tabStu" aria-selected="true">학생 입장</button>
-          <button role="tab" id="tabTea" aria-selected="false">교사 입장</button>
-        </div>
+        <h2 class="entry-h">학생 입장</h2>
         <form class="form" id="stuForm" autocomplete="off">
           <div class="row3">
             <div class="field"><label for="inCls">반</label><select class="inp" id="inCls" required></select></div>
@@ -461,12 +467,6 @@ footer.foot .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:
           <p class="msg" id="stuMsg" role="alert"></p>
           <button class="btn primary full" type="submit" id="stuGo">실험실 입장하기 →</button>
           <p class="note">반·번호·성명을 모두 입력해야 수업에 참여할 수 있어요.<br>같은 정보로 다시 들어오면 이어서 진행됩니다.</p>
-        </form>
-        <form class="form" id="teaForm" hidden autocomplete="off">
-          <div class="field"><label for="inPw">교사 비밀번호</label><input class="inp mono" id="inPw" type="password" inputmode="numeric" maxlength="8" placeholder="••••"></div>
-          <p class="msg" id="teaMsg" role="alert"></p>
-          <button class="btn dark full" type="submit" id="teaGo">교사 화면 열기</button>
-          <p class="note">평가 결과와 결과 보고서는 교사 화면에서만 볼 수 있습니다.</p>
         </form>
       </div>
     </div>
@@ -524,6 +524,14 @@ footer.foot .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:
   </div>
 </main>
 
+<div class="amodal" id="adminModal" hidden><div class="adlg" role="dialog" aria-modal="true" aria-labelledby="adTitle"><div class="adhead"><h3 id="adTitle">관리자 모드</h3><button class="adx" id="adClose" type="button" aria-label="닫기">✕</button></div>
+        <form class="form" id="teaForm"  autocomplete="off">
+          <div class="field"><label for="inPw">관리자 비밀번호</label><input class="inp mono" id="inPw" type="password" inputmode="numeric" maxlength="8" placeholder="••••"></div>
+          <p class="msg" id="teaMsg" role="alert"></p>
+          <button class="btn dark full" type="submit" id="teaGo">관리자 화면 열기</button>
+          <p class="note">평가 결과와 결과 보고서는 관리자 화면에서만 볼 수 있습니다.</p>
+        </form>
+</div></div>
 <div class="modal" id="modal" hidden><div class="drawer" role="dialog" aria-modal="true" aria-labelledby="dTitle"><div class="dh"><h3 id="dTitle"></h3><button class="pill ghost" id="dClose">닫기</button></div><div class="db" id="dBody"></div></div></div>
 
 <footer class="foot"><div class="wrap"><span>동패고등학교 1학년 통합과학 · 지도교사 김한슬</span><span>한슬쌤의 통합과학2 실험실</span></div></footer>
@@ -732,8 +740,10 @@ for(let i=1;i<=13;i++)$("#inCls").insertAdjacentHTML("beforeend",`<option value=
 $("#inCls").value="13";
 $("#inNum").insertAdjacentHTML("beforeend",'<option value="">번호</option>');
 for(let i=1;i<=35;i++)$("#inNum").insertAdjacentHTML("beforeend",`<option value="${i}">${i}번</option>`);
-function tab(stu){$("#tabStu").setAttribute("aria-selected",stu);$("#tabTea").setAttribute("aria-selected",!stu);$("#stuForm").hidden=!stu;$("#teaForm").hidden=stu}
-$("#tabStu").onclick=()=>tab(true);$("#tabTea").onclick=()=>tab(false);
+function adminOpen(on){$("#adminModal").hidden=!on;if(on){$("#teaMsg").textContent="";$("#inPw").value="";setTimeout(()=>$("#inPw").focus(),30)}}
+$("#adminBtn").onclick=()=>adminOpen(true);$("#adClose").onclick=()=>adminOpen(false);
+$("#adminModal").onclick=e=>{if(e.target.id==="adminModal")adminOpen(false)};
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("#adminModal").hidden)adminOpen(false)});
 
 let rec=null,teaPw=null;
 function newRec(c,n,nm){const now=new Date().toISOString();return{key:`${c}-${n}-${nm}`,grade:1,cls:+c,num:+n,name:nm,cur:1,st:[0,0,0,0],sc:[0,0,0,0],d:{s1:{},s2:null,s3:{sub:1},s4:null},rAuto:null,rTeacher:null,startedAt:now,updatedAt:now,submittedAt:null}}
@@ -751,7 +761,7 @@ $("#teaForm").onsubmit=async e=>{
   e.preventDefault();const pw=$("#inPw").value.trim();const m=$("#teaMsg");
   if(!pw){m.textContent="비밀번호를 입력하세요.";return}
   $("#teaGo").disabled=true;
-  try{const r=await API.teacher(pw);teaPw=pw;tData=r;m.textContent="";$("#inPw").value="";openTeacher()}
+  try{const r=await API.teacher(pw);teaPw=pw;tData=r;m.textContent="";$("#inPw").value="";adminOpen(false);openTeacher()}
   catch(err){m.textContent=typeof err==="string"?err:"서버에 연결하지 못했어요. config.js의 주소와 배포 설정을 확인하세요."}
   finally{$("#teaGo").disabled=false}
 };
